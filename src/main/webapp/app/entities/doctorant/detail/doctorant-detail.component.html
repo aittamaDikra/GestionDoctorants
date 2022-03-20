@@ -1,0 +1,123 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="doctorant">
+      <h2 data-cy="doctorantDetailsHeading"><span jhiTranslate="doctorantApp.doctorant.detail.title">Doctorant</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ doctorant.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.cne">Cne</span></dt>
+        <dd>
+          <span>{{ doctorant.cne }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.etatProfessionnel">Etat Professionnel</span></dt>
+        <dd>
+          <span>{{ doctorant.etatProfessionnel }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.photoCNEPile">Photo CNE Pile</span></dt>
+        <dd>
+          <div *ngIf="doctorant.photoCNEPile">
+            <a (click)="openFile(doctorant.photoCNEPile, doctorant.photoCNEPileContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ doctorant.photoCNEPileContentType }}, {{ byteSize(doctorant.photoCNEPile) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.photoCNEFace">Photo CNE Face</span></dt>
+        <dd>
+          <div *ngIf="doctorant.photoCNEFace">
+            <a (click)="openFile(doctorant.photoCNEFace, doctorant.photoCNEFaceContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ doctorant.photoCNEFaceContentType }}, {{ byteSize(doctorant.photoCNEFace) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.photoCv">Photo Cv</span></dt>
+        <dd>
+          <div *ngIf="doctorant.photoCv">
+            <a (click)="openFile(doctorant.photoCv, doctorant.photoCvContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ doctorant.photoCvContentType }}, {{ byteSize(doctorant.photoCv) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.anneeInscription">Annee Inscription</span></dt>
+        <dd>
+          <span>{{ doctorant.anneeInscription }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.etatDossier">Etat Dossier</span></dt>
+        <dd>
+          <span>{{ doctorant.etatDossier }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.cin">Cin</span></dt>
+        <dd>
+          <span>{{ doctorant.cin }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.dateNaissance">Date Naissance</span></dt>
+        <dd>
+          <span>{{ doctorant.dateNaissance | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.lieuNaissance">Lieu Naissance</span></dt>
+        <dd>
+          <span>{{ doctorant.lieuNaissance }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.nationalite">Nationalite</span></dt>
+        <dd>
+          <span>{{ doctorant.nationalite }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.adresse">Adresse</span></dt>
+        <dd>
+          <span>{{ doctorant.adresse }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.numeroTelephone">Numero Telephone</span></dt>
+        <dd>
+          <span>{{ doctorant.numeroTelephone }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.genre">Genre</span></dt>
+        <dd>
+          <span>{{ doctorant.genre }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.nomArabe">Nom Arabe</span></dt>
+        <dd>
+          <span>{{ doctorant.nomArabe }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.prnomArabe">Prnom Arabe</span></dt>
+        <dd>
+          <span>{{ doctorant.prnomArabe }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.sujet">Sujet</span></dt>
+        <dd>
+          <div *ngIf="doctorant.sujet">
+            <a [routerLink]="['/sujet', doctorant.sujet?.id, 'view']">{{ doctorant.sujet?.titre }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.user">User</span></dt>
+        <dd>
+          <span>{{ doctorant.user?.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.promotion">Promotion</span></dt>
+        <dd>
+          <div *ngIf="doctorant.promotion">
+            <a [routerLink]="['/promotion', doctorant.promotion?.id, 'view']">{{ doctorant.promotion?.annee }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.doctorant.cursus">Cursus</span></dt>
+        <dd>
+          <div *ngIf="doctorant.cursus">
+            <a [routerLink]="['/cursus', doctorant.cursus?.id, 'view']">{{ doctorant.cursus?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/doctorant', doctorant.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20220316122730",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "formation_suivie",
+  "fields": [
+    {
+      "fieldName": "duree",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "attestation",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FormationSuivie",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "formationDoctoranle",
+      "otherEntityRelationshipName": "formationSuivie",
+      "relationshipName": "formationDoctoranle",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "doctorant",
+      "otherEntityRelationshipName": "formationSuivie",
+      "relationshipName": "doctorant",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
