@@ -4,7 +4,6 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-
 import { IFormationDoctorant, FormationDoctorant } from '../formation-doctorant.model';
 import { FormationDoctorantService } from '../service/formation-doctorant.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -25,7 +24,8 @@ export class FormationDoctorantUpdateComponent implements OnInit {
 
   formationsSharedCollection: IFormation[] = [];
   doctorantsSharedCollection: IDoctorant[] = [];
-
+  n !: number | null |undefined;
+  num =  Array(this.n).fill(1).map((x,i)=>i+1);
   editForm = this.fb.group({
     id: [],
     specialite: [],
@@ -65,6 +65,8 @@ export class FormationDoctorantUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRelationshipsOptions();
+    this.n = this.formationd.nbAnnee;
+
   }
 
   byteSize(base64String: string): string {
