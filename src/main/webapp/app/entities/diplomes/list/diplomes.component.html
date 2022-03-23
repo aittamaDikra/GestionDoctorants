@@ -3,20 +3,23 @@
     <span>Diplomes</span>
   </h2>
 
-  <mat-horizontal-stepper  >
+  <mat-horizontal-stepper>
     <mat-step>
+      <ng-template matStepLabel>
+        Bac
+      </ng-template>
        <jhi-bac-update></jhi-bac-update>
       <div>
-        <button class="primary"	 matStepperNext>Next</button>
-        <button class="primary"	 matStepperPrevious>Back</button>
+        <button class="btn btn-primary" matStepperNext>Next</button>
+        <button class="btn btn-secondary" matStepperPrevious>Back</button>
       </div>
     </mat-step>
 
     <mat-step *ngFor="let f of formations" label="{{f.nom}}" >
       <jhi-formation-doctorant-update [formationd]="f"></jhi-formation-doctorant-update>
       <div>
-        <button class="primary"	 matStepperNext>Next</button>
-        <button class="primary"	 matStepperPrevious>Back</button>
+        <button class="btn btn-primary"	 matStepperNext>Next</button>
+        <button class="btn btn-secondary"	 matStepperPrevious>Back</button>
       </div>
     </mat-step>
 
