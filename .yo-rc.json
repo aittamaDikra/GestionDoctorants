@@ -38,13 +38,14 @@
       "Bourse",
       "FormationDoctoranle",
       "FormationSuivie",
-      "Diplomes"
+      "Diplomes",
+      "Information"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.7.0",
     "languages": ["fr", "ar-ly", "en"],
-    "lastLiquibaseTimestamp": 1647448931000,
+    "lastLiquibaseTimestamp": 1648067338000,
     "messageBroker": false,
     "monorepository": true,
     "nativeLanguage": "fr",

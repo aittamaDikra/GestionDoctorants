@@ -31,6 +31,9 @@ export class BacService {
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IBac>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  findActive(): Observable<EntityResponseType> {
+    return this.http.get<IBac>(`${this.resourceUrl}/this`, { observe: 'response' });
+  }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);

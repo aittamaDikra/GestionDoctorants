@@ -42,4 +42,6 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
         "select doctorant from Doctorant doctorant left join fetch doctorant.sujet left join fetch doctorant.promotion where doctorant.id =:id"
     )
     Optional<Doctorant> findOneWithToOneRelationships(@Param("id") Long id);
+
+
 }

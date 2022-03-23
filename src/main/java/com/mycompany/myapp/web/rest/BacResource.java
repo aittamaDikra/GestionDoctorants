@@ -2,6 +2,9 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Bac;
 import com.mycompany.myapp.repository.BacRepository;
+import com.mycompany.myapp.repository.DoctorantRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,9 +35,13 @@ public class BacResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final DoctorantRepository doctorantRepository;
+    private final UserRepository userRepository;
     private final BacRepository bacRepository;
 
-    public BacResource(BacRepository bacRepository) {
+    public BacResource(DoctorantRepository doctorantRepository, UserRepository userRepository, BacRepository bacRepository) {
+        this.doctorantRepository = doctorantRepository;
+        this.userRepository = userRepository;
         this.bacRepository = bacRepository;
     }
 
@@ -51,6 +58,7 @@ public class BacResource {
         if (bac.getId() != null) {
             throw new BadRequestAlertException("A new bac cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        bac.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
         Bac result = bacRepository.save(bac);
         return ResponseEntity
             .created(new URI("/api/bacs/" + result.getId()))
@@ -82,6 +90,7 @@ public class BacResource {
         if (!bacRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+        bac.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
 
         Bac result = bacRepository.save(bac);
         return ResponseEntity
@@ -176,6 +185,15 @@ public class BacResource {
         log.debug("REST request to get Bac : {}", id);
         Optional<Bac> bac = bacRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(bac);
+    }
+
+    @GetMapping("/bacs/this")
+    public Bac getBacActiveUser() {
+        log.debug("REST request to get Bac ");
+
+        Bac bac = bacRepository.getByDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        return bac;
+
     }
 
     /**

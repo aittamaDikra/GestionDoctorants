@@ -24,6 +24,16 @@ export class BacRoutingResolveService implements Resolve<IBac> {
           }
         })
       );
+    }else{
+      return this.service.findActive().pipe(
+        mergeMap((bac: HttpResponse<Bac>) => {
+          if (bac.body) {
+            return of(bac.body);
+          } else {
+            return of(new Bac());
+          }
+        })
+      );
     }
     return of(new Bac());
   }

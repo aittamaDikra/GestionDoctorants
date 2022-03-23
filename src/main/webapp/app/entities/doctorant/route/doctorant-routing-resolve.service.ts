@@ -24,6 +24,16 @@ export class DoctorantRoutingResolveService implements Resolve<IDoctorant> {
           }
         })
       );
+    }else{
+      return this.service.findActiveUser().pipe(
+        mergeMap((doctorant: HttpResponse<Doctorant>) => {
+          if (doctorant.body) {
+            return of(doctorant.body);
+          } else {
+            return of(new Doctorant());
+          }
+        })
+      );
     }
     return of(new Doctorant());
   }

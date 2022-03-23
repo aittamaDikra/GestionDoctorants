@@ -4,11 +4,16 @@
   </h2>
 
   <mat-horizontal-stepper  >
+    <mat-step>
+       <jhi-bac-update></jhi-bac-update>
+      <div>
+        <button class="primary"	 matStepperNext>Next</button>
+        <button class="primary"	 matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
 
     <mat-step *ngFor="let f of formations" label="{{f.nom}}" >
-
-      <jhi-formation-doctorant-update [formationd]="f" ></jhi-formation-doctorant-update>
-
+      <jhi-formation-doctorant-update [formationd]="f"></jhi-formation-doctorant-update>
       <div>
         <button class="primary"	 matStepperNext>Next</button>
         <button class="primary"	 matStepperPrevious>Back</button>

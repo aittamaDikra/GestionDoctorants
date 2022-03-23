@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {finalize, map, mergeMap} from 'rxjs/operators';
 import { IFormationDoctorant, FormationDoctorant } from '../formation-doctorant.model';
 import { FormationDoctorantService } from '../service/formation-doctorant.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -21,7 +21,8 @@ import { DoctorantService } from 'app/entities/doctorant/service/doctorant.servi
 export class FormationDoctorantUpdateComponent implements OnInit {
   isSaving = false;
   @Input() formationd!: IFormation;
-
+  a= "scanneNote1";
+  notes = ["scanneNote1", "scanneNote2", "scanneNote3", "scanneNote4", "scanneNote5"];
   formationsSharedCollection: IFormation[] = [];
   doctorantsSharedCollection: IDoctorant[] = [];
   n !: number | null |undefined;
@@ -66,7 +67,20 @@ export class FormationDoctorantUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.loadRelationshipsOptions();
     this.n = this.formationd.nbAnnee;
+    this.up().subscribe((value:IFormationDoctorant)=>this.updateForm(value));
 
+  }
+
+  up(): Observable<IFormationDoctorant> | Observable<never> {
+    return this.formationDoctorantService.findActive(<number>this.formationd.id).pipe(
+      mergeMap((bac: HttpResponse<FormationDoctorant>) => {
+        if (bac.body) {
+          return of(bac.body);
+        } else {
+          return of(new FormationDoctorant());
+        }
+      })
+    );
   }
 
   byteSize(base64String: string): string {
@@ -91,7 +105,12 @@ export class FormationDoctorantUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const formationDoctorant = this.createFromForm();
-    this.subscribeToSaveResponse(this.formationDoctorantService.create(formationDoctorant));
+    if (formationDoctorant.doctorant !== null) {
+      this.subscribeToSaveResponse(this.formationDoctorantService.update(formationDoctorant));
+    }else{
+      this.subscribeToSaveResponse(this.formationDoctorantService.create(formationDoctorant));
+
+    }
   }
 
   trackFormationById(index: number, item: IFormation): number {

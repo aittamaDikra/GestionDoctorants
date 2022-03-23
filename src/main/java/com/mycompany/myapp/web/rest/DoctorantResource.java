@@ -225,6 +225,13 @@ public class DoctorantResource {
         return ResponseUtil.wrapOrNotFound(doctorant);
     }
 
+    @GetMapping("/doctorants/this")
+    public Doctorant getDoctorantAcctiveUser() {
+        log.debug("REST request to get Doctorant ");
+        Doctorant doctorant = doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
+        return doctorant;
+    }
+
     /**
      * {@code DELETE  /doctorants/:id} : delete the "id" doctorant.
      *

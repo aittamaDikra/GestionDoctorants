@@ -26,3 +26,6 @@ export class Formation implements IFormation {
 export function getFormationIdentifier(formation: IFormation): number | undefined {
   return formation.id;
 }
+export function getFormationIdentifie(formation: IFormation): number  {
+  return <number>formation.id;
+}

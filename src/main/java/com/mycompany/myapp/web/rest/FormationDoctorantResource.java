@@ -1,8 +1,11 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Doctorant;
+import com.mycompany.myapp.domain.Formation;
 import com.mycompany.myapp.domain.FormationDoctorant;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.FormationDoctorantRepository;
+import com.mycompany.myapp.repository.FormationRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
@@ -39,10 +42,12 @@ public class FormationDoctorantResource {
 
     private UserRepository userRepository;
     private DoctorantRepository doctorantRepository;
-    public FormationDoctorantResource(UserRepository userRepository, DoctorantRepository doctorantRepository, FormationDoctorantRepository formationDoctorantRepository) {
+    private FormationRepository formationRepository;
+    public FormationDoctorantResource(UserRepository userRepository, DoctorantRepository doctorantRepository, FormationDoctorantRepository formationDoctorantRepository, FormationRepository formationRepository) {
         this.userRepository = userRepository;
         this.doctorantRepository = doctorantRepository;
         this.formationDoctorantRepository = formationDoctorantRepository;
+        this.formationRepository = formationRepository;
     }
 
     /**
@@ -60,11 +65,18 @@ public class FormationDoctorantResource {
             throw new BadRequestAlertException("A new formationDoctorant cannot already have an ID", ENTITY_NAME, "idexists");
         }
         formationDoctorant.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
-        FormationDoctorant result = formationDoctorantRepository.save(formationDoctorant);
-        return ResponseEntity
-            .created(new URI("/api/formation-doctorants/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        List<FormationDoctorant>f=formationDoctorantRepository.getByFormationAndDoctorant(formationDoctorant.getFormation(),formationDoctorant.getDoctorant());
+        if (f.isEmpty()) {
+            FormationDoctorant result = formationDoctorantRepository.save(formationDoctorant);
+            return ResponseEntity
+                .created(new URI("/api/formation-doctorants/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        }else{
+            throw new BadRequestAlertException("A new formationDoctorant cannot already have an ID", ENTITY_NAME, "idexists");
+
+        }
+
     }
 
     /**
@@ -229,7 +241,14 @@ public class FormationDoctorantResource {
         Optional<FormationDoctorant> formationDoctorant = formationDoctorantRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(formationDoctorant);
     }
-
+    @GetMapping("/formation-doctorants/formation/{formationid}")
+    public FormationDoctorant getFormationDoctorantbyFormationAndD(@PathVariable Long formationid) {
+        log.debug("REST request to get FormationDoctorant : {}", formationid);
+        Doctorant doctorant=doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId());
+        Formation formation=formationRepository.getById(formationid);
+        List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByFormationAndDoctorant(formation,doctorant);
+        return formationDoctorant.get(0);
+    }
     /**
      * {@code DELETE  /formation-doctorants/:id} : delete the "id" formationDoctorant.
      *

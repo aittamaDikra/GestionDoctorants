@@ -36,7 +36,7 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationDoctorant.dateObtention" for="field_dateObtention"
-            >Date Obtention</label
+          >Date Obtention</label
           >
           <input
             type="text"
@@ -51,7 +51,7 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationDoctorant.scanneDiplome" for="field_scanneDiplome"
-            >Scanne Diplome</label
+          >Scanne Diplome</label
           >
           <div>
             <div *ngIf="editForm.get('scanneDiplome')!.value" class="form-text text-danger clearfix">
@@ -59,10 +59,10 @@
                 class="pull-start"
                 (click)="openFile(editForm.get('scanneDiplome')!.value, editForm.get('scanneDiplomeContentType')!.value)"
                 jhiTranslate="entity.action.open"
-                >open</a
+              >open</a
               ><br />
               <span class="pull-start"
-                >{{ editForm.get('scanneDiplomeContentType')!.value }}, {{ byteSize(editForm.get('scanneDiplome')!.value) }}</span
+              >{{ editForm.get('scanneDiplomeContentType')!.value }}, {{ byteSize(editForm.get('scanneDiplome')!.value) }}</span
               >
               <button
                 type="button"
@@ -145,48 +145,49 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label class="form-label"  for="field_scanneNote{{r+1}}">Scanne Note {{r+1}}</label>
+                  <label class="form-label"  for="field_scanneNote2">Scanne Note {{r+1}}</label>
                   <div>
-                    <div *ngIf="editForm.get('scanneNote2')!.value" class="form-text text-danger clearfix">
+                    <div *ngIf="editForm.get('scanneNote2' )!.value" class="form-text text-danger clearfix">
                       <a
                         class="pull-start"
-                        (click)="openFile(editForm.get('scanneNote2')!.value, editForm.get('scanneNote2ContentType')!.value)"
+                        (click)="openFile(editForm.get('scanneNote2' )!.value, editForm.get('scanneNote2ContentType')!.value)"
                         jhiTranslate="entity.action.open"
                       >open</a
                       ><br />
                       <span class="pull-start"
-                      >{{ editForm.get('scanneNote2ContentType')!.value }}, {{ byteSize(editForm.get('scanneNote2')!.value) }}</span
+                      >{{ editForm.get('scanneNote2ContentType')!.value }}, {{ byteSize(editForm.get('scanneNote2' )!.value) }}</span
                       >
                       <button
                         type="button"
-                        (click)="editForm.patchValue({ scanneNote2: null }); editForm.patchValue({ scanneNote2ContentType: null })"
+                        (click)="editForm.patchValue({ scanneNote2  : null }); editForm.patchValue({ scanneNote2ContentType: null })"
                         class="btn btn-secondary btn-xs pull-end"
                       >
                         <fa-icon icon="times"></fa-icon>
                       </button>
+
                     </div>
                     <input
                       type="file"
-                      id="file_scanneNote{{r+1}}"
+                      id="file_scanneNote2"
                       data-cy="scanneNote2"
-                      (change)="setFileData($event, 'scanneNote{{r+1}}', false)"
+                      (change)="setFileData($event, 'scanneNote2', false)"
                       jhiTranslate="entity.action.addblob"
                     />
                   </div>
                   <input
                     type="hidden"
                     class="form-control"
-                    name="scanneNote{{r+1}}"
-                    id="field_scanneNote{{r+1}}"
+                    name="scanneNote2"
+                    id="field_scanneNote2"
                     data-cy="scanneNote2"
-                    formControlName="scanneNote{{r+1}}"
+                    formControlName="scanneNote2"
                   />
                   <input
                     type="hidden"
                     class="form-control"
-                    name="scanneNote{{r+1}}ContentType"
-                    id="field_scanneNote{{r+1}}ContentType"
-                    formControlName="scanneNote{{r+1}}ContentType"
+                    name="scanneNote2ContentType"
+                    id="field_scanneNote2ContentType"
+                    formControlName="scanneNote2ContentType"
                   />
                 </div>
               </td>

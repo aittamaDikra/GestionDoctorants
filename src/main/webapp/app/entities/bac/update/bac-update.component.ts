@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, of} from 'rxjs';
+import {finalize, map, mergeMap} from 'rxjs/operators';
 
 import { IBac, Bac } from '../bac.model';
 import { BacService } from '../service/bac.service';
@@ -44,13 +44,25 @@ export class BacUpdateComponent implements OnInit {
     protected fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ bac }) => {
-      this.updateForm(bac);
 
-      this.loadRelationshipsOptions();
-    });
+
+  ngOnInit(): void {
+    this.loadRelationshipsOptions();
+    this.up().subscribe((value:IBac)=>this.updateForm(value));
   }
+
+  up(): Observable<IBac> | Observable<never> {
+    return this.bacService.findActive().pipe(
+      mergeMap((bac: HttpResponse<Bac>) => {
+        if (bac.body) {
+          return of(bac.body);
+        } else {
+          return of(new Bac());
+        }
+      })
+    );
+  }
+
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);

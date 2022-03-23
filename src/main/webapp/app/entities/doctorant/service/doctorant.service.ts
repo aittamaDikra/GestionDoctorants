@@ -45,6 +45,12 @@ export class DoctorantService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  findActiveUser(): Observable<EntityResponseType> {
+    return this.http
+      .get<IDoctorant>(`${this.resourceUrl}/this`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
