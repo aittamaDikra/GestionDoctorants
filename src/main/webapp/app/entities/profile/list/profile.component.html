@@ -1,68 +1,196 @@
+<div class="container">
+  <div class="main-body">
 
-<h2 style="text-align:center">User Profile Card</h2>
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>{{account.firstName}} {{account.lastName}}</h4>
+                <p class="text-secondary mb-1">{{account.email}}</p>
+                <p class="text-muted font-size-sm">{{doctorant.cne}}</p>
+                <p class="text-muted font-size-sm">{{doctorant.cursus!.nom}}</p>
 
-<div class="card">
-  <img src="https://img-19.commentcamarche.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg" alt="image" style="width:100%">
-  <h1>{{account.firstName}} {{account.lastName}}</h1>
-  <p class="title">{{account.email}}</p>
-  <p>{{doctorant.cne}}</p>
-  <div >
-    <p>{{doctorant.cursus!.nom}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Telephone</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.numeroTelephone}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Adresse</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.adresse}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Date de naissance</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.dateNaissance}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Lieu de naissance</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.lieuNaissance}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">CIN</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.cin}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Sexe</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{doctorant.genre}}
+              </div>
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-sm-12">
+                <a class="btn btn-info " target="__blank" href="/doctorant/new">Edit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="justify-content: space-evenly;">
+      <div class="col-sm-6 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Bac</h6>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Serie Bac</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.serieBac}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Type Bac</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.typeBac}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Annee Obtention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.anneeObtention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Note Bac</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.noteBac}}
+              </div>
+            </div>
+            <hr> <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Mention</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{bac.mention}}
+            </div>
+          </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Ville Obtention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.villeObtention}}
+              </div>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+        <div class="col-sm-6 mb-3" *ngFor="let fd of formationDoctorant">
+          <div class="card h-100">
+            <div class="card-body">
+              <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>{{fd.formation?.nom}}</h6>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Specialite</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{fd.specialite}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Type</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{fd.type}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Date Obtention
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{fd.dateObtention}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Mention</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{fd.mention}}
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<table border>
-  <thead>
-  <tr >
-    <th>formation </th>
-    <th>BAC</th>
-    <th *ngFor="let f of formations">{{f.nom}}</th>
-  </tr>
-  </thead>
-  <tbody >
-  <tr>
-    <th>Specialite</th>
-    <td></td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.specialite}}</td>
-  </tr>
-  <tr>
-    <th>Type</th>
-    <td>{{bac.typeBac}}</td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.type}}</td>
-  </tr>
-  <tr>
-    <th>Date Obtention</th>
-    <td>{{bac.anneeObtention}}</td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.dateObtention}}</td>
-  </tr>
-  <tr>
-    <th>scanne Diplome</th>
-    <td *ngFor="let fd of formationDoctorant"><embed  [src]="_sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ fd.scanneDiplome)"></td>
-  </tr>
-  <tr>
-    <th>note1</th>
-    <td>{{bac.noteBac}}</td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.note1}}</td>
-  </tr>
-  <tr>
-    <th>note2</th>
-    <td></td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.note2}}</td>
-  </tr>
-  <tr>
-    <th>note3</th>
-    <td></td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.note3}}</td>
-  </tr>
-  <tr>
-    <th>note4</th>
-    <td></td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.note4}}</td>
-  </tr>
-  <tr>
-    <th>note5</th>
-    <td></td>
-    <td *ngFor="let fd of formationDoctorant">{{fd.note5}}</td>
-  </tr>
-  </tbody>
-</table>
