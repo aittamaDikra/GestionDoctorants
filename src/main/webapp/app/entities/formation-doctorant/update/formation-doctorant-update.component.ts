@@ -17,6 +17,7 @@ import { DoctorantService } from 'app/entities/doctorant/service/doctorant.servi
 @Component({
   selector: 'jhi-formation-doctorant-update',
   templateUrl: './formation-doctorant-update.component.html',
+  styleUrls:['./formation-doctorant.scss']
 })
 export class FormationDoctorantUpdateComponent implements OnInit {
   isSaving = false;

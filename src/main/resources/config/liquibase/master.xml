@@ -34,6 +34,8 @@
     <include file="config/liquibase/changelog/20220316122729_added_entity_FormationDoctoranle.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220316122730_added_entity_FormationSuivie.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220316164211_added_entity_Diplomes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220323202858_added_entity_Information.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220329202250_added_entity_Profile.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220316122713_added_entity_constraints_Doctorant.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220316122714_added_entity_constraints_Formation.xml" relativeToChangelogFile="false"/>

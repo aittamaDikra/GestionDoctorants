@@ -17,5 +17,7 @@ import java.util.Optional;
 public interface FormationDoctorantRepository extends JpaRepository<FormationDoctorant, Long> {
 
 
-   List<FormationDoctorant> getByFormationAndDoctorant(Formation formation, Doctorant doctorant);
+    List<FormationDoctorant> getByFormationAndDoctorant(Formation formation, Doctorant doctorant);
+    List<FormationDoctorant> getByDoctorant(Doctorant doctorant);
+
 }

@@ -43,6 +43,8 @@ export class DoctorantComponent implements OnInit {
     return this.dataUtils.byteSize(base64String);
   }
 
+
+
   openFile(base64String: string, contentType: string | null | undefined): void {
     return this.dataUtils.openFile(base64String, contentType);
   }

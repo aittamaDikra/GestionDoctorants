@@ -1,0 +1,68 @@
+
+<h2 style="text-align:center">User Profile Card</h2>
+
+<div class="card">
+  <img src="https://img-19.commentcamarche.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg" alt="image" style="width:100%">
+  <h1>{{account.firstName}} {{account.lastName}}</h1>
+  <p class="title">{{account.email}}</p>
+  <p>{{doctorant.cne}}</p>
+  <div >
+    <p>{{doctorant.cursus!.nom}}</p>
+  </div>
+</div>
+
+<table border>
+  <thead>
+  <tr >
+    <th>formation </th>
+    <th>BAC</th>
+    <th *ngFor="let f of formations">{{f.nom}}</th>
+  </tr>
+  </thead>
+  <tbody >
+  <tr>
+    <th>Specialite</th>
+    <td></td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.specialite}}</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>{{bac.typeBac}}</td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.type}}</td>
+  </tr>
+  <tr>
+    <th>Date Obtention</th>
+    <td>{{bac.anneeObtention}}</td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.dateObtention}}</td>
+  </tr>
+  <tr>
+    <th>scanne Diplome</th>
+    <td *ngFor="let fd of formationDoctorant"><embed  [src]="_sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ fd.scanneDiplome)"></td>
+  </tr>
+  <tr>
+    <th>note1</th>
+    <td>{{bac.noteBac}}</td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.note1}}</td>
+  </tr>
+  <tr>
+    <th>note2</th>
+    <td></td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.note2}}</td>
+  </tr>
+  <tr>
+    <th>note3</th>
+    <td></td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.note3}}</td>
+  </tr>
+  <tr>
+    <th>note4</th>
+    <td></td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.note4}}</td>
+  </tr>
+  <tr>
+    <th>note5</th>
+    <td></td>
+    <td *ngFor="let fd of formationDoctorant">{{fd.note5}}</td>
+  </tr>
+  </tbody>
+</table>

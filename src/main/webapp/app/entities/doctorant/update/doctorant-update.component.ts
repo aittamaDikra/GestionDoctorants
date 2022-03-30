@@ -21,13 +21,17 @@ import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { PromotionService } from 'app/entities/promotion/service/promotion.service';
 import { ICursus } from 'app/entities/cursus/cursus.model';
 import { CursusService } from 'app/entities/cursus/service/cursus.service';
+import {AccountService} from "../../../core/auth/account.service";
+import {Account} from "../../../core/auth/account.model";
 
 @Component({
   selector: 'jhi-doctorant-update',
   templateUrl: './doctorant-update.component.html',
+  styleUrls : ['./doctorant.scss']
 })
 export class DoctorantUpdateComponent implements OnInit {
   isSaving = false;
+  account!: Account;
 
   sujetsCollection: ISujet[] = [];
   usersSharedCollection: IUser[] = [];
@@ -62,6 +66,7 @@ export class DoctorantUpdateComponent implements OnInit {
   });
 
   constructor(
+    private accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected doctorantService: DoctorantService,
@@ -83,6 +88,11 @@ export class DoctorantUpdateComponent implements OnInit {
       this.updateForm(doctorant);
 
       this.loadRelationshipsOptions();
+    });
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
     });
   }
 

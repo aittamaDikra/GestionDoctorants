@@ -1,18 +1,12 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-formation-doctorant-heading"
-        data-cy="FormationDoctorantCreateUpdateHeading"
-        jhiTranslate="doctorantApp.formationDoctorant.home.createOrEditLabel"
-      >
-        Create or edit a Formation Doctorant
-      </h2>
+
 
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null" *ngIf="false">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
@@ -128,24 +122,31 @@
           </select>
         </div>
         <div class="table-responsive" id="entities" >
-          <table class="table table-striped" aria-describedby="page-heading">
+          <table class="table table-bordered" aria-describedby="page-heading">
             <thead>
             <tr>
-              <th  *ngFor="let i of [].constructor(n); let r = index" >
-                <span >Année {{r+1}} </span>
+              <th scope="col" >
+                <span ></span>
               </th>
+              <th scope="col" >
+                <span >Note</span>
+              </th>
+
+              <th  scope="col">
+              <span >Relevé de note</span>
+            </th>
             </tr>
             </thead>
             <tbody>
-            <tr   data-cy="entityTable">
-              <td *ngFor="let i of [].constructor(n); let r = index" >
-                <div class="row mb-3">
-                  <label class="form-label" for="field_note{{r+1}}">Note {{r+1}}</label>
-                  <input type="number" class="form-control" name="note{{r+1}}" id="field_note{{r+1}}" data-cy="'note2" formControlName="note{{r+1}}" />
+            <tr data-cy="entityTable" *ngFor="let i of [].constructor(n); let r = index" >
+              <th scope="row" >Annee{{r+1}}</th>
+              <td>
+                <div class="row mb-3" style="padding-left: 2em;">
+                  <input style="width: 60px;" type="number" class="form-control" name="note{{r+1}}" id="field_note{{r+1}}" data-cy="'note2" formControlName="note{{r+1}}" />
                 </div>
-
+              </td>
+              <td>
                 <div class="row mb-3">
-                  <label class="form-label"  for="field_scanneNote2">Scanne Note {{r+1}}</label>
                   <div>
                     <div *ngIf="editForm.get('scanneNote2' )!.value" class="form-text text-danger clearfix">
                       <a

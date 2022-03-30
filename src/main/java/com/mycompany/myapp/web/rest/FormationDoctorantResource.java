@@ -249,6 +249,13 @@ public class FormationDoctorantResource {
         List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByFormationAndDoctorant(formation,doctorant);
         return formationDoctorant.get(0);
     }
+
+    @GetMapping("/formation-doctorants/formations/")
+    public  List<FormationDoctorant> getFormationDoctorantbyD() {
+        Doctorant doctorant=doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId());
+        List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByDoctorant(doctorant);
+        return formationDoctorant;
+    }
     /**
      * {@code DELETE  /formation-doctorants/:id} : delete the "id" formationDoctorant.
      *
