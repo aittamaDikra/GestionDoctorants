@@ -1,9 +1,8 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span class="logo-img"></span>
-      <span jhiTranslate="global.title" class="navbar-title">Doctorant</span>
-      <span class="navbar-version">{{ version }}</span>
+      <span><img src="content/images/ensajdida.png" width="30%" height="60px"></span>
+      <span class="navbar-title">Gestion des doctorants</span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -36,7 +35,7 @@
             (click)="collapseNavbar()"
           >
             <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="home"></fa-icon>
+              <fa-icon icon="info"></fa-icon>
               <span>Diplomes</span>
             </span>
           </a>
@@ -50,7 +49,7 @@
             (click)="collapseNavbar()"
           >
             <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="home"></fa-icon>
+              <fa-icon icon="user"></fa-icon>
               <span>Informations personnelles</span>
             </span>
           </a>

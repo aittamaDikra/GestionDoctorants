@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LottiePlayer } from '@lottiefiles/lottie-player';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { HOME_ROUTE } from './home.route';
@@ -8,5 +9,9 @@ import { HomeComponent } from './home.component';
 @NgModule({
   imports: [SharedModule, RouterModule.forChild([HOME_ROUTE])],
   declarations: [HomeComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Needed for Lottie Player
+
 })
-export class HomeModule {}
+export class HomeModule {
+  private ref = LottiePlayer;
+}

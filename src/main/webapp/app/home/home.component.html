@@ -1,9 +1,10 @@
 <div class="row">
-  <div class="col-md-3">
-    <img src="">
+  <div class="col-md-4">
+    <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_j2rjqphu.json" background="transparent"  speed="1"  style="width: 400px; height: 500px;" loop autoplay></lottie-player>
+
   </div>
 
-  <div class="col-md-9">
+  <div class="col-md-8">
     <div [ngSwitch]="account !== null">
       <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
@@ -25,51 +26,21 @@
       Elle constitue la plateforme officielle pour la gestion des candidatures au Cycle Doctorat ainsi que le suivi et la gestion du parcours des Doctorants de l'ENSAJ, de l'inscription à la soutenance.
     </p>
 
+    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+      <h6>Ce que vous pouvez faire :</h6>
+      <br>
+      <div style="margin: 0 auto;width: 70%;">
+
+        <p><span><img src="content/images/1.png" width="5%"></span> &nbsp;  Créer votre compte de candidat. (Ne perdez pas votre accès)</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/2.png" width="5%"></span> &nbsp; Renseigner votre dossier de candidature à votre rythme.</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/3.png" width="5%"></span> &nbsp; Confirmer votre candidature, lorsque vous êtes prêt.</p>
+      </div>
+    </div>
 
 
-    <p jhiTranslate="home.question">If you have any question on JHipster:</p>
-
-    <ul>
-      <li>
-        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
-          >JHipster homepage</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://stackoverflow.com/tags/jhipster/info"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.stackoverflow"
-          >JHipster on Stack Overflow</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.bugtracker"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
-          >JHipster public chat room</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
-          >follow @jhipster on Twitter</a
-        >
-      </li>
-    </ul>
-
-    <p>
-      <span jhiTranslate="home.like">If you like JHipster, don't forget to give us a star on</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
-        >GitHub</a
-      >!
-    </p>
   </div>
 </div>

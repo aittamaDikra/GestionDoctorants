@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import { IProfile } from '../profile.model';
 import { ProfileService } from '../service/profile.service';
 import { ProfileDeleteDialogComponent } from '../delete/profile-delete-dialog.component';
@@ -18,6 +18,7 @@ import {FormationDoctorantService} from "../../formation-doctorant/service/forma
 import {ILaboratoire} from "../../laboratoire/laboratoire.model";
 import {Bac, IBac} from "../../bac/bac.model";
 import {BacService} from "../../bac/service/bac.service";
+import { DataUtils } from 'app/core/util/data-util.service';
 
 @Component({
   selector: 'jhi-profile',
@@ -31,7 +32,8 @@ export class ProfileComponent implements OnInit {
   formations!: IFormation[];
   formationDoctorant!:FormationDoctorant[];
   bac!:IBac;
-  constructor(public _sanitizer: DomSanitizer, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
+  show = false;
+  constructor(public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -89,5 +91,20 @@ export class ProfileComponent implements OnInit {
         }
       })
     );
+  }
+
+  decode(base64String: string):SafeResourceUrl{
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
+
+  change():void{
+    this.show =! this.show;
+  }
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 }

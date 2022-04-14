@@ -9,6 +9,9 @@ Main page styles
   background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
   background-size: contain;
 }
+.img{
+  padding-top:100px ;
+}
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
