@@ -203,6 +203,7 @@ public class FormationResource {
 
     @GetMapping("/formations/userCursus")
     public List<Formation> getFormationCursusUser() {
-        List<Formation> formation = formationRepository.findByCursus(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())).getCursus());        return formation;
+        List<Formation> formation = formationRepository.findByCursus(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())).getCursus());
+        return formation;
     }
 }

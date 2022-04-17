@@ -58,7 +58,9 @@ public class BacResource {
         if (bac.getId() != null) {
             throw new BadRequestAlertException("A new bac cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        bac.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        bac.setNoteBac(10F);
+        bac.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
+        log.debug("walid {}", bac.getDoctorant().getId());
         Bac result = bacRepository.save(bac);
         return ResponseEntity
             .created(new URI("/api/bacs/" + result.getId()))
@@ -90,7 +92,7 @@ public class BacResource {
         if (!bacRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        bac.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        bac.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
 
         Bac result = bacRepository.save(bac);
         return ResponseEntity
@@ -191,7 +193,7 @@ public class BacResource {
     public Bac getBacActiveUser() {
         log.debug("REST request to get Bac ");
 
-        Bac bac = bacRepository.getByDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        Bac bac = bacRepository.getByDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
         return bac;
 
     }

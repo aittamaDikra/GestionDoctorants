@@ -14,6 +14,8 @@ import { DataUtils } from 'app/core/util/data-util.service';
 export class DoctorantComponent implements OnInit {
   doctorants?: IDoctorant[];
   isLoading = false;
+  dtOptions: DataTables.Settings = {};
+
 
   constructor(protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
@@ -33,6 +35,11 @@ export class DoctorantComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      processing: true
+    };
   }
 
   trackId(index: number, item: IDoctorant): number {

@@ -14,7 +14,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { TranslationModule } from 'app/shared/language/translation.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
-
+import { DataTablesModule} from 'angular-datatables'
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
 import { fontAwesomeIcons } from './config/font-awesome-icons';
@@ -26,7 +26,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
-
+import { MatTableModule } from '@angular/material/table'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
@@ -49,6 +49,8 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     MatStepperModule,
     MatButtonModule,
+    DataTablesModule,
+    MatTableModule
   ],
   providers: [
     Title,

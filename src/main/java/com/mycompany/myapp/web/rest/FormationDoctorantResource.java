@@ -64,7 +64,7 @@ public class FormationDoctorantResource {
         if (formationDoctorant.getId() != null) {
             throw new BadRequestAlertException("A new formationDoctorant cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        formationDoctorant.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        formationDoctorant.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
         List<FormationDoctorant>f=formationDoctorantRepository.getByFormationAndDoctorant(formationDoctorant.getFormation(),formationDoctorant.getDoctorant());
         if (f.isEmpty()) {
             FormationDoctorant result = formationDoctorantRepository.save(formationDoctorant);
@@ -105,7 +105,7 @@ public class FormationDoctorantResource {
         if (!formationDoctorantRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        formationDoctorant.setDoctorant(doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId()));
+        formationDoctorant.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
         FormationDoctorant result = formationDoctorantRepository.save(formationDoctorant);
         return ResponseEntity
             .ok()
@@ -244,15 +244,19 @@ public class FormationDoctorantResource {
     @GetMapping("/formation-doctorants/formation/{formationid}")
     public FormationDoctorant getFormationDoctorantbyFormationAndD(@PathVariable Long formationid) {
         log.debug("REST request to get FormationDoctorant : {}", formationid);
-        Doctorant doctorant=doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId());
+        Doctorant doctorant=doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
         Formation formation=formationRepository.getById(formationid);
         List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByFormationAndDoctorant(formation,doctorant);
-        return formationDoctorant.get(0);
+        if(!formationDoctorant.isEmpty()){
+            return formationDoctorant.get(0);
+        }
+        else
+            return new FormationDoctorant();
     }
 
     @GetMapping("/formation-doctorants/formations/")
     public  List<FormationDoctorant> getFormationDoctorantbyD() {
-        Doctorant doctorant=doctorantRepository.getById(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getId());
+        Doctorant doctorant=doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
         List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByDoctorant(doctorant);
         return formationDoctorant;
     }
