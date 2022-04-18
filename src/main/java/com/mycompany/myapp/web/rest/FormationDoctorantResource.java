@@ -247,16 +247,23 @@ public class FormationDoctorantResource {
         Doctorant doctorant=doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
         Formation formation=formationRepository.getById(formationid);
         List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByFormationAndDoctorant(formation,doctorant);
-        if(!formationDoctorant.isEmpty()){
+        if(formationDoctorant.size()>0){
             return formationDoctorant.get(0);
         }
-        else
-            return new FormationDoctorant();
+        return new FormationDoctorant();
+
     }
 
     @GetMapping("/formation-doctorants/formations/")
     public  List<FormationDoctorant> getFormationDoctorantbyD() {
         Doctorant doctorant=doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
+        List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByDoctorant(doctorant);
+        return formationDoctorant;
+    }
+
+    @GetMapping("/formation-doctorants/formations/{id}")
+    public  List<FormationDoctorant> getFormationDoctorantbyDoctorant(@PathVariable Long id) {
+        Doctorant doctorant=doctorantRepository.getById(id);
         List<FormationDoctorant> formationDoctorant=formationDoctorantRepository.getByDoctorant(doctorant);
         return formationDoctorant;
     }

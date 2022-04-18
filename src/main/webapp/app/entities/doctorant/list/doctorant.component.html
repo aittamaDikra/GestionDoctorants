@@ -29,125 +29,89 @@
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="doctorants && doctorants.length > 0">
-    <table class="table table-striped" datatable  aria-describedby="page-heading">
+    <table class="table table-striped" datatable [dtOptions]="dtOptions" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cne">Cne</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatProfessionnel">Etat Professionnel</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.photoCNEPile">Photo CNE Pile</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.photoCNEFace">Photo CNE Face</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.photoCv">Photo Cv</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.anneeInscription">Annee Inscription</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatDossier">Etat Dossier</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cin">Cin</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.dateNaissance">Date Naissance</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.lieuNaissance">Lieu Naissance</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.nationalite">Nationalite</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.adresse">Adresse</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.numeroTelephone">Numero Telephone</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.genre">Genre</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.nomArabe">Nom Arabe</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.prnomArabe">Prnom Arabe</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.sujet">Sujet</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.user">User</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.promotion">Promotion</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cursus">Cursus</span></th>
-          <th scope="col"></th>
-        </tr>
+      <tr>
+        <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cne">Cne</span></th>
+        <th scope="col"><span>Nom </span></th>
+        <th scope="col"><span>Prenom</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cin">Cin</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.anneeInscription">Annee Inscription</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.genre">Sexe</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.sujet">Sujet</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cursus">Cursus</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatDossier">Etat Dossier</span></th>
+        <th scope="col"></th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let doctorant of doctorants; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/doctorant', doctorant.id, 'view']">{{ doctorant.id }}</a>
-          </td>
-          <td>{{ doctorant.cne }}</td>
-          <td>{{ doctorant.etatProfessionnel }}</td>
-          <td>
-            <a
-              *ngIf="doctorant.photoCNEPile"
-              (click)="openFile(doctorant.photoCNEPile, doctorant.photoCNEPileContentType)"
-              jhiTranslate="entity.action.open"
-              >open</a
-            >
-            <span *ngIf="doctorant.photoCNEPile">{{ doctorant.photoCNEPileContentType }}, {{ byteSize(doctorant.photoCNEPile) }}</span>
-          </td>
-          <td>
-            <a
-              *ngIf="doctorant.photoCNEFace"
-              (click)="openFile(doctorant.photoCNEFace, doctorant.photoCNEFaceContentType)"
-              jhiTranslate="entity.action.open"
-              >open</a
-            >
-            <span *ngIf="doctorant.photoCNEFace">{{ doctorant.photoCNEFaceContentType }}, {{ byteSize(doctorant.photoCNEFace) }}</span>
-          </td>
-          <td>
-            <a
-              *ngIf="doctorant.photoCv"
-              (click)="openFile(doctorant.photoCv, doctorant.photoCvContentType)"
-              jhiTranslate="entity.action.open"
-              >open</a
-            >
-            <span *ngIf="doctorant.photoCv">{{ doctorant.photoCvContentType }}, {{ byteSize(doctorant.photoCv) }}</span>
-          </td>
-          <td>{{ doctorant.anneeInscription }}</td>
-          <td>{{ doctorant.etatDossier }}</td>
-          <td>{{ doctorant.cin }}</td>
-          <td>{{ doctorant.dateNaissance | formatMediumDatetime }}</td>
-          <td>{{ doctorant.lieuNaissance }}</td>
-          <td>{{ doctorant.nationalite }}</td>
-          <td>{{ doctorant.adresse }}</td>
-          <td>{{ doctorant.numeroTelephone }}</td>
-          <td>{{ doctorant.genre }}</td>
-          <td>{{ doctorant.nomArabe }}</td>
-          <td>{{ doctorant.prnomArabe }}</td>
-          <td>
-            <div *ngIf="doctorant.sujet">
-              <a [routerLink]="['/sujet', doctorant.sujet?.id, 'view']">{{ doctorant.sujet?.titre }}</a>
-            </div>
-          </td>
-          <td>
-            {{ doctorant.user?.login}}
-          </td>
-          <td>
-            <div *ngIf="doctorant.promotion">
-              <a [routerLink]="['/promotion', doctorant.promotion?.id, 'view']">{{ doctorant.promotion?.annee }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="doctorant.cursus">
-              <a [routerLink]="['/cursus', doctorant.cursus?.id, 'view']">{{ doctorant.cursus?.nom }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/doctorant', doctorant.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+      <tr *ngFor="let doctorant of doctorants; trackBy: trackId" data-cy="entityTable">
+        <td>
+          <a [routerLink]="['/doctorant', doctorant.id, 'view']">{{ doctorant.id }}</a>
+        </td>
+        <td>{{ doctorant.cne }}</td>
+        <td>{{ doctorant.user?.firstName }}</td>
+        <td>{{ doctorant.user?.lastName }}</td>
+        <td>{{ doctorant.cin }}</td>
+        <td>{{ doctorant.anneeInscription }}</td>
+        <td>{{ doctorant.genre }}</td>
 
-              <button
-                type="submit"
-                [routerLink]="['/doctorant', doctorant.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+        <td>
+          <div *ngIf="doctorant.sujet">
+            <a [routerLink]="['/sujet', doctorant.sujet?.id, 'view']">{{ doctorant.sujet?.titre }}</a>
+          </div>
+        </td>
+        <td>
+          <div *ngIf="doctorant.cursus">
+            <a [routerLink]="['/cursus', doctorant.cursus?.id, 'view']">{{ doctorant.cursus?.nom }}</a>
+          </div>
+        </td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="setActive(doctorant, 1)"
+            *ngIf="doctorant.etatDossier==0"
+          >
+            Non Approuvé
+          </button>
+          <button
+            class="btn btn-success btn-sm"
+            (click)="setActive(doctorant, 0)"
+            *ngIf="doctorant.etatDossier==1"
+          >
+            Approuvé
+          </button>
+        </td>
+        <td class="text-end">
+          <div class="btn-group">
+            <button
+              type="submit"
+              [routerLink]="['/doctorant', doctorant.id, 'view']"
+              class="btn btn-info btn-sm"
+              data-cy="entityDetailsButton"
+            >
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+            </button>
 
-              <button type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
+            <button
+              type="submit"
+              [routerLink]="['/doctorant', doctorant.id, 'edit']"
+              class="btn btn-primary btn-sm"
+              data-cy="entityEditButton"
+            >
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+
+            <button type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

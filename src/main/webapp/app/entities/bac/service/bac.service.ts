@@ -35,6 +35,8 @@ export class BacService {
     return this.http.get<IBac>(`${this.resourceUrl}/this`, { observe: 'response' });
   }
 
+
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IBac[]>(this.resourceUrl, { params: options, observe: 'response' });
@@ -42,6 +44,9 @@ export class BacService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  findBacDoctorant(id: number): Observable<EntityResponseType> {
+    return this.http.get<IBac>(`${this.resourceUrl}/doctorant/${id}`, { observe: 'response' });
   }
 
   addBacToCollectionIfMissing(bacCollection: IBac[], ...bacsToCheck: (IBac | null | undefined)[]): IBac[] {

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { IDoctorant } from '../doctorant.model';
+import {Doctorant, IDoctorant} from '../doctorant.model';
 import { DoctorantService } from '../service/doctorant.service';
 import { DoctorantDeleteDialogComponent } from '../delete/doctorant-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
@@ -15,7 +14,6 @@ export class DoctorantComponent implements OnInit {
   doctorants?: IDoctorant[];
   isLoading = false;
   dtOptions: DataTables.Settings = {};
-
 
   constructor(protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
@@ -38,7 +36,8 @@ export class DoctorantComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
-      processing: true
+      processing: true,
+      searching: true
     };
   }
 
@@ -65,5 +64,9 @@ export class DoctorantComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  setActive(user: Doctorant, isActivated: number): void {
+    this.doctorantService.update({ ...user, etatDossier: isActivated }).subscribe(() => this.loadAll());
   }
 }

@@ -197,6 +197,14 @@ public class BacResource {
         return bac;
 
     }
+    @GetMapping("/bacs/doctorant/{id}")
+    public Bac getBacUser(@PathVariable Long id) {
+        log.debug("REST request to get Bac ");
+
+        Bac bac = bacRepository.getByDoctorant(doctorantRepository.getById(id));
+        return bac;
+
+    }
 
     /**
      * {@code DELETE  /bacs/:id} : delete the "id" bac.

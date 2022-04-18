@@ -5,7 +5,10 @@ import { InformationDetailComponent } from './detail/information-detail.componen
 import { InformationRoutingModule } from './route/information-routing.module';
 
 @NgModule({
-  imports: [SharedModule, InformationRoutingModule],
-  declarations: [InformationComponent, InformationDetailComponent],
+    imports: [SharedModule, InformationRoutingModule],
+    declarations: [InformationComponent, InformationDetailComponent],
+    exports: [
+        InformationComponent
+    ]
 })
 export class InformationModule {}

@@ -5,6 +5,7 @@ import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { ICursus } from 'app/entities/cursus/cursus.model';
 import { IFormationDoctorant } from 'app/entities/formation-doctorant/formation-doctorant.model';
 import { IFormationSuivie } from 'app/entities/formation-suivie/formation-suivie.model';
+import {User} from "../../admin/user-management/user-management.model";
 
 export interface IDoctorant {
   id?: number;
@@ -28,7 +29,7 @@ export interface IDoctorant {
   nomArabe?: string;
   prnomArabe?: string;
   sujet?: ISujet | null;
-  user?: IUser | null;
+  user?: User | null;
   promotion?: IPromotion | null;
   cursus?: ICursus | null;
   formationDoctorants?: IFormationDoctorant[] | null;

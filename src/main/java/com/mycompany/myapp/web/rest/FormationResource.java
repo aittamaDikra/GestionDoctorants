@@ -206,4 +206,10 @@ public class FormationResource {
         List<Formation> formation = formationRepository.findByCursus(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())).getCursus());
         return formation;
     }
+
+    @GetMapping("/formations/doctorant/{id}")
+    public List<Formation> getFormationCursusbyUser(@PathVariable Long id) {
+        List<Formation> formation = formationRepository.findByCursus(doctorantRepository.getById(id).getCursus());
+        return formation;
+    }
 }

@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
         }
       })
     ).subscribe(doctorant=>{
-        this.doctorant=doctorant;
+      this.doctorant=doctorant;
     });
     this.formationService.getformations().subscribe({
       next: (res: HttpResponse<IFormation[]>) => {

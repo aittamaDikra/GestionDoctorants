@@ -36,6 +36,8 @@ export class FormationService {
     return this.http.get<IFormation>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IFormation[]>(this.resourceUrl, { params: options, observe: 'response' });
@@ -45,6 +47,11 @@ export class FormationService {
     const options = createRequestOption(req);
     return this.http.get<IFormation[]>(`${this.resourceUrl}/userCursus`, {params: options, observe: 'response' });
   }
+  findbyDoctorant(id: number): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(id);
+    return this.http.get<IFormation[]>(`${this.resourceUrl}/doctorant/${id}`, {params: options, observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

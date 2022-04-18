@@ -1,51 +1,283 @@
-<div>
-  <h2 id="page-heading" data-cy="InformationHeading">
-    <span jhiTranslate="doctorantApp.information.home.title">Information</span>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div class="container">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-4" style="padding-left: 50px">
+        <div class="profile-img">
+          <img src="content/images/jhipster_family_member_3_head-256.png" width="50%" alt=""/>
+          <div class="file btn btn-lg btn-primary">
+            Change Photo
+            <input type="file" name="file"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="profile-head">
+          <h5>
+            {{doctorant.user!.firstName}} {{doctorant.user!.lastName}}          </h5>
+          <h6>
+            {{doctorant.cursus!.nom}}
+          </h6>
+          <p>{{doctorant.user!.email}}</p>
+          <p>{{doctorant.cne}}</p>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="doctorantApp.information.home.refreshListLabel">Refresh List</span>
-      </button>
+        </div>
+      </div>
     </div>
-  </h2>
-
-  <jhi-alert-error></jhi-alert-error>
-
-  <jhi-alert></jhi-alert>
-
-  <div class="alert alert-warning" id="no-result" *ngIf="information?.length === 0">
-    <span jhiTranslate="doctorantApp.information.home.notFound">No information found</span>
-  </div>
-
-  <div class="table-responsive" id="entities" *ngIf="information && information.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let information of information; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/information', information.id, 'view']">{{ information.id }}</a>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/information', information.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+    <div class="row">
+      <div style="padding-left: 100px;">
+        <div class="tab-content profile-tab" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Name</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.user!.firstName}} {{doctorant.user!.lastName}}</p>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Email</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.user!.email}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Phone</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.numeroTelephone}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Adresse</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.adresse}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Date de naissance</label>
+              </div>
+              <div class="col-md-6">
+                <p> {{doctorant.dateNaissance}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Lieu de naissance</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.lieuNaissance}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>CIN</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.cin}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Sexe</label>
+              </div>
+              <div class="col-md-6">
+                <p> {{doctorant.genre}}</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row" style="padding-left: 100px;">
+        <div class="card h-100">
+          <div class="card-body">
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Bac</h6>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Serie</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.serieBac}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Type</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.typeBac}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Date d'obtention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.anneeObtention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Ville d'obtention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.villeObtention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Mention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.mention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Note</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{bac.noteBac}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Scanne</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                <div class="col-md-6" *ngIf="bac.scanneBac">
+                  <img [src]="decode(bac.scanneBac)" width="50%" (click)=openFile(bac.scanneBac,bac.scanneBacContentType)>
+                </div>
+              </div>
+            </div>
+            <hr>
+          </div>
+        </div>
+
+      </div>
+      <br>
+      <div class="row" *ngFor="let fd of formationDoctorant" style="padding-left: 100px;">
+        <div class="card h-100">
+          <div class="card-body">
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>{{fd.formation?.nom}}</h6>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Specialite</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{fd.specialite}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Type</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{fd.type}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Date Obtention
+                </h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{fd.dateObtention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Mention</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{fd.mention}}
+              </div>
+            </div>
+            <hr>
+            <div class="row" *ngIf="fd.note1">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Année 1</h6>
+              </div>
+              <div class="col-sm-9 text-secondary" >
+                {{fd.note1}}
+                &ensp;&ensp;&ensp;<a style="text-decoration:underline; color: #00c6ff" class="pull-start" *ngIf="fd.scanneNote1" (click)="openFile(fd.scanneNote1, fd.scanneNote1ContentType)">Ouvrir relevé de notes 1</a>
+              </div>
+            </div>
+            <div class="row" *ngIf="fd.note2">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Année 2</h6>
+              </div>
+              <div class="col-sm-9 text-secondary" >
+                {{fd.note2}}
+                &ensp;&ensp;&ensp;<a style="text-decoration:underline; color: #00c6ff"
+                                     class="pull-start" *ngIf="fd.scanneNote2" (click)="openFile(fd.scanneNote2, fd.scanneNote2ContentType)">Ouvrir relevé de notes 2</a>
+
+              </div>
+            </div>
+            <div class="row" *ngIf="fd.note3">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Année 3</h6>
+              </div>
+              <div class="col-sm-9 text-secondary" >
+                {{fd.note3}}
+                &ensp;&ensp;&ensp;<a style="text-decoration:underline; color: #00c6ff" class="pull-start" *ngIf="fd.scanneNote3" (click)="openFile(fd.scanneNote3, fd.scanneNote3ContentType)">Ouvrir relevé de notes 3</a>
+
+              </div>
+            </div><div class="row" *ngIf="fd.note4">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Année 4</h6>
+            </div>
+            <div class="col-sm-9 text-secondary" >
+              {{fd.note4}}
+              &ensp;&ensp;&ensp;<a style="text-decoration:underline; color: #00c6ff" class="pull-start" *ngIf="fd.scanneNote4" (click)="openFile(fd.scanneNote4, fd.scanneNote4ContentType)">Ouvrir relevé de notes 4</a>
+
+            </div>
+          </div><div class="row" *ngIf="fd.note5">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Année 5</h6>
+            </div>
+            <div class="col-sm-9 text-secondary" >
+              {{fd.note5}}
+              &ensp;&ensp;&ensp;<a style="text-decoration:underline; color: #00c6ff" class="pull-start" *ngIf="fd.scanneNote5" (click)="openFile(fd.scanneNote5, fd.scanneNote5ContentType)">Ouvrir relevé de notes 5</a>
+
+            </div>
+          </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Diplome
+                </h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                <div class="col-md-6" *ngIf="fd.scanneDiplome">
+                  <img [src]="decode(fd.scanneDiplome)" width="50%" (click)=openFile(fd.scanneDiplome,fd.scanneDiplomeContentType)>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

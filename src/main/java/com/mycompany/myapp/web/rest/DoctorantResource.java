@@ -93,7 +93,6 @@ public class DoctorantResource {
         if (!doctorantRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        doctorant.setUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
         Doctorant result = doctorantRepository.save(doctorant);
         return ResponseEntity
             .ok()
