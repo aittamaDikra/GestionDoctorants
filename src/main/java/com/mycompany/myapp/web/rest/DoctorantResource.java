@@ -7,6 +7,7 @@ import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class DoctorantResource {
             throw new BadRequestAlertException("A new doctorant cannot already have an ID", ENTITY_NAME, "idexists");
         }
         doctorant.setUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
-
+        doctorant.setEtatDossier(0);
         Doctorant result = doctorantRepository.save(doctorant);
         return ResponseEntity
             .created(new URI("/api/doctorants/" + result.getId()))
@@ -93,6 +94,9 @@ public class DoctorantResource {
         if (!doctorantRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+
+        doctorantRepository.getById(doctorant.getId()).setAnneeInscription(2000);
+
         Doctorant result = doctorantRepository.save(doctorant);
         return ResponseEntity
             .ok()
@@ -189,8 +193,10 @@ public class DoctorantResource {
                     existingDoctorant.setPrnomArabe(doctorant.getPrnomArabe());
                 }
 
+
                 return existingDoctorant;
             })
+
             .map(doctorantRepository::save);
 
         return ResponseUtil.wrapOrNotFound(

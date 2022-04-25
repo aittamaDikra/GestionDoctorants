@@ -392,19 +392,19 @@
         </div>
         <br><hr><br>
         <div style="display: flex; justify-content: space-evenly;">
-          <div>
+          <div >
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.sujet" for="field_sujet">Sujet</label>
             <select class="form-control" id="field_sujet" data-cy="sujet" name="sujet" formControlName="sujet">
               <option [ngValue]="null"></option>
               <option
-                [ngValue]="sujetOption.id === editForm.get('sujet')!.value?.id ? editForm.get('sujet')!.value : sujetOption"
                 *ngFor="let sujetOption of sujetsCollection; trackBy: trackSujetById"
+                [ngValue]="sujetOption.id === editForm.get('sujet')!.value?.id ? editForm.get('sujet')!.value : sujetOption"
               >
-                {{ sujetOption.titre  }} / {{ sujetOption.encadrent?.nomArabe}}
+                {{ sujetOption.titre }}
               </option>
             </select>
-
           </div>
+
           <div>
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.cursus" for="field_cursus">Cursus</label>
             <select class="form-control" id="field_cursus" data-cy="cursus" name="cursus" formControlName="cursus">

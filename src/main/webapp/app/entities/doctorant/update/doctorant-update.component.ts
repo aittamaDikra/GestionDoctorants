@@ -37,7 +37,7 @@ export class DoctorantUpdateComponent implements OnInit {
   usersSharedCollection: IUser[] = [];
   promotionsSharedCollection: IPromotion[] = [];
   cursusesSharedCollection: ICursus[] = [];
-
+  encadren:any;
   editForm = this.fb.group({
     id: [],
     cne: [null, [Validators.required]],
@@ -99,7 +99,9 @@ export class DoctorantUpdateComponent implements OnInit {
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
-
+  getEncadrent(a: string | undefined ):void{
+    this.encadren=a;
+  }
   openFile(base64String: string, contentType: string | null | undefined): void {
     this.dataUtils.openFile(base64String, contentType);
   }
@@ -227,6 +229,7 @@ export class DoctorantUpdateComponent implements OnInit {
       .subscribe((cursuses: ICursus[]) => (this.cursusesSharedCollection = cursuses));
   }
 
+
   protected createFromForm(): IDoctorant {
     return {
       ...new Doctorant(),
@@ -258,4 +261,5 @@ export class DoctorantUpdateComponent implements OnInit {
       cursus: this.editForm.get(['cursus'])!.value,
     };
   }
+
 }

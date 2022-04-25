@@ -18,6 +18,8 @@ import {IBac} from "../../bac/bac.model";
 export class InformationComponent implements OnInit {
   information?: IInformation[];
   isLoading = false;
+  isShown!: boolean;
+  map = new Map();
   @Input() doctorant!: IDoctorant ;
   @Input() formations!: IFormation[];
   @Input() formationDoctorant!:FormationDoctorant[];
@@ -27,21 +29,14 @@ export class InformationComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.informationService.query().subscribe({
-      next: (res: HttpResponse<IInformation[]>) => {
-        this.isLoading = false;
-        this.information = res.body ?? [];
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
   }
   decode(base64String: string):SafeResourceUrl{
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
   }
   ngOnInit(): void {
     this.loadAll();
+    this.isShown=false;
+
   }
   openFile(base64String: string, contentType: string | null | undefined): void {
     return this.dataUtils.openFile(base64String, contentType);
@@ -50,4 +45,16 @@ export class InformationComponent implements OnInit {
   trackId(index: number, item: IInformation): number {
     return item.id!;
   }
+
+  toggleShow():void {
+    this.isShown = ! this.isShown;
+  }
+  toggleShow2(f:any):void {
+    if(this.map.has(f)){
+      this.map.set(f,!this.map.get(f))
+    }else{
+      this.map.set(f,true)
+    }
+  }
+
 }

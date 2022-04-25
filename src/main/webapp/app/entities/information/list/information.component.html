@@ -101,9 +101,12 @@
       </div>
       <div class="row" style="padding-left: 100px;">
         <div class="card h-100">
-          <div class="card-body">
-            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Bac</h6>
-            <div class="row">
+
+          <div class="card-body"  >
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow()" type="checkbox" >Bac</a></h6>
+
+            <div *ngIf="isShown">
+            <div class="row" >
               <div class="col-sm-3">
                 <h6 class="mb-0">Serie</h6>
               </div>
@@ -168,15 +171,17 @@
               </div>
             </div>
             <hr>
+            </div>
           </div>
         </div>
-
+<br>
       </div>
       <br>
       <div class="row" *ngFor="let fd of formationDoctorant" style="padding-left: 100px;">
-        <div class="card h-100">
+        <div class="card h-100" >
           <div class="card-body">
-            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>{{fd.formation?.nom}}</h6>
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i><a (click)="toggleShow2(fd.formation?.nom)" type="checkbox" >{{fd.formation?.nom}}</a></h6>
+            <div  *ngIf="map.get(fd.formation?.nom)">
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Specialite</h6>
@@ -275,6 +280,7 @@
               </div>
               <hr>
             </div>
+          </div>
           </div>
         </div>
       </div>

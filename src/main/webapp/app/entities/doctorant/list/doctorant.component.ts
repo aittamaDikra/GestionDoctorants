@@ -67,6 +67,6 @@ export class DoctorantComponent implements OnInit {
   }
 
   setActive(user: Doctorant, isActivated: number): void {
-    this.doctorantService.update({ ...user, etatDossier: isActivated }).subscribe(() => this.loadAll());
+    this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
   }
 }
