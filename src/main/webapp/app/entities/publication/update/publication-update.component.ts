@@ -12,6 +12,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IExtraUser } from 'app/entities/extra-user/extra-user.model';
 import { ExtraUserService } from 'app/entities/extra-user/service/extra-user.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-publication-update',
@@ -21,6 +23,7 @@ export class PublicationUpdateComponent implements OnInit {
   isSaving = false;
 
   extraUsersSharedCollection: IExtraUser[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -31,6 +34,7 @@ export class PublicationUpdateComponent implements OnInit {
     article: [],
     articleContentType: [],
     extraUser: [],
+    chercheurs: [],
   });
 
   constructor(
@@ -38,6 +42,7 @@ export class PublicationUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected publicationService: PublicationService,
     protected extraUserService: ExtraUserService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -83,6 +88,21 @@ export class PublicationUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackUserById(index: number, item: IUser): number {
+    return item.id!;
+  }
+
+  getSelectedUser(option: IUser, selectedVals?: IUser[]): IUser {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPublication>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -112,11 +132,16 @@ export class PublicationUpdateComponent implements OnInit {
       article: publication.article,
       articleContentType: publication.articleContentType,
       extraUser: publication.extraUser,
+      chercheurs: publication.chercheurs,
     });
 
     this.extraUsersSharedCollection = this.extraUserService.addExtraUserToCollectionIfMissing(
       this.extraUsersSharedCollection,
       publication.extraUser
+    );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(
+      this.usersSharedCollection,
+      ...(publication.chercheurs ?? [])
     );
   }
 
@@ -130,6 +155,14 @@ export class PublicationUpdateComponent implements OnInit {
         )
       )
       .subscribe((extraUsers: IExtraUser[]) => (this.extraUsersSharedCollection = extraUsers));
+
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(
+        map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, ...(this.editForm.get('chercheurs')!.value ?? [])))
+      )
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 
   protected createFromForm(): IPublication {
@@ -143,6 +176,7 @@ export class PublicationUpdateComponent implements OnInit {
       articleContentType: this.editForm.get(['articleContentType'])!.value,
       article: this.editForm.get(['article'])!.value,
       extraUser: this.editForm.get(['extraUser'])!.value,
+      chercheurs: this.editForm.get(['chercheurs'])!.value,
     };
   }
 }

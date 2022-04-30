@@ -23,54 +23,54 @@
               value ="{{ account.lastName }}"
             />
           </div>
-        <div>
-          <label class="form-label"  for="field_user">Prenom</label>
-          <input
-            readonly
-            type="text"
-            class="form-control"
-            value ="{{ account.firstName }}"
-          />
-        </div>
+          <div>
+            <label class="form-label"  for="field_user">Prenom</label>
+            <input
+              readonly
+              type="text"
+              class="form-control"
+              value ="{{ account.firstName }}"
+            />
+          </div>
 
         </div>
 
 
         <div style="display: flex; justify-content: space-evenly;">
-        <div>
-          <label class="form-label" for="field_nomArabe">الاسم العائلي</label>
-          <input type="text" class="form-control" id="field_nomArabe" data-cy="nomArabe" formControlName="nomArabe" />
-          <div *ngIf="editForm.get('nomArabe')!.invalid && (editForm.get('nomArabe')!.dirty || editForm.get('nomArabe')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('nomArabe')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
+          <div>
+            <label class="form-label" for="field_nomArabe">الاسم العائلي</label>
+            <input type="text" class="form-control" id="field_nomArabe" data-cy="nomArabe" formControlName="nomArabe" />
+            <div *ngIf="editForm.get('nomArabe')!.invalid && (editForm.get('nomArabe')!.dirty || editForm.get('nomArabe')!.touched)">
+              <small
+                class="form-text text-danger"
+                *ngIf="editForm.get('nomArabe')?.errors?.required"
+                jhiTranslate="entity.validation.required"
+              >
+                This field is required.
+              </small>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label class="form-label" for="field_prnomArabe">الاسم الشخصي</label>
-          <input
-            type="text"
-            class="form-control"
-            name="prnomArabe"
-            id="field_prnomArabe"
-            data-cy="prnomArabe"
-            formControlName="prnomArabe"
-          />
-          <div *ngIf="editForm.get('prnomArabe')!.invalid && (editForm.get('prnomArabe')!.dirty || editForm.get('prnomArabe')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('prnomArabe')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
+          <div>
+            <label class="form-label" for="field_prnomArabe">الاسم الشخصي</label>
+            <input
+              type="text"
+              class="form-control"
+              name="prnomArabe"
+              id="field_prnomArabe"
+              data-cy="prnomArabe"
+              formControlName="prnomArabe"
+            />
+            <div *ngIf="editForm.get('prnomArabe')!.invalid && (editForm.get('prnomArabe')!.dirty || editForm.get('prnomArabe')!.touched)">
+              <small
+                class="form-text text-danger"
+                *ngIf="editForm.get('prnomArabe')?.errors?.required"
+                jhiTranslate="entity.validation.required"
+              >
+                This field is required.
+              </small>
+            </div>
           </div>
-        </div>
         </div>
 
         <div style="display: flex; justify-content: space-evenly;">
@@ -216,30 +216,30 @@
             </div>
           </div>
         </div>
-<br>
+        <br>
         <hr><br>
-       <div style="display: flex; justify-content: space-evenly;">
-         <div>
-           <label class="form-label" for="field_cne">N° Cne</label>
-           <input type="text" class="form-control" name="cne" id="field_cne" data-cy="cne" formControlName="cne" />
-           <div *ngIf="editForm.get('cne')!.invalid && (editForm.get('cne')!.dirty || editForm.get('cne')!.touched)">
-             <small class="form-text text-danger" *ngIf="editForm.get('cne')?.errors?.required" jhiTranslate="entity.validation.required">
-               This field is required.
-             </small>
-           </div>
-         </div>
-         <div>
-           <label class="form-label" for="field_cin">N° Cin</label>
-           <input type="text" class="form-control" name="cin" id="field_cin" data-cy="cin" formControlName="cin" />
-           <div *ngIf="editForm.get('cin')!.invalid && (editForm.get('cin')!.dirty || editForm.get('cin')!.touched)">
-             <small class="form-text text-danger" *ngIf="editForm.get('cin')?.errors?.required" jhiTranslate="entity.validation.required">
-               This field is required.
-             </small>
-           </div>
-         </div>
+        <div style="display: flex; justify-content: space-evenly;">
+          <div>
+            <label class="form-label" for="field_cne">N° Cne</label>
+            <input type="text" class="form-control" name="cne" id="field_cne" data-cy="cne" formControlName="cne" />
+            <div *ngIf="editForm.get('cne')!.invalid && (editForm.get('cne')!.dirty || editForm.get('cne')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('cne')?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+              </small>
+            </div>
+          </div>
+          <div>
+            <label class="form-label" for="field_cin">N° Cin</label>
+            <input type="text" class="form-control" name="cin" id="field_cin" data-cy="cin" formControlName="cin" />
+            <div *ngIf="editForm.get('cin')!.invalid && (editForm.get('cin')!.dirty || editForm.get('cin')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('cin')?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+              </small>
+            </div>
+          </div>
 
-       </div>
-<br>
+        </div>
+        <br>
         <div style="display: flex; justify-content: space-evenly;">
 
           <div>
@@ -394,7 +394,7 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div >
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.sujet" for="field_sujet">Sujet</label>
-            <select class="form-control" id="field_sujet" data-cy="sujet" name="sujet" formControlName="sujet">
+            <select class="form-control" id="field_sujet" data-cy="sujet" name="sujet" formControlName="sujet" [(ngModel)]="sujet" >
               <option [ngValue]="null"></option>
               <option
                 *ngFor="let sujetOption of sujetsCollection; trackBy: trackSujetById"
@@ -403,7 +403,9 @@
                 {{ sujetOption.titre }}
               </option>
             </select>
+            <p>walid3  {{encadren?.nomArabe}}</p>
           </div>
+
 
           <div>
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.cursus" for="field_cursus">Cursus</label>
@@ -423,7 +425,7 @@
 
         <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.doctorant.anneeInscription" for="field_anneeInscription"
-            >Annee Inscription</label
+          >Annee Inscription</label
           >
           <input
             type="number"
@@ -478,7 +480,7 @@
 
 
       </div>
-<br><hr>
+      <br><hr>
       <div style="display: flex; justify-content: space-evenly;">
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>

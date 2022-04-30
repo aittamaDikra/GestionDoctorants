@@ -41,6 +41,14 @@
       "otherEntityRelationshipName": "publication",
       "relationshipName": "extraUser",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "publication",
+      "ownerSide": true,
+      "relationshipName": "chercheur",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

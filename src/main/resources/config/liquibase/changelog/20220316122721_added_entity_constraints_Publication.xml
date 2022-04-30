@@ -13,5 +13,17 @@
                                  constraintName="fk_publication__extra_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="extra_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="publication_id"
+                                 baseTableName="rel_publication__chercheur"
+                                 constraintName="fk_rel_publication__chercheur__publication_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publication"/>
+
+        <addForeignKeyConstraint baseColumnNames="chercheur_id"
+                                 baseTableName="rel_publication__chercheur"
+                                 constraintName="fk_rel_publication__chercheur__chercheur_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
     </changeSet>
 </databaseChangeLog>

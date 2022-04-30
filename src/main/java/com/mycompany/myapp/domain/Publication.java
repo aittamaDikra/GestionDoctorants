@@ -2,6 +2,8 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -44,6 +46,14 @@ public class Publication implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "internalUser", "publications", "sujets", "membreEquipes" }, allowSetters = true)
     private ExtraUser extraUser;
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_publication__chercheur",
+        joinColumns = @JoinColumn(name = "publication_id"),
+        inverseJoinColumns = @JoinColumn(name = "chercheur_id")
+    )
+    private Set<User> chercheurs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -148,6 +158,29 @@ public class Publication implements Serializable {
 
     public Publication extraUser(ExtraUser extraUser) {
         this.setExtraUser(extraUser);
+        return this;
+    }
+
+    public Set<User> getChercheurs() {
+        return this.chercheurs;
+    }
+
+    public void setChercheurs(Set<User> users) {
+        this.chercheurs = users;
+    }
+
+    public Publication chercheurs(Set<User> users) {
+        this.setChercheurs(users);
+        return this;
+    }
+
+    public Publication addChercheur(User user) {
+        this.chercheurs.add(user);
+        return this;
+    }
+
+    public Publication removeChercheur(User user) {
+        this.chercheurs.remove(user);
         return this;
     }
 

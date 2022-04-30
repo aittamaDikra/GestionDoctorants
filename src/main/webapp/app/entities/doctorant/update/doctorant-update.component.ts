@@ -23,6 +23,7 @@ import { ICursus } from 'app/entities/cursus/cursus.model';
 import { CursusService } from 'app/entities/cursus/service/cursus.service';
 import {AccountService} from "../../../core/auth/account.service";
 import {Account} from "../../../core/auth/account.model";
+import {IExtraUser} from "../../extra-user/extra-user.model";
 
 @Component({
   selector: 'jhi-doctorant-update',
@@ -37,7 +38,8 @@ export class DoctorantUpdateComponent implements OnInit {
   usersSharedCollection: IUser[] = [];
   promotionsSharedCollection: IPromotion[] = [];
   cursusesSharedCollection: ICursus[] = [];
-  encadren:any;
+  encadren!:IExtraUser;
+  sujet!:ISujet;
   editForm = this.fb.group({
     id: [],
     cne: [null, [Validators.required]],
@@ -84,6 +86,10 @@ export class DoctorantUpdateComponent implements OnInit {
         const today = dayjs().startOf('day');
         doctorant.dateNaissance = today;
       }
+      if(doctorant.sujet){
+        this.sujet=doctorant.sujet;
+        this.getEncadrent(this.sujet.encadrent);
+      }
 
       this.updateForm(doctorant);
 
@@ -99,7 +105,8 @@ export class DoctorantUpdateComponent implements OnInit {
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
-  getEncadrent(a: string | undefined ):void{
+
+  getEncadrent(a: any):void{
     this.encadren=a;
   }
   openFile(base64String: string, contentType: string | null | undefined): void {

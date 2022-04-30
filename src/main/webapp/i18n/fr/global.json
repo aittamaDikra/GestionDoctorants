@@ -26,6 +26,8 @@
         "formationDoctoranle": "Formation Doctoranle",
         "formationSuivie": "Formation Suivie",
         "diplomes": "Diplomes",
+        "information": "Information",
+        "profile": "Profile",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

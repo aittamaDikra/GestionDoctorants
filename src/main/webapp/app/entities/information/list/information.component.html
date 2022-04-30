@@ -23,6 +23,8 @@
           </h6>
           <p>{{doctorant.user!.email}}</p>
           <p>{{doctorant.cne}}</p>
+          <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> en cours de traitement ....</p>
+          <p *ngIf="doctorant.etatDossier==1" style="color: #3eff00">  acceptee </p>
 
         </div>
       </div>
@@ -93,6 +95,14 @@
               </div>
               <div class="col-md-6">
                 <p> {{doctorant.genre}}</p>
+              </div>
+            </div>
+            <div class="row" *ngIf="doctorant.anneeInscription">
+              <div class="col-md-6">
+                <label>Annee d'inscription</label>
+              </div>
+              <div class="col-md-6">
+                <p>{{doctorant.anneeInscription}}</p>
               </div>
             </div>
           </div>

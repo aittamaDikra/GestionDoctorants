@@ -43,6 +43,10 @@
             <a [routerLink]="['/extra-user', publication.extraUser?.id, 'view']">{{ publication.extraUser?.id }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></dt>
+        <dd>
+          <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

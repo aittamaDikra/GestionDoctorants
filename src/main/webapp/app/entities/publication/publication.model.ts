@@ -1,4 +1,5 @@
 import { IExtraUser } from 'app/entities/extra-user/extra-user.model';
+import { IUser } from 'app/entities/user/user.model';
 
 export interface IPublication {
   id?: number;
@@ -9,6 +10,7 @@ export interface IPublication {
   articleContentType?: string | null;
   article?: string | null;
   extraUser?: IExtraUser | null;
+  chercheurs?: IUser[] | null;
 }
 
 export class Publication implements IPublication {
@@ -20,7 +22,8 @@ export class Publication implements IPublication {
     public type?: string | null,
     public articleContentType?: string | null,
     public article?: string | null,
-    public extraUser?: IExtraUser | null
+    public extraUser?: IExtraUser | null,
+    public chercheurs?: IUser[] | null
   ) {}
 }
 

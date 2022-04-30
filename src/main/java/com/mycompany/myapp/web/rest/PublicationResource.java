@@ -157,12 +157,13 @@ public class PublicationResource {
     /**
      * {@code GET  /publications} : get all the publications.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of publications in body.
      */
     @GetMapping("/publications")
-    public List<Publication> getAllPublications() {
+    public List<Publication> getAllPublications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Publications");
-        return publicationRepository.findAll();
+        return publicationRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -174,7 +175,7 @@ public class PublicationResource {
     @GetMapping("/publications/{id}")
     public ResponseEntity<Publication> getPublication(@PathVariable Long id) {
         log.debug("REST request to get Publication : {}", id);
-        Optional<Publication> publication = publicationRepository.findById(id);
+        Optional<Publication> publication = publicationRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(publication);
     }
 

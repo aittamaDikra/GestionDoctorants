@@ -23,7 +23,8 @@
       "description": "Description",
       "type": "Type",
       "article": "Article",
-      "extraUser": "Extra User"
+      "extraUser": "Extra User",
+      "chercheur": "Chercheur"
     }
   }
 }

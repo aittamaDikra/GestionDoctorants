@@ -39,6 +39,7 @@
           <th scope="col"><span jhiTranslate="doctorantApp.publication.type">Type</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.article">Article</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.extraUser">Extra User</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -64,6 +65,9 @@
             <div *ngIf="publication.extraUser">
               <a [routerLink]="['/extra-user', publication.extraUser?.id, 'view']">{{ publication.extraUser?.id }}</a>
             </div>
+          </td>
+          <td>
+            <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
           </td>
           <td class="text-end">
             <div class="btn-group">

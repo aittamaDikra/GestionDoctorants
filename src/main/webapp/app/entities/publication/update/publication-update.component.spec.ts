@@ -11,6 +11,9 @@ import { IPublication, Publication } from '../publication.model';
 import { IExtraUser } from 'app/entities/extra-user/extra-user.model';
 import { ExtraUserService } from 'app/entities/extra-user/service/extra-user.service';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { PublicationUpdateComponent } from './publication-update.component';
 
 describe('Publication Management Update Component', () => {
@@ -19,6 +22,7 @@ describe('Publication Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let publicationService: PublicationService;
   let extraUserService: ExtraUserService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +45,7 @@ describe('Publication Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     publicationService = TestBed.inject(PublicationService);
     extraUserService = TestBed.inject(ExtraUserService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -65,16 +70,38 @@ describe('Publication Management Update Component', () => {
       expect(comp.extraUsersSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call User query and add missing value', () => {
+      const publication: IPublication = { id: 456 };
+      const chercheurs: IUser[] = [{ id: 46332 }];
+      publication.chercheurs = chercheurs;
+
+      const userCollection: IUser[] = [{ id: 9629 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [...chercheurs];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ publication });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const publication: IPublication = { id: 456 };
       const extraUser: IExtraUser = { id: 58747 };
       publication.extraUser = extraUser;
+      const chercheurs: IUser = { id: 17160 };
+      publication.chercheurs = [chercheurs];
 
       activatedRoute.data = of({ publication });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(publication));
       expect(comp.extraUsersSharedCollection).toContain(extraUser);
+      expect(comp.usersSharedCollection).toContain(chercheurs);
     });
   });
 
@@ -148,6 +175,42 @@ describe('Publication Management Update Component', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackExtraUserById(0, entity);
         expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackUserById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+  });
+
+  describe('Getting selected relationships', () => {
+    describe('getSelectedUser', () => {
+      it('Should return option if no User is selected', () => {
+        const option = { id: 123 };
+        const result = comp.getSelectedUser(option);
+        expect(result === option).toEqual(true);
+      });
+
+      it('Should return selected User for according option', () => {
+        const option = { id: 123 };
+        const selected = { id: 123 };
+        const selected2 = { id: 456 };
+        const result = comp.getSelectedUser(option, [selected2, selected]);
+        expect(result === selected).toEqual(true);
+        expect(result === selected2).toEqual(false);
+        expect(result === option).toEqual(false);
+      });
+
+      it('Should return option if this User is not selected', () => {
+        const option = { id: 123 };
+        const selected = { id: 456 };
+        const result = comp.getSelectedUser(option, [selected]);
+        expect(result === option).toEqual(true);
+        expect(result === selected).toEqual(false);
       });
     });
   });

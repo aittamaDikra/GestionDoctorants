@@ -117,6 +117,18 @@
             </option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="doctorantApp.publication.chercheur" for="field_chercheurs">Chercheur</label>
+          <select class="form-control" id="field_chercheurs" data-cy="chercheur" multiple name="chercheurs" formControlName="chercheurs">
+            <option
+              [ngValue]="getSelectedUser(userOption, editForm.get('chercheurs')!.value)"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.login }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>
