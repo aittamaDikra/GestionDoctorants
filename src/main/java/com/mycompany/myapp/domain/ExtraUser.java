@@ -62,10 +62,6 @@ public class ExtraUser implements Serializable {
     @JoinColumn(unique = true)
     private User internalUser;
 
-    @OneToMany(mappedBy = "extraUser")
-    @JsonIgnoreProperties(value = { "extraUser" }, allowSetters = true)
-    private Set<Publication> publications = new HashSet<>();
-
     @OneToMany(mappedBy = "encadrent")
     @JsonIgnoreProperties(value = { "encadrent" }, allowSetters = true)
     private Set<Sujet> sujets = new HashSet<>();
@@ -216,37 +212,6 @@ public class ExtraUser implements Serializable {
 
     public ExtraUser internalUser(User user) {
         this.setInternalUser(user);
-        return this;
-    }
-
-    public Set<Publication> getPublications() {
-        return this.publications;
-    }
-
-    public void setPublications(Set<Publication> publications) {
-        if (this.publications != null) {
-            this.publications.forEach(i -> i.setExtraUser(null));
-        }
-        if (publications != null) {
-            publications.forEach(i -> i.setExtraUser(this));
-        }
-        this.publications = publications;
-    }
-
-    public ExtraUser publications(Set<Publication> publications) {
-        this.setPublications(publications);
-        return this;
-    }
-
-    public ExtraUser addPublication(Publication publication) {
-        this.publications.add(publication);
-        publication.setExtraUser(this);
-        return this;
-    }
-
-    public ExtraUser removePublication(Publication publication) {
-        this.publications.remove(publication);
-        publication.setExtraUser(null);
         return this;
     }
 

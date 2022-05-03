@@ -19,7 +19,7 @@ public class PublicationRepositoryWithBagRelationshipsImpl implements Publicatio
 
     @Override
     public Optional<Publication> fetchBagRelationships(Optional<Publication> publication) {
-        return publication.map(this::fetchChercheurs);
+        return publication.map(this::fetchChercheurs).map(this::fetchChercheurExternes);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class PublicationRepositoryWithBagRelationshipsImpl implements Publicatio
 
     @Override
     public List<Publication> fetchBagRelationships(List<Publication> publications) {
-        return Optional.of(publications).map(this::fetchChercheurs).get();
+        return Optional.of(publications).map(this::fetchChercheurs).map(this::fetchChercheurExternes).get();
     }
 
     Publication fetchChercheurs(Publication result) {
@@ -51,6 +51,28 @@ public class PublicationRepositoryWithBagRelationshipsImpl implements Publicatio
         return entityManager
             .createQuery(
                 "select distinct publication from Publication publication left join fetch publication.chercheurs where publication in :publications",
+                Publication.class
+            )
+            .setParameter("publications", publications)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+            .getResultList();
+    }
+
+    Publication fetchChercheurExternes(Publication result) {
+        return entityManager
+            .createQuery(
+                "select publication from Publication publication left join fetch publication.chercheurExternes where publication is :publication",
+                Publication.class
+            )
+            .setParameter("publication", result)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+            .getSingleResult();
+    }
+
+    List<Publication> fetchChercheurExternes(List<Publication> publications) {
+        return entityManager
+            .createQuery(
+                "select distinct publication from Publication publication left join fetch publication.chercheurExternes where publication in :publications",
                 Publication.class
             )
             .setParameter("publications", publications)

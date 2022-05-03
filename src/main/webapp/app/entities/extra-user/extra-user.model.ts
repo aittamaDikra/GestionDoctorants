@@ -1,6 +1,5 @@
 import dayjs from 'dayjs/esm';
 import { IUser } from 'app/entities/user/user.model';
-import { IPublication } from 'app/entities/publication/publication.model';
 import { ISujet } from 'app/entities/sujet/sujet.model';
 import { IMembreEquipe } from 'app/entities/membre-equipe/membre-equipe.model';
 
@@ -16,7 +15,6 @@ export interface IExtraUser {
   nomArabe?: string;
   prnomArabe?: string;
   internalUser?: IUser | null;
-  publications?: IPublication[] | null;
   sujets?: ISujet[] | null;
   membreEquipes?: IMembreEquipe[] | null;
 }
@@ -34,7 +32,6 @@ export class ExtraUser implements IExtraUser {
     public nomArabe?: string,
     public prnomArabe?: string,
     public internalUser?: IUser | null,
-    public publications?: IPublication[] | null,
     public sujets?: ISujet[] | null,
     public membreEquipes?: IMembreEquipe[] | null
   ) {}

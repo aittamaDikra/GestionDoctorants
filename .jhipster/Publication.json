@@ -37,18 +37,28 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "extraUser",
-      "otherEntityRelationshipName": "publication",
-      "relationshipName": "extraUser",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityField": "login",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "publication",
       "ownerSide": true,
       "relationshipName": "chercheur",
       "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "chercheurExterne",
+      "otherEntityRelationshipName": "publication",
+      "ownerSide": true,
+      "relationshipName": "chercheurExterne",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "publication",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

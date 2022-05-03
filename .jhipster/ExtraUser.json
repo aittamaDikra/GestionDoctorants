@@ -65,12 +65,6 @@
       "relationshipType": "one-to-one"
     },
     {
-      "otherEntityName": "publication",
-      "otherEntityRelationshipName": "extraUser",
-      "relationshipName": "publication",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "sujet",
       "otherEntityRelationshipName": "encadrent",
       "relationshipName": "sujet",

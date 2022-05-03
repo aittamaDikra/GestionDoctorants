@@ -38,8 +38,9 @@
           <th scope="col"><span jhiTranslate="doctorantApp.publication.description">Description</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.type">Type</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.article">Article</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.publication.extraUser">Extra User</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheurExterne">Chercheur Externe</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.publication.user">User</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -62,12 +63,16 @@
             <span *ngIf="publication.article">{{ publication.articleContentType }}, {{ byteSize(publication.article) }}</span>
           </td>
           <td>
-            <div *ngIf="publication.extraUser">
-              <a [routerLink]="['/extra-user', publication.extraUser?.id, 'view']">{{ publication.extraUser?.id }}</a>
-            </div>
+            <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
           </td>
           <td>
-            <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
+            <span *ngFor="let chercheurExterne of publication.chercheurExternes; let last = last">
+              <a class="form-control-static" [routerLink]="['/chercheur-externe', chercheurExterne.id, 'view']">{{ chercheurExterne.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            {{ publication.user?.login }}
           </td>
           <td class="text-end">
             <div class="btn-group">

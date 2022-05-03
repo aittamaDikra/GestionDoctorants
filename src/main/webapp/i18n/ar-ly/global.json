@@ -28,6 +28,7 @@
         "diplomes": "Diplomes",
         "information": "Information",
         "profile": "Profile",
+        "chercheurExterne": "Chercheur Externe",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

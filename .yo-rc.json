@@ -40,13 +40,14 @@
       "FormationSuivie",
       "Diplomes",
       "Information",
-      "Profile"
+      "Profile",
+      "ChercheurExterne"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.7.0",
     "languages": ["fr", "ar-ly", "en"],
-    "lastLiquibaseTimestamp": 1648585370000,
+    "lastLiquibaseTimestamp": 1651539273000,
     "messageBroker": false,
     "monorepository": true,
     "nativeLanguage": "fr",

@@ -23,8 +23,9 @@
       "description": "Description",
       "type": "Type",
       "article": "Article",
-      "extraUser": "Extra User",
-      "chercheur": "Chercheur"
+      "chercheur": "Chercheur",
+      "chercheurExterne": "Chercheur Externe",
+      "user": "User"
     }
   }
 }

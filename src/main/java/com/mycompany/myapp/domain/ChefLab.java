@@ -28,7 +28,7 @@ public class ChefLab implements Serializable {
     @Column(name = "date_fin", nullable = false)
     private LocalDate dateFin;
 
-    @JsonIgnoreProperties(value = { "internalUser", "publications", "sujets", "membreEquipes" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "internalUser", "sujets", "membreEquipes" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private ExtraUser extraUser;

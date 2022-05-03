@@ -14,15 +14,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PublicationRepository extends PublicationRepositoryWithBagRelationships, JpaRepository<Publication, Long> {
+    @Query("select publication from Publication publication where publication.user.login = ?#{principal.username}")
+    List<Publication> findByUserIsCurrentUser();
+
     default Optional<Publication> findOneWithEagerRelationships(Long id) {
-        return this.fetchBagRelationships(this.findById(id));
+        return this.fetchBagRelationships(this.findOneWithToOneRelationships(id));
     }
 
     default List<Publication> findAllWithEagerRelationships() {
-        return this.fetchBagRelationships(this.findAll());
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships());
     }
 
     default Page<Publication> findAllWithEagerRelationships(Pageable pageable) {
-        return this.fetchBagRelationships(this.findAll(pageable));
+        return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
     }
+
+    @Query(
+        value = "select distinct publication from Publication publication left join fetch publication.user",
+        countQuery = "select count(distinct publication) from Publication publication"
+    )
+    Page<Publication> findAllWithToOneRelationships(Pageable pageable);
+
+    @Query("select distinct publication from Publication publication left join fetch publication.user")
+    List<Publication> findAllWithToOneRelationships();
+
+    @Query("select publication from Publication publication left join fetch publication.user where publication.id =:id")
+    Optional<Publication> findOneWithToOneRelationships(@Param("id") Long id);
 }

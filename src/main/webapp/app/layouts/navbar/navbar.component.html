@@ -1,7 +1,7 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span><img src="content/images/ensajdida.png" width="30%" height="60px"></span>
+      <span><img src="content/images/ensajdida.png" width="30%" height="60px" /></span>
       <span class="navbar-title">Gestion des doctorants</span>
     </a>
     <a
@@ -51,6 +51,20 @@
             <span *jhiHasAnyAuthority="'ROLE_USER'">
               <fa-icon icon="user"></fa-icon>
               <span>Informations personnelles</span>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="publication/new"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span *jhiHasAnyAuthority="'ROLE_USER'">
+              <fa-icon icon="user"></fa-icon>
+              <span>Publication</span>
             </span>
           </a>
         </li>
@@ -316,6 +330,18 @@
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Information</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="chercheur-externe"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.entities.chercheurExterne">Chercheur Externe</span>
               </a>
             </li>
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

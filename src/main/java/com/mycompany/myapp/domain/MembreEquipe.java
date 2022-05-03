@@ -32,7 +32,7 @@ public class MembreEquipe implements Serializable {
     private Equipe equipe;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "internalUser", "publications", "sujets", "membreEquipes" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "internalUser", "sujets", "membreEquipes" }, allowSetters = true)
     private ExtraUser extraUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

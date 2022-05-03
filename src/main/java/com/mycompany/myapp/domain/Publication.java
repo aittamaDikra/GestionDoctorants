@@ -43,10 +43,6 @@ public class Publication implements Serializable {
     @Column(name = "article_content_type")
     private String articleContentType;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "internalUser", "publications", "sujets", "membreEquipes" }, allowSetters = true)
-    private ExtraUser extraUser;
-
     @ManyToMany
     @JoinTable(
         name = "rel_publication__chercheur",
@@ -54,6 +50,18 @@ public class Publication implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "chercheur_id")
     )
     private Set<User> chercheurs = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_publication__chercheur_externe",
+        joinColumns = @JoinColumn(name = "publication_id"),
+        inverseJoinColumns = @JoinColumn(name = "chercheur_externe_id")
+    )
+    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    private Set<ChercheurExterne> chercheurExternes = new HashSet<>();
+
+    @ManyToOne
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -148,19 +156,6 @@ public class Publication implements Serializable {
         this.articleContentType = articleContentType;
     }
 
-    public ExtraUser getExtraUser() {
-        return this.extraUser;
-    }
-
-    public void setExtraUser(ExtraUser extraUser) {
-        this.extraUser = extraUser;
-    }
-
-    public Publication extraUser(ExtraUser extraUser) {
-        this.setExtraUser(extraUser);
-        return this;
-    }
-
     public Set<User> getChercheurs() {
         return this.chercheurs;
     }
@@ -181,6 +176,42 @@ public class Publication implements Serializable {
 
     public Publication removeChercheur(User user) {
         this.chercheurs.remove(user);
+        return this;
+    }
+
+    public Set<ChercheurExterne> getChercheurExternes() {
+        return this.chercheurExternes;
+    }
+
+    public void setChercheurExternes(Set<ChercheurExterne> chercheurExternes) {
+        this.chercheurExternes = chercheurExternes;
+    }
+
+    public Publication chercheurExternes(Set<ChercheurExterne> chercheurExternes) {
+        this.setChercheurExternes(chercheurExternes);
+        return this;
+    }
+
+    public Publication addChercheurExterne(ChercheurExterne chercheurExterne) {
+        this.chercheurExternes.add(chercheurExterne);
+        return this;
+    }
+
+    public Publication removeChercheurExterne(ChercheurExterne chercheurExterne) {
+        this.chercheurExternes.remove(chercheurExterne);
+        return this;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Publication user(User user) {
+        this.setUser(user);
         return this;
     }
 

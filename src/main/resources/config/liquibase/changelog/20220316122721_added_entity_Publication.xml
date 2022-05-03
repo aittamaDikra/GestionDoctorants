@@ -32,7 +32,7 @@
             <column name="article_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="extra_user_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -51,6 +51,17 @@
         </createTable>
 
         <addPrimaryKey columnNames="publication_id, chercheur_id" tableName="rel_publication__chercheur"/>
+
+        <createTable tableName="rel_publication__chercheur_externe">
+            <column name="chercheur_externe_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="publication_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="publication_id, chercheur_externe_id" tableName="rel_publication__chercheur_externe"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

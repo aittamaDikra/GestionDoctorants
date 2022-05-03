@@ -5,9 +5,10 @@ import { PublicationDetailComponent } from './detail/publication-detail.componen
 import { PublicationUpdateComponent } from './update/publication-update.component';
 import { PublicationDeleteDialogComponent } from './delete/publication-delete-dialog.component';
 import { PublicationRoutingModule } from './route/publication-routing.module';
+import {ChercheurExterneModule} from "../chercheur-externe/chercheur-externe.module";
 
 @NgModule({
-  imports: [SharedModule, PublicationRoutingModule],
+    imports: [SharedModule, PublicationRoutingModule, ChercheurExterneModule],
   declarations: [PublicationComponent, PublicationDetailComponent, PublicationUpdateComponent, PublicationDeleteDialogComponent],
   entryComponents: [PublicationDeleteDialogComponent],
 })

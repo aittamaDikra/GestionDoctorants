@@ -2,6 +2,8 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Publication;
 import com.mycompany.myapp.repository.PublicationRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,11 +35,14 @@ public class PublicationResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+    private UserRepository userRepository;
 
     private final PublicationRepository publicationRepository;
 
-    public PublicationResource(PublicationRepository publicationRepository) {
+    public PublicationResource(UserRepository userRepository,PublicationRepository publicationRepository) {
         this.publicationRepository = publicationRepository;
+        this.userRepository = userRepository;
+
     }
 
     /**
@@ -53,6 +58,8 @@ public class PublicationResource {
         if (publication.getId() != null) {
             throw new BadRequestAlertException("A new publication cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        publication.setUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
+
         Publication result = publicationRepository.save(publication);
         return ResponseEntity
             .created(new URI("/api/publications/" + result.getId()))

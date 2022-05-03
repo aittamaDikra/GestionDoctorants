@@ -53,7 +53,7 @@ public class Sujet implements Serializable {
     private String coencadrent;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "internalUser", "publications", "sujets", "membreEquipes" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "internalUser", "sujets", "membreEquipes" }, allowSetters = true)
     private ExtraUser encadrent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

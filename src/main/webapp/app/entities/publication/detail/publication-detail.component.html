@@ -37,15 +37,20 @@
             {{ publication.articleContentType }}, {{ byteSize(publication.article) }}
           </div>
         </dd>
-        <dt><span jhiTranslate="doctorantApp.publication.extraUser">Extra User</span></dt>
-        <dd>
-          <div *ngIf="publication.extraUser">
-            <a [routerLink]="['/extra-user', publication.extraUser?.id, 'view']">{{ publication.extraUser?.id }}</a>
-          </div>
-        </dd>
         <dt><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></dt>
         <dd>
           <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.publication.chercheurExterne">Chercheur Externe</span></dt>
+        <dd>
+          <span *ngFor="let chercheurExterne of publication.chercheurExternes; let last = last">
+            <a [routerLink]="['/chercheur-externe', chercheurExterne?.id, 'view']">{{ chercheurExterne.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.publication.user">User</span></dt>
+        <dd>
+          <span>{{ publication.user?.login }}</span>
         </dd>
       </dl>
 
