@@ -1,5 +1,6 @@
 package com.mycompany.myapp.repository;
 
+import com.mycompany.myapp.charts.CountDoc;
 import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
 import java.util.List;
@@ -48,6 +49,11 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
         "select  new com.mycompany.myapp.charts.DoctorantCountSalariee(doctorant.etatProfessionnel,doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant GROUP BY doctorant.etatProfessionnel ,doctorant.anneeInscription  "
     )
     List<DoctorantCountSalariee> CountEtatProf();
+
+    @Query(
+        "select  new com.mycompany.myapp.charts.CountDoc(doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant GROUP BY doctorant.anneeInscription  "
+    )
+    List<CountDoc> countDoctorantGroupByAnneeInscription();
 
 
 }

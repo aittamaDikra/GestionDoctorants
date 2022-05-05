@@ -9,6 +9,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IDoctorant, getDoctorantIdentifier } from '../doctorant.model';
 import {DoctorantSalariee} from "../../ChartsModels/DoctorantSalariee";
+import {CountDoc} from "../../ChartsModels/CountDoc";
 
 export type EntityResponseType = HttpResponse<IDoctorant>;
 export type EntityArrayResponseType = HttpResponse<IDoctorant[]>;
@@ -64,6 +65,9 @@ export class DoctorantService {
   }
   countSalariee(): Observable<HttpResponse<DoctorantSalariee[]>> {
     return this.http.get<DoctorantSalariee[]>(`${this.resourceUrl}/countSalaririee`, { observe: 'response' });
+  }
+  countByAnnee(): Observable<HttpResponse<CountDoc[]>> {
+    return this.http.get<CountDoc[]>(`${this.resourceUrl}/countDoc`, { observe: 'response' });
   }
 
   addDoctorantToCollectionIfMissing(

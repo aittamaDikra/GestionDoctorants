@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.charts.CountDoc;
 import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
 import com.mycompany.myapp.repository.DoctorantRepository;
@@ -242,6 +243,11 @@ public class DoctorantResource {
     public List<DoctorantCountSalariee> getcountSalariee() {
         log.debug("REST request to get all Doctorants");
         return doctorantRepository.CountEtatProf();
+    }
+    @GetMapping("/doctorants/countDoc")
+    public List<CountDoc> countDoctorantGroupByAnneeInscription() {
+        log.debug("REST request to get all Doctorants");
+        return doctorantRepository.countDoctorantGroupByAnneeInscription();
     }
 
     /**
