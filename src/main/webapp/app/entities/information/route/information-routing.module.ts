@@ -13,7 +13,7 @@ const informationRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: 'Graphs',
     component: InformationDetailComponent,
     resolve: {
       information: InformationRoutingResolveService,

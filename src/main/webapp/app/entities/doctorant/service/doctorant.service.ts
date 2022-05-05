@@ -64,7 +64,7 @@ export class DoctorantService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
   countSalariee(): Observable<HttpResponse<DoctorantSalariee[]>> {
-    return this.http.get<DoctorantSalariee[]>(`${this.resourceUrl}/countSalaririee`, { observe: 'response' });
+    return this.http.get<DoctorantSalariee[]>(`${this.resourceUrl}/countSalariee`, { observe: 'response' });
   }
   countByAnnee(): Observable<HttpResponse<CountDoc[]>> {
     return this.http.get<CountDoc[]>(`${this.resourceUrl}/countDoc`, { observe: 'response' });
