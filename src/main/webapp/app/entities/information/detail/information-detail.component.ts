@@ -22,16 +22,18 @@ export class InformationDetailComponent implements OnInit {
   countPubByType!:CountPubByType[];
   countDoc!:CountDoc[];
   doctorantSalariee!:DoctorantSalariee[];
+  years:Label[]  =[];
+  counts:number[] =[];
   isLoading = false;
-  public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+   lineChartData: ChartDataSets[] = [
+    { data: this.counts, label: 'Series A' },
   ];
-  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartOptions: (ChartOptions & { annotation: any }) = {
+   lineChartLabels: Label[] = this.years;
+   lineChartOptions: (ChartOptions & { annotation: any }) = {
     annotation: undefined,
     responsive: true
   };
-  public lineChartColors: Color[] = [
+   lineChartColors: Color[] = [
     {
       borderColor: 'black',
       backgroundColor: 'rgba(255,0,0,0.3)',
@@ -67,6 +69,8 @@ export class InformationDetailComponent implements OnInit {
       next: (res: HttpResponse<CountPub[]>) => {
         this.isLoading = false;
         this.countPub = res.body ?? [];
+        this.countPub.forEach((a)=>{this.years.push(a.annee.toString())});
+        this.countPub.forEach((a)=>{this.counts.push(a.count)});
       },
       error: () => {
         this.isLoading = false;
