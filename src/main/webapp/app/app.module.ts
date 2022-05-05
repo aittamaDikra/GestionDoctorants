@@ -11,6 +11,7 @@ import { NgbDateAdapter, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap'
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import './config/dayjs';
 import { SharedModule } from 'app/shared/shared.module';
+import { ChartsModule } from 'ng2-charts';
 import { TranslationModule } from 'app/shared/language/translation.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
@@ -50,7 +51,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatStepperModule,
     MatButtonModule,
     DataTablesModule,
-    MatTableModule
+    MatTableModule,
+    ChartsModule
   ],
   providers: [
     Title,

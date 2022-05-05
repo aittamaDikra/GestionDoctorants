@@ -295,9 +295,9 @@
           </div>
         </div>
       </div>
-      <div *ngFor="let publication of publications" >
+      <div *ngFor="let publication of publications">
       <div class="card-body"  >
-        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow()" type="checkbox" >publication</a></h6>
+        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow()" type="checkbox" >Publication </a></h6>
 
         <div >
           <div class="row" >
@@ -350,7 +350,7 @@
               <h6 class="mb-0">chercheur Externe</h6>
             </div>
             <div class="col-sm-9 text-secondary" >
-              a{{publication.chercheurExternes}}
+              {{publication.chercheurExternes}}
             </div>
           </div>
           <hr>
@@ -368,8 +368,16 @@
         </div>
       </div>
       </div>
-      <div *ngFor="let pub of countPub">
-        <p>le nombre de pub est {{pub.count}} dans l'annee {{pub.annee}}</p>
+      <div style="display: block;">
+        <canvas baseChart width="400" height="400"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+        </canvas>
       </div>
       <div *ngFor="let pub of countPubByType">
         <p>le nombre de pub est {{pub.count}} pour le type: {{pub.type}}</p>

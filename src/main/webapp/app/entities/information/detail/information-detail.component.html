@@ -17,6 +17,16 @@
     <div *ngFor="let pub of countPubByType">
       <p> pour le type : {{pub.type}} il y a {{pub.count}} publication </p>
     </div>
-
+  </div>
+  <div style="display: block;">
+    <canvas baseChart width="400" height="400"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins">
+    </canvas>
   </div>
 </div>
