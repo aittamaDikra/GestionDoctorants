@@ -1,6 +1,6 @@
 export class DoctorantSalariee{
   constructor(
-    private etatProfessionnel:number,
-    private anneeInscription:number,
-    private count :number) {}
+    public etatProfessionnel:number,
+    public anneeInscription:number,
+    public count :number) {}
 }

@@ -4,7 +4,19 @@
       <p> il y a  {{doctorant.count}} doc dans l'annee {{doctorant.annee}}</p>
     </div>
     <p>--------------------------------</p>
+  <div *ngFor="let doctorant of doctorantSalariee">
+    <p> dans l'annee {{doctorant.anneeInscription}} il y a {{doctorant.count}} doctorant  {{doctorant.etatProfessionnel}}</p>
+  </div>
 
+    <p>--------------------------------</p>
+    <div *ngFor="let pub of countPub">
+      <p> dans l'annee {{pub.annee}} il y a {{pub.count}} publication </p>
+    </div>
+
+    <p>--------------------------------</p>
+    <div *ngFor="let pub of countPubByType">
+      <p> pour le type : {{pub.type}} il y a {{pub.count}} publication </p>
+    </div>
 
   </div>
 </div>

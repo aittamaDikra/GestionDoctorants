@@ -197,7 +197,7 @@ public class PublicationResource {
     @GetMapping("/publications/this")
     public List<Publication> getPublicationcurentUser() {
 
-        List<Publication> publication = publicationRepository.findByUserIsCurrentUser();
+        List<Publication> publication = publicationRepository.findAllWithEagerRelationships3();
         return publication;
     }
 
@@ -232,6 +232,7 @@ public class PublicationResource {
         List<CountPubByType> publication = publicationRepository.countPublicationGroupbyType();
         return publication;
     }
+
     @GetMapping("/publications/countType/{id}")
     public List<CountPubByType> getPublicationcountTypeByUser(@PathVariable Long id) {
 
@@ -239,7 +240,12 @@ public class PublicationResource {
         return publication;
     }
 
+    @GetMapping("/publications/this2")
+    public List<Publication> getPublicationforthisUser() {
 
+        List<Publication> publication = publicationRepository.findAllWithEagerRelationships33(SecurityUtils.getCurrentUserLogin().get());
+        return publication;
+    }
 
     /**
      * {@code DELETE  /publications/:id} : delete the "id" publication.

@@ -59,7 +59,17 @@ public interface PublicationRepository extends PublicationRepositoryWithBagRelat
     @Query("select new com.mycompany.myapp.charts.CountPubByType( p.type, count(p.description)) from Publication p GROUP BY p.type ")
     List<CountPubByType> countPublicationGroupbyType();
 
+    @Query("select  p from Publication p inner JOIN p.chercheurs a where a.login=:id or p.user.login=:id")
+    List<Publication> findPublicationByUserOrChercheurs(@Param("id") String id);
 
+
+    default List<Publication> findAllWithEagerRelationships33(String id) {
+        return this.fetchBagRelationships(this.findPublicationByUserOrChercheurs(id));
+    }
+
+    default List<Publication> findAllWithEagerRelationships3() {
+        return this.fetchBagRelationships(this.findByUserIsCurrentUser());
+    }
 
 
 
