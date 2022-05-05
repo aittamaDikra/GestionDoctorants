@@ -1,5 +1,5 @@
-import { IUser } from 'app/entities/user/user.model';
 import { IChercheurExterne } from 'app/entities/chercheur-externe/chercheur-externe.model';
+import {IUser} from "../../admin/user-management/user-management.model";
 
 export interface IPublication {
   id?: number;

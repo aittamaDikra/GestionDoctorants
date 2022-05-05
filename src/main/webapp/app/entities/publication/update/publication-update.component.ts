@@ -10,12 +10,12 @@ import { PublicationService } from '../service/publication.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 import { IChercheurExterne } from 'app/entities/chercheur-externe/chercheur-externe.model';
 import { ChercheurExterneService } from 'app/entities/chercheur-externe/service/chercheur-externe.service';
 import {Doctorant, IDoctorant} from "../../doctorant/doctorant.model";
 import {DoctorantService} from "../../doctorant/service/doctorant.service";
+import {IUser} from "../../../admin/user-management/user-management.model";
 
 @Component({
   selector: 'jhi-publication-update',

@@ -6,6 +6,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPublication, getPublicationIdentifier } from '../publication.model';
+import {CountPub} from "../../ChartsModels/CountPub";
+import {CountPubByType} from "../../ChartsModels/CountPubByType";
 
 export type EntityResponseType = HttpResponse<IPublication>;
 export type EntityArrayResponseType = HttpResponse<IPublication[]>;
@@ -35,16 +37,39 @@ export class PublicationService {
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IPublication>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  findByUser(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IPublication[]>(`${this.resourceUrl}/user/${id}`, { observe: 'response' });
+  }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IPublication[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
+  publicationCurentUser(): Observable<EntityArrayResponseType> {
+    return this.http.get<IPublication[]>(`${this.resourceUrl}/this`, { observe: 'response' });
+  }
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
-
+  count():Observable<HttpResponse<CountPub[]>> {
+    return this.http.get<CountPub[]>(`${this.resourceUrl}/count`, { observe: 'response' });
+  }
+  countByUser(id: number):Observable<HttpResponse<CountPub[]>> {
+    return this.http.get<CountPub[]>(`${this.resourceUrl}/count/${id}`, { observe: 'response' });
+  }
+  countAll():Observable<HttpResponse<CountPub[]>> {
+    return this.http.get<CountPub[]>(`${this.resourceUrl}/countALL/`, { observe: 'response' });
+  }
+  countTypeCurentUser():Observable<HttpResponse<CountPubByType[]>> {
+    return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countType`, { observe: 'response' });
+  }
+  countTypeByUser(id: number):Observable<HttpResponse<CountPubByType[]>> {
+    return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countType/${id}`, { observe: 'response' });
+  }
+  countTypeAll():Observable<HttpResponse<CountPubByType[]>> {
+    return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countTypeALL/`, { observe: 'response' });
+  }
   addPublicationToCollectionIfMissing(
     publicationCollection: IPublication[],
     ...publicationsToCheck: (IPublication | null | undefined)[]

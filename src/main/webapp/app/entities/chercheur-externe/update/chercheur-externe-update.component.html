@@ -1,13 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-chercheur-externe-heading"
-        data-cy="ChercheurExterneCreateUpdateHeading"
-        jhiTranslate="doctorantApp.chercheurExterne.home.createOrEditLabel"
-      >
-        Create or edit a Chercheur Externe
-      </h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -49,7 +42,7 @@
           />
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.chercheurExterne.user" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
             <option [ngValue]="null"></option>

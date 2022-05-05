@@ -6,6 +6,11 @@ import { IPublication } from '../publication.model';
 import { PublicationService } from '../service/publication.service';
 import { PublicationDeleteDialogComponent } from '../delete/publication-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import {Doctorant, IDoctorant} from "../../doctorant/doctorant.model";
+import {DoctorantService} from "../../doctorant/service/doctorant.service";
+import {mergeMap} from "rxjs/operators";
+import {of} from "rxjs";
+import {CountPub} from "../../ChartsModels/CountPub";
 
 @Component({
   selector: 'jhi-publication',
@@ -13,9 +18,13 @@ import { DataUtils } from 'app/core/util/data-util.service';
 })
 export class PublicationComponent implements OnInit {
   publications?: IPublication[];
+  countPub!:CountPub[];
   isLoading = false;
+  doctorant!:IDoctorant;
 
-  constructor(protected publicationService: PublicationService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
+
+
+  constructor(protected serviceDoctorant: DoctorantService,protected publicationService: PublicationService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -29,10 +38,30 @@ export class PublicationComponent implements OnInit {
         this.isLoading = false;
       },
     });
+    this.publicationService.count().subscribe({
+      next:(res: HttpResponse<CountPub[]>) => {
+        this.isLoading = false;
+        this.countPub = res.body ?? [];
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
   }
 
   ngOnInit(): void {
     this.loadAll();
+    this.serviceDoctorant.findActiveUser().pipe(
+      mergeMap((doctorant: HttpResponse<Doctorant>) => {
+        if (doctorant.body) {
+          return of(doctorant.body);
+        } else {
+          return of(new Doctorant());
+        }
+      })
+    ).subscribe(doctorant=>{
+      this.doctorant=doctorant;
+    });
   }
 
   trackId(index: number, item: IPublication): number {

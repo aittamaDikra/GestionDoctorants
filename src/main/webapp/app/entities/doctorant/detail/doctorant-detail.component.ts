@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IDoctorant } from '../doctorant.model';
+import {Doctorant, IDoctorant} from '../doctorant.model';
 import { DataUtils } from 'app/core/util/data-util.service';
 import {Account} from "../../../core/auth/account.model";
 import {IFormation} from "../../formation/formation.model";
@@ -18,6 +18,10 @@ import {Observable, of} from "rxjs";
 import {mergeMap} from "rxjs/operators";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {UserManagementService} from "../../../admin/user-management/service/user-management.service";
+import {IPublication} from "../../publication/publication.model";
+import {CountPub} from "../../ChartsModels/CountPub";
+import {PublicationService} from "../../publication/service/publication.service";
+import {CountPubByType} from "../../ChartsModels/CountPubByType";
 
 @Component({
   selector: 'jhi-doctorant-detail',
@@ -30,10 +34,11 @@ export class DoctorantDetailComponent implements OnInit {
   formationDoctorant!:FormationDoctorant[];
   bac!:IBac;
   isLoading = false;
-  constructor(private userService: UserManagementService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
-
-  ngOnInit(): void {
-
+  publications?: IPublication[];
+  countPub!:CountPub[];
+  countPubByType!:CountPubByType[];
+  constructor(protected publicationService: PublicationService,protected doctorantService: DoctorantService,private userService: UserManagementService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
+  loadAll(): void {
     this.activatedRoute.data.subscribe(({ doctorant }) => {
       this.doctorant = doctorant;
 
@@ -56,8 +61,40 @@ export class DoctorantDetailComponent implements OnInit {
         },
       });
       this.up(doctorant.id).subscribe((value:IBac)=>this.bac=value);
+      this.publicationService.findByUser(doctorant.user?.id).subscribe({
+        next: (res: HttpResponse<IPublication[]>) => {
+          this.isLoading = false;
+          this.publications = res.body ?? [];
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.publicationService.countTypeByUser(doctorant.user?.id).subscribe({
+        next:(res: HttpResponse<CountPubByType[]>) => {
+          this.countPubByType = res.body ?? [];
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
 
+      this.publicationService.countByUser(doctorant.user?.id).subscribe({
+        next:(res: HttpResponse<CountPub[]>) => {
+          this.isLoading = false;
+          this.countPub = res.body ?? [];
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
     });
+
+
+
+  }
+  ngOnInit(): void {
+this.loadAll();
 
   }
 
@@ -88,5 +125,8 @@ export class DoctorantDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+  setActive(user: Doctorant, isActivated: number): void {
+    this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
   }
 }

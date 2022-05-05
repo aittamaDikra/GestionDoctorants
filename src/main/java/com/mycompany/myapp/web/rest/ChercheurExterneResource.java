@@ -149,7 +149,7 @@ public class ChercheurExterneResource {
     @GetMapping("/chercheur-externes")
     public List<ChercheurExterne> getAllChercheurExternes(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ChercheurExternes");
-        return chercheurExterneService.findAll();
+        return chercheurExterneRepository.findByUserIsCurrentUser();
     }
 
     /**

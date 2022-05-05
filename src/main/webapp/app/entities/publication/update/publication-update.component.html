@@ -108,25 +108,8 @@
             formControlName="articleContentType"
           />
         </div>
-        <button type="button" class="btn btn-primary me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          modal
-        </button>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title text-danger" id="exampleModalLabel">Login Form</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <jhi-chercheur-externe-update></jhi-chercheur-externe-update>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
+
+        <div class="row mb-3" >
           <label jhiTranslate="doctorantApp.publication.chercheur" for="field_chercheurs">Chercheur</label>
           <select class="form-control" id="field_chercheurs" data-cy="chercheur" multiple name="chercheurs" formControlName="chercheurs">
             <option
@@ -137,8 +120,29 @@
             </option>
           </select>
         </div>
-
-        <div class="row mb-3">
+        <div >
+        <button type="button" class="btn btn-primary me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Ajouter un chercheur externe
+        </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="exampleModalLabel">        ajouter un Chercheur Externe
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <jhi-chercheur-externe-update></jhi-chercheur-externe-update>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+<br>
+        <div class="row mb-3" *ngIf="chercheurExternesSharedCollection.length>0">
           <label jhiTranslate="doctorantApp.publication.chercheurExterne" for="field_chercheurExternes">Chercheur Externe</label>
           <select
             class="form-control"
@@ -147,17 +151,18 @@
             multiple
             name="chercheurExternes"
             formControlName="chercheurExternes"
+
           >
             <option
               [ngValue]="getSelectedChercheurExterne(chercheurExterneOption, editForm.get('chercheurExternes')!.value)"
               *ngFor="let chercheurExterneOption of chercheurExternesSharedCollection; trackBy: trackChercheurExterneById"
             >
-              {{ chercheurExterneOption.id }}
+              {{ chercheurExterneOption.nom }} {{chercheurExterneOption.prenom}}
             </option>
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.publication.user" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
             <option [ngValue]="null"></option>
@@ -165,7 +170,7 @@
               [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption"
               *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
             >
-              {{ userOption.login }}
+              {{ userOption.firstName }}
             </option>
           </select>
         </div>
@@ -190,5 +195,5 @@
   </div>
 </div>
 <div class="d-flex justify-content-center" *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null ">
-  <p>vous ne pouvez pas </p>
+  <p style="color: #ff0000"> votre dossier est en cours de traitement ....</p>
 </div>

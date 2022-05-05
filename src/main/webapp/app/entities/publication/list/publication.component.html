@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="doctorant.etatDossier==1">
   <h2 id="page-heading" data-cy="PublicationHeading">
     <span jhiTranslate="doctorantApp.publication.home.title">Publications</span>
 
@@ -40,7 +40,7 @@
           <th scope="col"><span jhiTranslate="doctorantApp.publication.article">Article</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheurExterne">Chercheur Externe</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.publication.user">User</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.publication.user">Cree par</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -67,7 +67,7 @@
           </td>
           <td>
             <span *ngFor="let chercheurExterne of publication.chercheurExternes; let last = last">
-              <a class="form-control-static" [routerLink]="['/chercheur-externe', chercheurExterne.id, 'view']">{{ chercheurExterne.id }}</a
+              <a class="form-control-static" [routerLink]="['/chercheur-externe', chercheurExterne.id, 'view']">{{ chercheurExterne.email }}</a
               >{{ last ? '' : ', ' }}
             </span>
           </td>
@@ -106,4 +106,7 @@
       </tbody>
     </table>
   </div>
+</div>
+<div class="d-flex justify-content-center" *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null ">
+  <p style="color: #ff0000"> votre dossier est en cours de traitement ....</p>
 </div>

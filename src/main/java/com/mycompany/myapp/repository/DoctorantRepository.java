@@ -1,5 +1,6 @@
 package com.mycompany.myapp.repository;
 
+import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,11 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
         "select doctorant from Doctorant doctorant left join fetch doctorant.sujet left join fetch doctorant.promotion where doctorant.id =:id"
     )
     Optional<Doctorant> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query(
+        "select  new com.mycompany.myapp.charts.DoctorantCountSalariee(doctorant.etatProfessionnel,doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant GROUP BY doctorant.etatProfessionnel ,doctorant.anneeInscription  "
+    )
+    List<DoctorantCountSalariee> CountEtatProf();
 
 
 }

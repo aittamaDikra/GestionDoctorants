@@ -9,6 +9,9 @@ import {IDoctorant} from "../../doctorant/doctorant.model";
 import {IFormation} from "../../formation/formation.model";
 import {FormationDoctorant} from "../../formation-doctorant/formation-doctorant.model";
 import {IBac} from "../../bac/bac.model";
+import {IPublication} from "../../publication/publication.model";
+import {CountPub} from "../../ChartsModels/CountPub";
+import {CountPubByType} from "../../ChartsModels/CountPubByType";
 
 @Component({
   selector: 'jhi-information',
@@ -24,6 +27,9 @@ export class InformationComponent implements OnInit {
   @Input() formations!: IFormation[];
   @Input() formationDoctorant!:FormationDoctorant[];
   @Input() bac!:IBac;
+  @Input() publications?: IPublication[];
+  @Input() countPub!:CountPub[];
+  @Input() countPubByType!:CountPubByType[];
   constructor(protected dataUtils: DataUtils,public _sanitizer: DomSanitizer,protected informationService: InformationService) {}
 
   loadAll(): void {

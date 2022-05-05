@@ -19,6 +19,10 @@ import {ILaboratoire} from "../../laboratoire/laboratoire.model";
 import {Bac, IBac} from "../../bac/bac.model";
 import {BacService} from "../../bac/service/bac.service";
 import { DataUtils } from 'app/core/util/data-util.service';
+import {IPublication} from "../../publication/publication.model";
+import {CountPub} from "../../ChartsModels/CountPub";
+import {PublicationService} from "../../publication/service/publication.service";
+import {CountPubByType} from "../../ChartsModels/CountPubByType";
 
 @Component({
   selector: 'jhi-profile',
@@ -33,7 +37,10 @@ export class ProfileComponent implements OnInit {
   formationDoctorant!:FormationDoctorant[];
   bac!:IBac;
   show = false;
-  constructor(public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
+  publications?: IPublication[];
+  countPub!:CountPub[];
+  countPubByType!:CountPubByType[];
+  constructor(protected publicationService: PublicationService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -72,11 +79,38 @@ export class ProfileComponent implements OnInit {
       },
     });
 
+
   }
 
   ngOnInit(): void {
     this.loadAll();
+    this.publicationService.publicationCurentUser().subscribe({
+      next: (res: HttpResponse<IPublication[]>) => {
+        this.isLoading = false;
+        this.publications = res.body ?? [];
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    });
+    this.publicationService.count().subscribe({
+      next:(res: HttpResponse<CountPub[]>) => {
+        this.isLoading = false;
+        this.countPub = res.body ?? [];
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
     this.up().subscribe((value:IBac)=>this.bac=value);
+    this.publicationService.countTypeCurentUser().subscribe({
+      next:(res: HttpResponse<CountPubByType[]>) => {
+        this.countPubByType = res.body ?? [];
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    });
   }
 
 

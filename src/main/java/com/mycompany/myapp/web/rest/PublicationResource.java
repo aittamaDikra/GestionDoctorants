@@ -1,5 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.charts.CountPub;
+import com.mycompany.myapp.charts.CountPubByType;
 import com.mycompany.myapp.domain.Publication;
 import com.mycompany.myapp.repository.PublicationRepository;
 import com.mycompany.myapp.repository.UserRepository;
@@ -185,6 +187,59 @@ public class PublicationResource {
         Optional<Publication> publication = publicationRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(publication);
     }
+
+    @GetMapping("/publications/user/{id}")
+    public List<Publication> getPublicationbyUser(@PathVariable Long id) {
+        log.debug("REST request to get Publication : {}", id);
+        List<Publication> publication = publicationRepository.findPublicationByUserOrderByDate(userRepository.getById(id));
+        return publication;
+    }
+    @GetMapping("/publications/this")
+    public List<Publication> getPublicationcurentUser() {
+
+        List<Publication> publication = publicationRepository.findByUserIsCurrentUser();
+        return publication;
+    }
+
+    @GetMapping("/publications/count")
+    public List<CountPub> getPublicationcountById() {
+
+        List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(SecurityUtils.getCurrentUserLogin().get());
+        return publication;
+    }
+    @GetMapping("/publications/countALL")
+    public List<CountPub> getPublicationcountALL() {
+
+        List<CountPub> publication = publicationRepository.countPublicationOrderByDate();
+        return publication;
+    }
+    @GetMapping("/publications/count/{id}")
+    public List<CountPub> getPublicationcount(@PathVariable Long id) {
+
+        List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(userRepository.getById(id).getLogin());
+        return publication;
+    }
+
+    @GetMapping("/publications/countType")
+    public List<CountPubByType> getPublicationcounTypetById() {
+
+        List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(SecurityUtils.getCurrentUserLogin().get());
+        return publication;
+    }
+    @GetMapping("/publications/countTypeALL")
+    public List<CountPubByType> getPublicationcountTypeALL() {
+
+        List<CountPubByType> publication = publicationRepository.countPublicationGroupbyType();
+        return publication;
+    }
+    @GetMapping("/publications/countType/{id}")
+    public List<CountPubByType> getPublicationcountTypeByUser(@PathVariable Long id) {
+
+        List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(userRepository.getById(id).getLogin());
+        return publication;
+    }
+
+
 
     /**
      * {@code DELETE  /publications/:id} : delete the "id" publication.

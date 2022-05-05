@@ -26,6 +26,7 @@
           <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> en cours de traitement ....</p>
           <p *ngIf="doctorant.etatDossier==1" style="color: #3eff00">  acceptee </p>
 
+
         </div>
       </div>
     </div>
@@ -293,6 +294,85 @@
           </div>
           </div>
         </div>
+      </div>
+      <div *ngFor="let publication of publications" >
+      <div class="card-body"  >
+        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow()" type="checkbox" >publication</a></h6>
+
+        <div >
+          <div class="row" >
+            <div class="col-sm-3">
+              <h6 class="mb-0">Titre</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{publication.titre}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Type</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{publication.type}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Date d'obtention</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{publication.date}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">description</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              {{publication.description}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">chercheur</h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngFor="let chercheur of publication.chercheurs">
+              {{chercheur.login}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">chercheur Externe</h6>
+            </div>
+            <div class="col-sm-9 text-secondary" >
+              a{{publication.chercheurExternes}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Article</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              <div class="col-md-6" *ngIf="publication.article">
+                <img [src]="decode(publication.article)" width="50%" (click)=openFile(publication.article,publication.articleContentType)>
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      </div>
+      <div *ngFor="let pub of countPub">
+        <p>le nombre de pub est {{pub.count}} dans l'annee {{pub.annee}}</p>
+      </div>
+      <div *ngFor="let pub of countPubByType">
+        <p>le nombre de pub est {{pub.count}} pour le type: {{pub.type}}</p>
       </div>
     </div>
   </form>
