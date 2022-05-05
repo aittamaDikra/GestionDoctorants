@@ -25,7 +25,7 @@ export class InformationComponent implements OnInit {
   isLoading = false;
   isShown!: boolean;
   map = new Map();
-  years : any[] =[];
+  years : any[] =[1,2];
   count : any[] =[];
   @Input() doctorant!: IDoctorant ;
   @Input() formations!: IFormation[];
@@ -35,23 +35,21 @@ export class InformationComponent implements OnInit {
   @Input() countPub!:CountPub[];
   @Input() countPubByType!:CountPubByType[];
 
-  public lineChartData: ChartDataSets[] = [
-    { data: this.count, label: 'Series A' },
-  ];
-  public lineChartLabels: Label[] = this.years;
-  public lineChartOptions: (ChartOptions & { annotation: any }) = {
+   lineChartData!: ChartDataSets[]
+   lineChartLabels: Label[] = this.years;
+   lineChartOptions: (ChartOptions & { annotation: any }) = {
     annotation: undefined,
     responsive: true
   };
-  public lineChartColors: Color[] = [
+   lineChartColors: Color[] = [
     {
       borderColor: 'black',
       backgroundColor: 'rgba(255,0,0,0.3)',
     },
   ];
-  public lineChartLegend = true;
-  public lineChartType : ChartType = 'line';
-  public lineChartPlugins = [];
+   lineChartLegend = true;
+   lineChartType : ChartType = 'line';
+   lineChartPlugins = [];
 
 
   constructor(protected dataUtils: DataUtils,public _sanitizer: DomSanitizer,protected informationService: InformationService) {}
@@ -70,6 +68,9 @@ export class InformationComponent implements OnInit {
       this.years.push(pub.annee);
       this.count.push(pub.count);
     }
+    this.lineChartData = [
+      { data: this.count, label: 'Series A' },
+    ];
   }
   openFile(base64String: string, contentType: string | null | undefined): void {
     return this.dataUtils.openFile(base64String, contentType);
