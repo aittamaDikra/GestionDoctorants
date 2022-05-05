@@ -25,7 +25,7 @@ export class InformationComponent implements OnInit {
   isLoading = false;
   isShown!: boolean;
   map = new Map();
-  years : any[] =[];
+  years : any[] =[1,2];
   count : any[] =[];
   @Input() doctorant!: IDoctorant ;
   @Input() formations!: IFormation[];
