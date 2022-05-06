@@ -1,33 +1,134 @@
-<div class="d-flex justify-content-center">
+<div class="container" *jhiHasAnyAuthority="['ROLE_DIRECTEUR','ROLE_ADMIN','ROLE_RESPONSABLE']">
+  <div class="row">
   <div class="col-8">
-    <div *ngFor="let doctorant of countDoc">
-      <p> il y a  {{doctorant.count}} doc dans l'annee {{doctorant.annee}}</p>
+    <h1>Dashboard</h1>
+  </div>
+    <hr>
+  </div>
+  <div class="row">
+    <div class="chart-wrapper col-6" style=" width: 600px;" >
+      <canvas baseChart
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              [plugins]="lineChartPlugins">
+      </canvas>
     </div>
-    <p>--------------------------------</p>
-  <div *ngFor="let doctorant of doctorantSalariee">
-    <p> dans l'annee {{doctorant.anneeInscription}} il y a {{doctorant.count}} doctorant  {{doctorant.etatProfessionnel}}</p>
+    <div class="chart-wrapper col-6" style="width: 40%;">
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [legend]="pieChartLegend"
+              [colors]="pieChartColors"
+      >
+      </canvas>
+    </div>
+  </div>
+  <div class="row">
+    <div class="chart-wrapper col-6" style=" width: 550px;">
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+    <div class="chart-wrapper col-6" style=" width: 550px;">
+      <canvas baseChart
+              [datasets]="barChartData2"
+              [labels]="barChartLabels2"
+              [options]="barChartOptions2"
+              [plugins]="barChartPlugins2"
+              [legend]="barChartLegend2"
+              [chartType]="barChartType2">
+      </canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="row" *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+  <div class="col-md-4">
+    <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_j2rjqphu.json" background="transparent"  speed="1"  style="width: 400px; height: 500px;" loop autoplay></lottie-player>
   </div>
 
-    <p>--------------------------------</p>
-    <div *ngFor="let pub of countPub">
-      <p> dans l'annee {{pub.annee}} il y a {{pub.count}} publication </p>
+  <div class="col-md-8">
+    <div [ngSwitch]="account !== null">
+      <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+        >You are logged in as user "{{ account.login }}".</span
+        >
+      </div>
+
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+      </div>
+    </div>
+    <h1 class="display-4"><span>Bienvenue sur la Plateforme de Gestion de la Recherche</span> </h1>
+
+    <p class="lead" >
+      Il s'agit de la nouvelle brique logicielle qui vient enrichir l'Environnement Numérique de Travail de l'ENSAJ.
+
+      Elle constitue la plateforme officielle pour la gestion des candidatures au Cycle Doctorat ainsi que le suivi et la gestion du parcours des Doctorants de l'ENSAJ, de l'inscription à la soutenance.
+    </p>
+
+    <div *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+      <h6>Ce que vous pouvez faire :</h6>
+      <br>
+      <div style="margin: 0 auto;width: 70%;">
+
+        <p><span><img src="content/images/1.png" width="5%"></span> &nbsp;  Créer votre compte de candidat. (Ne perdez pas votre accès)</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/2.png" width="5%"></span> &nbsp; Renseigner votre dossier de candidature à votre rythme.</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/3.png" width="5%"></span> &nbsp; Confirmer votre candidature, lorsque vous êtes prêt.</p>
+      </div>
     </div>
 
-    <p>--------------------------------</p>
-    <div *ngFor="let pub of countPubByType">
-      <p> pour le type : {{pub.type}} il y a {{pub.count}} publication </p>
-    </div>
+
   </div>
-  <div style="display: block;">
-    <canvas baseChart width="400" height="400"
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="lineChartOptions"
-            [colors]="lineChartColors"
-            [legend]="lineChartLegend"
-            [chartType]="lineChartType"
-            [plugins]="lineChartPlugins">
-    </canvas>
+</div>
+
+<div class="row" *ngIf="account == null">
+  <div class="col-md-4">
+    <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_j2rjqphu.json" background="transparent"  speed="1"  style="width: 400px; height: 500px;" loop autoplay></lottie-player>
+  </div>
+  <div class="col-md-8">
+    <h1 class="display-4"><span>Bienvenue sur la Plateforme de Gestion de la Recherche</span> </h1>
+
+    <p class="lead" >
+      Il s'agit de la nouvelle brique logicielle qui vient enrichir l'Environnement Numérique de Travail de l'ENSAJ.
+
+      Elle constitue la plateforme officielle pour la gestion des candidatures au Cycle Doctorat ainsi que le suivi et la gestion du parcours des Doctorants de l'ENSAJ, de l'inscription à la soutenance.
+    </p>
+
+    <div *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+      <h6>Ce que vous pouvez faire :</h6>
+      <br>
+      <div style="margin: 0 auto;width: 70%;">
+
+        <p><span><img src="content/images/1.png" width="5%"></span> &nbsp;  Créer votre compte de candidat. (Ne perdez pas votre accès)</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/2.png" width="5%"></span> &nbsp; Renseigner votre dossier de candidature à votre rythme.</p>
+      </div>
+      <div style="margin: 0 auto;width: 70%;">
+        <p><span><img src="content/images/3.png" width="5%"></span> &nbsp; Confirmer votre candidature, lorsque vous êtes prêt.</p>
+      </div>
+    </div>
   </div>
 
 </div>
+

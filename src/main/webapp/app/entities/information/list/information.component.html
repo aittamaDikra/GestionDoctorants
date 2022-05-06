@@ -5,6 +5,12 @@
 <div class="container">
   <form method="post">
     <div class="row">
+      <div style="padding-left: 50px">
+        <h3>Infomations personnelles</h3>
+        <h1>&nbsp;</h1>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-4" style="padding-left: 50px">
         <div class="profile-img">
           <img src="content/images/jhipster_family_member_3_head-256.png" width="50%" alt=""/>
@@ -23,8 +29,8 @@
           </h6>
           <p>{{doctorant.user!.email}}</p>
           <p>{{doctorant.cne}}</p>
-          <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> en cours de traitement ....</p>
-          <p *ngIf="doctorant.etatDossier==1" style="color: #3eff00">  acceptee </p>
+          <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> En cours de traitement ....</p>
+          <p *ngIf="doctorant.etatDossier==1" style="color: green">  Acceptée </p>
 
 
         </div>
@@ -108,6 +114,13 @@
             </div>
           </div>
 
+        </div>
+      </div>
+      <h1>&nbsp;</h1>
+      <div class="row">
+        <div style="padding-left: 50px">
+          <h3>Formations</h3>
+          <h1>&nbsp;</h1>
         </div>
       </div>
       <div class="row" style="padding-left: 100px;">
@@ -278,7 +291,7 @@
 
             </div>
           </div>
-            <hr>
+
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Diplome
@@ -295,11 +308,18 @@
           </div>
         </div>
       </div>
-      <div *ngFor="let publication of publications">
-      <div class="card-body"  >
-        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow()" type="checkbox" >Publication </a></h6>
-
-        <div >
+      <h1>&nbsp;</h1>
+      <div class="row">
+        <div style="padding-left: 50px">
+          <h3>Publications</h3>
+          <h1>&nbsp;</h1>
+        </div>
+      </div>
+      <div class="row" *ngFor="let publication of publications" style="padding-left: 100px;">
+        <div class="card h-100">
+      <div class="card-body" >
+        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow2(publication.titre)" type="checkbox" >Publication: {{publication.titre}}</a></h6>
+        <div *ngIf="map.get(publication.titre)" >
           <div class="row" >
             <div class="col-sm-3">
               <h6 class="mb-0">Titre</h6>
@@ -367,6 +387,8 @@
           <hr>
         </div>
       </div>
+
+        </div>
       </div>
       <div style="display: block;">
         <canvas baseChart width="400" height="400"
@@ -378,10 +400,6 @@
                 [chartType]="lineChartType"
                 [plugins]="lineChartPlugins">
         </canvas>
-      </div>
-      <p>okk{{years}}</p>
-      <div *ngFor="let pub of countPubByType">
-        <p>le nombre de pub est {{pub.count}} pour le type: {{pub.type}}</p>
       </div>
     </div>
   </form>

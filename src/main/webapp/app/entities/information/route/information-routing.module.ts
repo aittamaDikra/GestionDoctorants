@@ -8,12 +8,12 @@ import { InformationRoutingResolveService } from './information-routing-resolve.
 
 const informationRoute: Routes = [
   {
-    path: '',
+    path: 'aaa',
     component: InformationComponent,
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'Graphs',
+    path: '',
     component: InformationDetailComponent,
     resolve: {
       information: InformationRoutingResolveService,

@@ -25,14 +25,14 @@ export class InformationComponent implements OnInit {
   isLoading = false;
   isShown!: boolean;
   map = new Map();
-  years : any[] =[1,2];
-  count : any[] =[];
+  years : any[] =["1","2"];
+  count : any[] =["1","2"];
   @Input() doctorant!: IDoctorant ;
   @Input() formations!: IFormation[];
   @Input() formationDoctorant!:FormationDoctorant[];
   @Input() bac!:IBac;
   @Input() publications?: IPublication[];
-  @Input() countPub!:CountPub[];
+  @Input() countPub!: CountPub[];
   @Input() countPubByType!:CountPubByType[];
 
    lineChartData!: ChartDataSets[]
@@ -56,7 +56,6 @@ export class InformationComponent implements OnInit {
 
   loadAll(): void {
     this.isLoading = true;
-
   }
   decode(base64String: string):SafeResourceUrl{
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
@@ -64,10 +63,7 @@ export class InformationComponent implements OnInit {
   ngOnInit(): void {
     this.loadAll();
     this.isShown=false;
-    for (const pub of this.countPub) {
-      this.years.push(pub.annee);
-      this.count.push(pub.count);
-    }
+
     this.lineChartData = [
       { data: this.count, label: 'Series A' },
     ];
