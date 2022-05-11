@@ -31,6 +31,23 @@
           <p>{{doctorant.cne}}</p>
           <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> En cours de traitement ....</p>
           <p *ngIf="doctorant.etatDossier==1" style="color: green">  Acceptée </p>
+          <div *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_RESPONSABLE']">
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="setActive(doctorant, 1)"
+              *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null"
+            >
+              Non Approuvé
+            </button>
+            <button
+              class="btn btn-success btn-sm"
+              (click)="setActive(doctorant, 0)"
+              *ngIf="doctorant.etatDossier==1"
+            >
+              Approuvé
+            </button>
+          </div>
+
 
 
         </div>
@@ -389,17 +406,6 @@
       </div>
 
         </div>
-      </div>
-      <div style="display: block;">
-        <canvas baseChart width="400" height="400"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                [plugins]="lineChartPlugins">
-        </canvas>
       </div>
     </div>
   </form>

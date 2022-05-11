@@ -1,15 +1,1 @@
-<button
-  class="btn btn-danger btn-sm"
-  (click)="setActive(doctorant, 1)"
-  *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null"
->
-  Non Approuvé
-</button>
-<button
-  class="btn btn-success btn-sm"
-  (click)="setActive(doctorant, 0)"
-  *ngIf="doctorant.etatDossier==1"
->
-  Approuvé
-</button>
 <jhi-information  [doctorant]="doctorant" [formationDoctorant]="formationDoctorant" [formations]="formations" [bac]="bac" [publications]="publications" [countPub]="countPub" [countPubByType]="countPubByType"></jhi-information>

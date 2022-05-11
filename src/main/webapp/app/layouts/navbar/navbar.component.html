@@ -19,10 +19,16 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
-            <span>
-              <fa-icon icon="home"></fa-icon>
-              <span jhiTranslate="global.menu.home">Home</span>
+          <a
+            class="nav-link"
+            routerLink="profile"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span *jhiHasAnyAuthority="'ROLE_USER'">
+              <fa-icon icon="user"></fa-icon>
+              <span>Profile</span>
             </span>
           </a>
         </li>
@@ -55,6 +61,16 @@
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+            <span>
+              <fa-icon icon="home"></fa-icon>
+              <span jhiTranslate="global.menu.home">Home</span>
+            </span>
+          </a>
+        </li>
+
+
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a
             class="nav-link"
             routerLink="publication"
@@ -78,7 +94,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a
-            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
             class="nav-link dropdown-toggle"
             ngbDropdownToggle
             href="javascript:void(0);"
@@ -446,7 +462,7 @@
                 data-cy="settings"
               >
                 <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.account.settings">Settings</span>
+                <span>Paramètres</span>
               </a>
             </li>
             <li *ngSwitchCase="true">

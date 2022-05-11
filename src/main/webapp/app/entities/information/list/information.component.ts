@@ -5,7 +5,7 @@ import { IInformation } from '../information.model';
 import { InformationService } from '../service/information.service';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {DataUtils} from "../../../core/util/data-util.service";
-import {IDoctorant} from "../../doctorant/doctorant.model";
+import {Doctorant, IDoctorant} from "../../doctorant/doctorant.model";
 import {IFormation} from "../../formation/formation.model";
 import {FormationDoctorant} from "../../formation-doctorant/formation-doctorant.model";
 import {IBac} from "../../bac/bac.model";
@@ -14,6 +14,7 @@ import {CountPub} from "../../ChartsModels/CountPub";
 import {CountPubByType} from "../../ChartsModels/CountPubByType";
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Color, Label} from "ng2-charts";
+import {DoctorantService} from "../../doctorant/service/doctorant.service";
 
 @Component({
   selector: 'jhi-information',
@@ -52,7 +53,7 @@ export class InformationComponent implements OnInit {
    lineChartPlugins = [];
 
 
-  constructor(protected dataUtils: DataUtils,public _sanitizer: DomSanitizer,protected informationService: InformationService) {}
+  constructor(protected dataUtils: DataUtils,public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService,protected informationService: InformationService) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -85,6 +86,9 @@ export class InformationComponent implements OnInit {
     }else{
       this.map.set(f,true)
     }
+  }
+  setActive(user: Doctorant, isActivated: number): void {
+    this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
   }
 
 }
