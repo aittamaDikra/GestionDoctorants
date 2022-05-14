@@ -23,6 +23,7 @@ import {IPublication} from "../../publication/publication.model";
 import {CountPub} from "../../ChartsModels/CountPub";
 import {PublicationService} from "../../publication/service/publication.service";
 import {CountPubByType} from "../../ChartsModels/CountPubByType";
+import {Label} from "ng2-charts";
 
 @Component({
   selector: 'jhi-profile',
@@ -40,6 +41,8 @@ export class ProfileComponent implements OnInit {
   publications?: IPublication[];
   countPub!:CountPub[];
   countPubByType!:CountPubByType[];
+  counts3!:number[] ;
+  type!:Label[] ;
   constructor(protected publicationService: PublicationService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
 
   loadAll(): void {
@@ -106,6 +109,10 @@ export class ProfileComponent implements OnInit {
     this.publicationService.countTypeCurentUser().subscribe({
       next:(res: HttpResponse<CountPubByType[]>) => {
         this.countPubByType = res.body ?? [];
+        for(const a of this.countPubByType){
+          this.type.push(a.type.toString())
+          this.counts3.push(a.count)
+        }
       },
       error: () => {
         this.isLoading = false;

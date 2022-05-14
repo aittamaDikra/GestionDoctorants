@@ -405,8 +405,48 @@
         </div>
       </div>
 
+
         </div>
       </div>
+      <div class="chart-wrapper col-6" style="width: 40%;">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend"
+                [colors]="pieChartColors"
+        >
+        </canvas>
+        <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+        </canvas>
+        <canvas baseChart
+                [datasets]="lineChartData2"
+                [labels]="lineChartLabels2"
+                [options]="lineChartOptions2"
+                [colors]="lineChartColors2"
+                [legend]="lineChartLegend2"
+                [chartType]="lineChartType2"
+                [plugins]="lineChartPlugins2">
+        </canvas>
+        <canvas baseChart
+                [datasets]="barChartData2"
+                [labels]="barChartLabels2"
+                [options]="barChartOptions2"
+                [plugins]="barChartPlugins2"
+                [legend]="barChartLegend2"
+                [chartType]="barChartType2">
+        </canvas>
+      </div>
+
     </div>
   </form>
 </div>

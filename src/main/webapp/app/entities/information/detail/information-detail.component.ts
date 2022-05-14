@@ -15,6 +15,9 @@ import {Account} from "../../../core/auth/account.model";
 import {takeUntil} from "rxjs/operators";
 import {AccountService} from "../../../core/auth/account.service";
 import {Subject} from "rxjs";
+import {DoctorantSalariee2} from "../../ChartsModels/DoctorantSalariee2";
+import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
+import {CountChercheurPays} from "../../ChartsModels/CountChercheurPays";
 
 @Component({
   selector: 'jhi-information-detail',
@@ -27,16 +30,27 @@ export class InformationDetailComponent implements OnInit {
   countPubByType!:CountPubByType[];
   countDoc!:CountDoc[];
   doctorantSalariee!:DoctorantSalariee[];
+  doctorantSalariee2!:DoctorantSalariee2[];
   years:Label[]  =[];
   years2:Label[]  =[];
   type:Label[]  =[];
   counts:number[] =[];
+  anneee!:number;
   counts2:number[] =[];
   counts3:number[] =[];
   yearspub:Label[]  =[];
   countspub1:number[] =[];countspub2:number[] =[];countspub3:number[] =[];
   typepub:string[]  =[];
   isLoading = false;
+  countChercheurPays!:CountChercheurPays[];
+  countstype1 : number[] =[];
+  countstype2 : number[] =[];
+  countstype3 : number[] =[];
+  countstype4 : number[] =[];
+  countstype5 : number[] =[];
+  countstype6 : number[] =[];
+  countstype7 : number[] =[];
+  countPubByTypeAnnee!:CountPubByTypeAnnee[]
   //Linearchart
    lineChartData: ChartDataSets[] = [
     { data: this.counts, label: 'Nombre de publications' },
@@ -172,6 +186,50 @@ export class InformationDetailComponent implements OnInit {
     { data: this.countspub2, label: 'Salarié' },
     { data: this.countspub3, label: 'Fonctionnaire' }
   ];
+  //3
+  //barchart2
+  barChartOptions3: ChartOptions = {
+    responsive: true,
+    title: {
+      text: 'Nombre de Publication par type et année',
+      display: true,
+      position: "top"
+    },
+    scales:{
+      yAxes: [{
+        ticks:{
+          beginAtZero:true
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Nbr de Publication'
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Année'
+        }
+      }]
+    }
+  };
+  barChartLabels3: Label[] = this.years;
+  barChartType3: ChartType = 'bar';
+  barChartLegend3= true;
+  barChartPlugins3= [];
+
+  barChartData3: ChartDataSets[] = [
+    { data: this.countstype1, label: 'Journal' },
+    { data: this.countstype2, label: 'Conférence' },
+    { data: this.countstype3, label: 'Communication Orale' },
+    { data: this.countstype4, label: 'Poster' },
+    { data: this.countstype5, label: 'Ouvrage' },
+    { data: this.countstype6, label: 'Revue' },
+    { data: this.countstype7, label: 'Autre' },
+
+  ];
+
+
   private readonly destroy$ = new Subject<void>();
 
   constructor(protected activatedRoute: ActivatedRoute,protected publicationService: PublicationService,protected doctorantService: DoctorantService,private accountService: AccountService, private router: Router) {}
@@ -180,54 +238,98 @@ export class InformationDetailComponent implements OnInit {
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(account => (this.account = account));
-    this.doctorantService.countByAnnee().subscribe({
-      next: (res: HttpResponse<CountDoc[]>) => {
-        this.isLoading = true;
-        this.countDoc = res.body ?? [];
-        this.countDoc.forEach((a)=>{this.years2.push(a.annee.toString())});
-        this.countDoc.forEach((a)=>{this.counts2.push(a.count)});
+      .subscribe(account => {(this.account = account)
+    if(account !== null){
+      this.doctorantService.countByAnnee().subscribe({
+        next: (res: HttpResponse<CountDoc[]>) => {
+          this.isLoading = true;
+          this.countDoc = res.body ?? [];
+          this.countDoc.forEach((a)=>{this.years2.push(a.annee.toString())});
+          this.countDoc.forEach((a)=>{this.counts2.push(a.count)});
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.doctorantService.countSalariee().subscribe({
+        next: (res: HttpResponse<DoctorantSalariee2[]>) => {
+          this.isLoading = true;
+          this.doctorantSalariee2 = res.body ?? [];
+          this.doctorantSalariee2[0].count.forEach((a)=>{this.countspub1.push(a)})
+          this.doctorantSalariee2[1].count.forEach((a)=>{this.countspub2.push(a)})
+          this.doctorantSalariee2[2].count.forEach((a)=>{this.countspub3.push(a)})
+
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.publicationService.countAll().subscribe({
+        next: (res: HttpResponse<CountPub[]>) => {
+          this.isLoading = false;
+          this.countPub = res.body ?? [];
+          this.countPub.forEach((a)=>{this.years.push(a.annee.toString())});
+          this.countPub.forEach((a)=>{this.counts.push(a.count)});
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.publicationService.countchercheur().subscribe({
+        next: (res: HttpResponse<CountChercheurPays[]>) => {
+          this.isLoading = false;
+          this.countChercheurPays = res.body ?? [];
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.publicationService.countTypeAll().subscribe({
+        next: (res: HttpResponse<CountPubByType[]>) => {
+          this.isLoading = true;
+          this.countPubByType = res.body ?? [];
+          this.countPubByType.forEach((a)=>{this.type.push(a.type.toString())});
+          this.countPubByType.forEach((a)=>{this.counts3.push(a.count)});
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });}
+    }
+      );
+    this.publicationService.countAllPubByAnnee().subscribe({
+      next:(res: HttpResponse<CountPubByTypeAnnee[]>) => {
+        this.isLoading = false;
+        this.countPubByTypeAnnee = res.body ?? [];
+
+        for(const a of this.countPubByTypeAnnee){
+          if(a.type==="Journal"){
+            this.countstype1.push(a.count)
+          }
+          if(a.type==="Conférence"){
+            this.countstype2.push(a.count)
+          }
+          if(a.type==="Communication Orale"){
+            this.countstype1.push(a.count)
+          }
+          if(a.type==="Poster"){
+            this.countstype1.push(a.count)
+          }
+          if(a.type==="Ouvrage"){
+            this.countstype1.push(a.count)
+          }
+          if(a.type==="Revue"){
+            this.countstype1.push(a.count)
+          }
+          if(a.type==="Autre"){
+            this.countstype1.push(a.count)
+          }
+        }
       },
       error: () => {
         this.isLoading = false;
       },
-    });
-    this.doctorantService.countSalariee().subscribe({
-      next: (res: HttpResponse<DoctorantSalariee[]>) => {
-        this.isLoading = true;
-        this.doctorantSalariee = res.body ?? [];
-        this.doctorantSalariee.forEach((a)=>{this.typepub.push(a.etatProfessionnel.toString())});
-        this.doctorantSalariee.forEach((a)=>{if(a.etatProfessionnel===1){this.countspub1.push(a.count)}});
-        this.doctorantSalariee.forEach((a)=>{if(a.etatProfessionnel===2){this.countspub2.push(a.count)}});
-        this.doctorantSalariee.forEach((a)=>{if(a.etatProfessionnel===3){this.countspub3.push(a.count)}});
-        this.doctorantSalariee.forEach((a)=>{if(!(a.anneeInscription.toString() in this.yearspub)){this.yearspub.push(a.anneeInscription.toString())}});
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
-    this.publicationService.countAll().subscribe({
-      next: (res: HttpResponse<CountPub[]>) => {
-        this.isLoading = false;
-        this.countPub = res.body ?? [];
-        this.countPub.forEach((a)=>{this.years.push(a.annee.toString())});
-        this.countPub.forEach((a)=>{this.counts.push(a.count)});
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
-    this.publicationService.countTypeAll().subscribe({
-      next: (res: HttpResponse<CountPubByType[]>) => {
-        this.isLoading = true;
-        this.countPubByType = res.body ?? [];
-        this.countPubByType.forEach((a)=>{this.type.push(a.type.toString())});
-        this.countPubByType.forEach((a)=>{this.counts3.push(a.count)});
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
+    })
 
 
   }

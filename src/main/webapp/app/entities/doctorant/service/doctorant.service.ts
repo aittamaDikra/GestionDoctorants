@@ -8,7 +8,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IDoctorant, getDoctorantIdentifier } from '../doctorant.model';
-import {DoctorantSalariee} from "../../ChartsModels/DoctorantSalariee";
+import {DoctorantSalariee2} from "../../ChartsModels/DoctorantSalariee2";
 import {CountDoc} from "../../ChartsModels/CountDoc";
 
 export type EntityResponseType = HttpResponse<IDoctorant>;
@@ -63,8 +63,8 @@ export class DoctorantService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
-  countSalariee(): Observable<HttpResponse<DoctorantSalariee[]>> {
-    return this.http.get<DoctorantSalariee[]>(`${this.resourceUrl}/countSalaririee`, { observe: 'response' });
+  countSalariee(): Observable<HttpResponse<DoctorantSalariee2[]>> {
+    return this.http.get<DoctorantSalariee2[]>(`${this.resourceUrl}/countSalaririee`, { observe: 'response' });
   }
   countByAnnee(): Observable<HttpResponse<CountDoc[]>> {
     return this.http.get<CountDoc[]>(`${this.resourceUrl}/countDoc`, { observe: 'response' });

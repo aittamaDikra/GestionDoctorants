@@ -1,8 +1,8 @@
 <div class="container" *jhiHasAnyAuthority="['ROLE_DIRECTEUR','ROLE_ADMIN','ROLE_RESPONSABLE']">
   <div class="row">
-  <div class="col-8">
-    <h1>Dashboard</h1>
-  </div>
+    <div class="col-8">
+      <h1>Dashboard</h1>
+    </div>
     <hr>
   </div>
   <div class="row">
@@ -51,6 +51,43 @@
               [chartType]="barChartType2">
       </canvas>
     </div>
+
+    <div class="chart-wrapper col-6" style=" width: 550px;">
+      <canvas baseChart
+              [datasets]="barChartData3"
+              [labels]="barChartLabels3"
+              [options]="barChartOptions3"
+              [plugins]="barChartPlugins3"
+              [legend]="barChartLegend3"
+              [chartType]="barChartType3">
+      </canvas>
+      <label class="form-label"  >Années</label>
+      <select class="form-control" [ngModel]="anneee">
+
+        <option [ngValue]="year" *ngFor="let year of years">{{year}}</option>
+
+
+      </select>
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+        <tr>
+          <th scope="col"><span >Pays</span></th>
+          <th scope="col"><span >Annee</span></th>
+          <th scope="col"><span > Nombre de chercheur</span></th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let formation of countChercheurPays">
+        <tr  data-cy="entityTable"  >
+          <td>{{ formation.pays}}</td>
+          <td>{{ formation.annee }}</td>
+          <td>{{ formation.count }}</td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
 
   </div>
 </div>
@@ -131,4 +168,3 @@
   </div>
 
 </div>
-

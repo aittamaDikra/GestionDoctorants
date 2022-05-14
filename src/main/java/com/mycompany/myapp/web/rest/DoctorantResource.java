@@ -1,6 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.charts.CountDoc;
+import com.mycompany.myapp.charts.DocS;
 import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
 import com.mycompany.myapp.repository.DoctorantRepository;
@@ -9,10 +10,7 @@ import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -240,9 +238,43 @@ public class DoctorantResource {
     }
 
     @GetMapping("/doctorants/countSalaririee")
-    public List<DoctorantCountSalariee> getcountSalariee() {
+    public ArrayList<DocS> getcountSalariee() {
         log.debug("REST request to get all Doctorants");
-        return doctorantRepository.CountEtatProf();
+        List<DoctorantCountSalariee> p=doctorantRepository.CountEtatProf();
+        List<CountDoc> a=doctorantRepository.countDoctorantGroupByAnneeInscription();
+        ArrayList<Long> p1 = new ArrayList<Long>();
+        ArrayList<Long> p2= new ArrayList<Long>();
+        ArrayList<Long> p3= new ArrayList<Long>();
+        ArrayList<DocS> docs= new ArrayList<DocS>();
+
+           p.forEach((DoctorantCountSalariee s)->{
+               a.forEach((CountDoc c)->{
+               if(c.getAnnee().equals(s.getAnneeInscription())){
+                   if(s.getEtatProfessionnel()==1){
+                       p1.add(s.getCount());
+                   }
+                   if(s.getEtatProfessionnel()==2){
+                       p2.add(s.getCount());
+                   }
+                   if(s.getEtatProfessionnel()==3){
+                       p3.add(s.getCount());
+                   }
+               }
+           });
+               if(p1.size()>p2.size()){
+                   p2.add(0L);
+               }
+               if(p2.size()>p3.size()){
+                   p3.add(0L);
+               }
+               if(p3.size()>p1.size()){
+                   p1.add(0L);
+               }
+        });
+        docs.add(new DocS(1,p1));
+        docs.add(new DocS(2,p2));
+        docs.add(new DocS(3,p3));
+        return docs;
     }
     @GetMapping("/doctorants/countDoc")
     public List<CountDoc> countDoctorantGroupByAnneeInscription() {

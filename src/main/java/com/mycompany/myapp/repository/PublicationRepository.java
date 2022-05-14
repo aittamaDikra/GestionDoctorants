@@ -1,7 +1,6 @@
 package com.mycompany.myapp.repository;
 
-import com.mycompany.myapp.charts.CountPub;
-import com.mycompany.myapp.charts.CountPubByType;
+import com.mycompany.myapp.charts.*;
 import com.mycompany.myapp.domain.Publication;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +61,17 @@ public interface PublicationRepository extends PublicationRepositoryWithBagRelat
     @Query("select  p from Publication p inner JOIN p.chercheurs a where a.login=:id or p.user.login=:id")
     List<Publication> findPublicationByUserOrChercheurs(@Param("id") String id);
 
+    @Query("select new com.mycompany.myapp.charts.CountPubBytypeAnnee( p.date, count(p.description),p.type)   from Publication p left join User user on p.user=user.id where p.user.login=:login GROUP BY p.date,p.type  ")
+    List<CountPubBytypeAnnee> countPublicationByTypeGroupByDate(@Param("login") String login);
+
+    @Query("select new com.mycompany.myapp.charts.CountPubBytypeAnnee( p.date, count(p.description),p.type)   from Publication p GROUP BY p.date,p.type  ")
+    List<CountPubBytypeAnnee> countAllPublicationByTypeGroupByDate();
+
+    @Query("select new com.mycompany.myapp.charts.CountPubByChercheurExterne( p.date, count(c.id)) from Publication p left join User user on p.user=user.id left join ChercheurExterne c on p.id=c.id where p.user.login=:login  GROUP BY p.date  ")
+    List<CountPubByChercheurExterne> countPublicationGroupByChercheurExternes(@Param("login") String login);
+
+    @Query("select new com.mycompany.myapp.charts.CountChercheurPays( c.pays,p.date, count(c.id)) from Publication p left join ChercheurExterne c on p.id=c.id   GROUP BY p.date,c.pays  ")
+    List<CountChercheurPays> countPublicationGroupBypays();
 
     default List<Publication> findAllWithEagerRelationships33(String id) {
         return this.fetchBagRelationships(this.findPublicationByUserOrChercheurs(id));

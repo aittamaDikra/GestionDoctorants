@@ -1,7 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.charts.CountPub;
-import com.mycompany.myapp.charts.CountPubByType;
+import com.mycompany.myapp.charts.*;
 import com.mycompany.myapp.domain.Publication;
 import com.mycompany.myapp.repository.PublicationRepository;
 import com.mycompany.myapp.repository.UserRepository;
@@ -226,6 +225,32 @@ public class PublicationResource {
         List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(SecurityUtils.getCurrentUserLogin().get());
         return publication;
     }
+    @GetMapping("/publications/countTypeAndAnnee")
+    List<CountPubBytypeAnnee>getPublicationcounTypeandAnnee() {
+
+        List<CountPubBytypeAnnee> publication = publicationRepository.countPublicationByTypeGroupByDate(SecurityUtils.getCurrentUserLogin().get());
+        return publication;
+    }
+    @GetMapping("/publications/counAlltTypeAndAnnee")
+    List<CountPubBytypeAnnee>getAllPublicationcounTypeandAnnee() {
+
+        List<CountPubBytypeAnnee> publication = publicationRepository.countAllPublicationByTypeGroupByDate();
+        return publication;
+    }
+    @GetMapping("/publications/countChercheurPays")
+    List<CountChercheurPays>getAllCountChercheurPays() {
+
+        List<CountChercheurPays> publication = publicationRepository.countPublicationGroupBypays();
+        return publication;
+    }
+
+    @GetMapping("/publications/countTypeAndchercheur")
+    List<CountPubByChercheurExterne>getPublicationcounTypeandChercheur() {
+
+        List<CountPubByChercheurExterne> publication = publicationRepository.countPublicationGroupByChercheurExternes(SecurityUtils.getCurrentUserLogin().get());
+        return publication;
+    }
+
     @GetMapping("/publications/countTypeALL")
     public List<CountPubByType> getPublicationcountTypeALL() {
 

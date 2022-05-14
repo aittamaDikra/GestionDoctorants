@@ -8,6 +8,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { IPublication, getPublicationIdentifier } from '../publication.model';
 import {CountPub} from "../../ChartsModels/CountPub";
 import {CountPubByType} from "../../ChartsModels/CountPubByType";
+import {CountCherchuerExterne} from "../../ChartsModels/CountCherchuerExterne";
+import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
+import {CountChercheurPays} from "../../ChartsModels/CountChercheurPays";
 
 export type EntityResponseType = HttpResponse<IPublication>;
 export type EntityArrayResponseType = HttpResponse<IPublication[]>;
@@ -70,6 +73,19 @@ export class PublicationService {
   countTypeAll():Observable<HttpResponse<CountPubByType[]>> {
     return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countTypeALL/`, { observe: 'response' });
   }
+  countChercheurExterne():Observable<HttpResponse<CountCherchuerExterne[]>> {
+    return this.http.get<CountCherchuerExterne[]>(`${this.resourceUrl}/countTypeAndchercheur/`, { observe: 'response' });
+  }
+  countPubByAnnee():Observable<HttpResponse<CountPubByTypeAnnee[]>> {
+    return this.http.get<CountPubByTypeAnnee[]>(`${this.resourceUrl}/countTypeAndAnnee/`, { observe: 'response' });
+  }
+  countAllPubByAnnee():Observable<HttpResponse<CountPubByTypeAnnee[]>> {
+    return this.http.get<CountPubByTypeAnnee[]>(`${this.resourceUrl}/counAlltTypeAndAnnee/`, { observe: 'response' });
+  }
+  countchercheur():Observable<HttpResponse<CountChercheurPays[]>> {
+    return this.http.get<CountChercheurPays[]>(`${this.resourceUrl}/countChercheurPays/`, { observe: 'response' });
+  }
+
   addPublicationToCollectionIfMissing(
     publicationCollection: IPublication[],
     ...publicationsToCheck: (IPublication | null | undefined)[]
