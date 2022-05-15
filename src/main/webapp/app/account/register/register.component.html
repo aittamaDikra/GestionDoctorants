@@ -294,7 +294,7 @@
         </div>
         <div  class="mb-3">
           <div *ngIf="registerForm.get('imageUrl')!.value" class="form-text text-danger clearfix">
-            <img [src]="decode(registerForm.get('imageUrl')!.value)"/>
+            <img [src]="decode(registerForm.get('imageUrl')!.value)" height="100" width="100"/>
             <a
               class="pull-start"
               (click)="openFile(registerForm.get('imageUrl')!.value, registerForm.get('imageUrlContentType')!.value)"
