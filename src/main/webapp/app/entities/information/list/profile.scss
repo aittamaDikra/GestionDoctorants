@@ -90,3 +90,33 @@ body{
   font-weight: 600;
   color: #0062cc;
 }
+.headerWrap {
+  background: #75c2e1;
+  text-align: center;
+  overflow:hidden;
+  margin:10px;
+  padding-left: 500px;
+}
+
+.header {
+  margin: 5px 0 25px;
+  font-weight: bold;
+  position: relative;
+  display:inline-block;
+  color: #ffffff;
+  padding-left: 100px;
+}
+
+.header:before {
+  content:"";
+  position: absolute;
+  right: 0;
+  top:100%;
+  left: -100vw;
+  height:10px;
+  background:
+    linear-gradient(#ff6347,#ff6347) top,
+    linear-gradient(#ff6347,#ff6347) bottom;
+  background-size:100% 6px,100% 2px;
+  background-repeat:no-repeat;
+}

@@ -5,9 +5,10 @@ import { BacDetailComponent } from './detail/bac-detail.component';
 import { BacUpdateComponent } from './update/bac-update.component';
 import { BacDeleteDialogComponent } from './delete/bac-delete-dialog.component';
 import { BacRoutingModule } from './route/bac-routing.module';
+import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
-    imports: [SharedModule, BacRoutingModule],
+    imports: [SharedModule, BacRoutingModule, MatStepperModule],
     declarations: [BacComponent, BacDetailComponent, BacUpdateComponent, BacDeleteDialogComponent],
     entryComponents: [BacDeleteDialogComponent],
     exports: [

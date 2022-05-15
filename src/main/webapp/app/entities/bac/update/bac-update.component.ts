@@ -105,7 +105,7 @@ export class BacUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.isSaving = false;
   }
 
   protected onSaveError(): void {

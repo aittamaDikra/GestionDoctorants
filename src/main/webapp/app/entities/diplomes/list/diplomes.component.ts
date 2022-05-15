@@ -16,6 +16,7 @@ export class DiplomesComponent implements OnInit {
   isLoading = false;
   cursus: Array<string> = ["Formation1", "Formation2", "Formation3"];
   formations?: IFormation[];
+  editable = false;
 
   constructor(protected diplomesService: DiplomesService,protected formationService: FormationService, protected modalService: NgbModal) {}
 

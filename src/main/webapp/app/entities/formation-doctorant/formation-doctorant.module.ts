@@ -5,9 +5,10 @@ import { FormationDoctorantDetailComponent } from './detail/formation-doctorant-
 import { FormationDoctorantUpdateComponent } from './update/formation-doctorant-update.component';
 import { FormationDoctorantDeleteDialogComponent } from './delete/formation-doctorant-delete-dialog.component';
 import { FormationDoctorantRoutingModule } from './route/formation-doctorant-routing.module';
+import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
-    imports: [SharedModule, FormationDoctorantRoutingModule],
+    imports: [SharedModule, FormationDoctorantRoutingModule, MatStepperModule],
     declarations: [
         FormationDoctorantComponent,
         FormationDoctorantDetailComponent,

@@ -6,12 +6,6 @@
 <div class="container" id="pdfTable" #pdfTable>
   <form method="post">
     <div class="row">
-      <div style="padding-left: 50px">
-        <h3>Infomations personnelles</h3>
-        <h1>&nbsp;</h1>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-md-4" style="padding-left: 50px">
         <div class="profile-img">
           <div class="file btn btn-lg btn-primary">
@@ -20,17 +14,18 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-4">
         <div class="profile-head">
+          <h1>
+            {{doctorant.user!.firstName}} {{doctorant.user!.lastName}}          </h1>
           <h5>
-            {{doctorant.user!.firstName}} {{doctorant.user!.lastName}}          </h5>
-          <h6>
             {{doctorant.cursus!.nom}}
-          </h6>
-          <p>{{doctorant.user!.email}}</p>
-          <p>{{doctorant.cne}}</p>
-          <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000"> En cours de traitement ....</p>
-          <p *ngIf="doctorant.etatDossier==1" style="color: green">  Acceptée </p>
+          </h5>
+          <h6>Email : {{doctorant.user!.email}}</h6>
+          <h6>CNE : {{doctorant.cne}}</h6>
+          <h6>CIN : {{doctorant.cin}}</h6>
+          <h6 *ngIf="doctorant.anneeInscription">Année d'inscription : {{doctorant.anneeInscription}}</h6>
+
           <div *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_RESPONSABLE']">
             <button
               class="btn btn-danger btn-sm"
@@ -47,99 +42,29 @@
               Approuvé
             </button>
           </div>
-
-
-
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="profile-head">
+          <br>
+          <p *ngIf="doctorant.etatDossier==0" style="color: #ff0000">Etat de dossier : En cours de traitement ....</p>
+          <p *ngIf="doctorant.etatDossier==1" style="color: green">Etat de dossier : Acceptée </p>
+          <br>
+          <h6>Date de naissance : {{doctorant.dateNaissance?.format('YYYY-MM-DD')}}</h6>
+          <h6>Lieu de naissance : {{doctorant.lieuNaissance}}</h6>
+          <h6>Téléphone : {{doctorant.numeroTelephone}}</h6>
+          <h6>Sexe : {{doctorant.genre}}</h6>
         </div>
       </div>
     </div>
     <div class="row">
-      <div style="padding-left: 100px;">
-        <div class="tab-content profile-tab" id="myTabContent">
-          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="row">
-              <div class="col-md-6">
-                <label>Name</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.user!.firstName}} {{doctorant.user!.lastName}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Email</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.user!.email}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Phone</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.numeroTelephone}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Adresse</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.adresse}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Date de naissance</label>
-              </div>
-              <div class="col-md-6">
-                <p> {{doctorant.dateNaissance}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Lieu de naissance</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.lieuNaissance}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>CIN</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.cin}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Sexe</label>
-              </div>
-              <div class="col-md-6">
-                <p> {{doctorant.genre}}</p>
-              </div>
-            </div>
-            <div class="row" *ngIf="doctorant.anneeInscription">
-              <div class="col-md-6">
-                <label>Annee d'inscription</label>
-              </div>
-              <div class="col-md-6">
-                <p>{{doctorant.anneeInscription}}</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
       <h1>&nbsp;</h1>
-      <div class="row">
-        <div style="padding-left: 50px">
-          <h3>Formations</h3>
-          <h1>&nbsp;</h1>
+      <div class="row" style="padding-left: 100px;">
+        <div class="headerWrap">
+          <div class="header"><h4>Formations</h4></div>
         </div>
       </div>
+
       <div class="row" style="padding-left: 100px;">
         <div class="card h-100">
 
@@ -326,13 +251,14 @@
         </div>
       </div>
       <h1>&nbsp;</h1>
-      <div class="row">
-        <div style="padding-left: 50px">
-          <h3>Publications</h3>
-          <h1>&nbsp;</h1>
+      <div class="row" style="padding-left: 100px;">
+        <div class="headerWrap">
+          <div class="header"><h4>Publications</h4></div>
         </div>
       </div>
-      <div class="row" *ngFor="let publication of publications" style="padding-left: 100px;">
+      <div class="row">
+        <div class="col-md-8">
+      <div  *ngFor="let publication of publications" style="padding-left: 100px;">
         <div class="card h-100">
       <div class="card-body" >
         <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i> <a (click)="toggleShow2(publication.titre)" type="checkbox" >Publication: {{publication.titre}}</a></h6>
@@ -404,48 +330,51 @@
           <hr>
         </div>
       </div>
-
-
         </div>
       </div>
-      <div class="chart-wrapper col-6" style="width: 40%;">
-        <canvas baseChart
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                [plugins]="pieChartPlugins"
-                [legend]="pieChartLegend"
-                [colors]="pieChartColors"
-        >
-        </canvas>
-        <canvas baseChart
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                [plugins]="lineChartPlugins">
-        </canvas>
-        <canvas baseChart
-                [datasets]="lineChartData2"
-                [labels]="lineChartLabels2"
-                [options]="lineChartOptions2"
-                [colors]="lineChartColors2"
-                [legend]="lineChartLegend2"
-                [chartType]="lineChartType2"
-                [plugins]="lineChartPlugins2">
-        </canvas>
-        <canvas baseChart
-                [datasets]="barChartData2"
-                [labels]="barChartLabels2"
-                [options]="barChartOptions2"
-                [plugins]="barChartPlugins2"
-                [legend]="barChartLegend2"
-                [chartType]="barChartType2">
-        </canvas>
-      </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+              <canvas baseChart
+                      [data]="pieChartData"
+                      [labels]="pieChartLabels"
+                      [chartType]="pieChartType"
+                      [options]="pieChartOptions"
+                      [plugins]="pieChartPlugins"
+                      [legend]="pieChartLegend"
+                      [colors]="pieChartColors"
+              >
+              </canvas>
+              <canvas baseChart
+                      [datasets]="lineChartData"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [colors]="lineChartColors"
+                      [legend]="lineChartLegend"
+                      [chartType]="lineChartType"
+                      [plugins]="lineChartPlugins">
+              </canvas>
+              <canvas baseChart
+                      [datasets]="lineChartData2"
+                      [labels]="lineChartLabels2"
+                      [options]="lineChartOptions2"
+                      [colors]="lineChartColors2"
+                      [legend]="lineChartLegend2"
+                      [chartType]="lineChartType2"
+                      [plugins]="lineChartPlugins2">
+              </canvas>
+              <canvas baseChart
+                      [datasets]="barChartData2"
+                      [labels]="barChartLabels2"
+                      [options]="barChartOptions2"
+                      [plugins]="barChartPlugins2"
+                      [legend]="barChartLegend2"
+                      [chartType]="barChartType2">
+              </canvas>
+          </div>
+        </div>
+
+    </div>
 
     </div>
   </form>
