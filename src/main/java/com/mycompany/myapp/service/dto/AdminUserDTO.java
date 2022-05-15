@@ -30,8 +30,7 @@ public class AdminUserDTO {
     @Size(min = 5, max = 254)
     private String email;
 
-    @Size(max = 256)
-    private String imageUrl;
+    private byte[]  imageUrl;
 
     private boolean activated = false;
 
@@ -108,11 +107,11 @@ public class AdminUserDTO {
         this.email = email;
     }
 
-    public String getImageUrl() {
+    public byte[]  getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(byte[]  imageUrl) {
         this.imageUrl = imageUrl;
     }
 

@@ -1,8 +1,9 @@
+<button (click)="downloadAsPDF()">Open PDF</button><div class="open_grepper_editor" title="Edit & Save To Grepper"></div>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-<div class="container">
+<div class="container" id="pdfTable" #pdfTable>
   <form method="post">
     <div class="row">
       <div style="padding-left: 50px">
@@ -13,7 +14,6 @@
     <div class="row">
       <div class="col-md-4" style="padding-left: 50px">
         <div class="profile-img">
-          <img src="content/images/jhipster_family_member_3_head-256.png" width="50%" alt=""/>
           <div class="file btn btn-lg btn-primary">
             Change Photo
             <input type="file" name="file"/>

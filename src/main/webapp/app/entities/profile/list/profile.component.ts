@@ -25,6 +25,7 @@ import {PublicationService} from "../../publication/service/publication.service"
 import {CountPubByType} from "../../ChartsModels/CountPubByType";
 import {Label} from "ng2-charts";
 
+
 @Component({
   selector: 'jhi-profile',
   templateUrl: './profile.component.html',
@@ -148,4 +149,6 @@ export class ProfileComponent implements OnInit {
   openFile(base64String: string, contentType: string | null | undefined): void {
     return this.dataUtils.openFile(base64String, contentType);
   }
+
+
 }

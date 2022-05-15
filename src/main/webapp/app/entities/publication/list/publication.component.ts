@@ -11,10 +11,12 @@ import {DoctorantService} from "../../doctorant/service/doctorant.service";
 import {mergeMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {CountPub} from "../../ChartsModels/CountPub";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'jhi-publication',
   templateUrl: './publication.component.html',
+  styleUrls: ['./publication.scss'],
 })
 export class PublicationComponent implements OnInit {
   publications?: IPublication[];
@@ -24,8 +26,15 @@ export class PublicationComponent implements OnInit {
 
 
 
-  constructor(protected serviceDoctorant: DoctorantService,protected publicationService: PublicationService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
+  constructor(public _sanitizer: DomSanitizer,protected serviceDoctorant: DoctorantService,protected publicationService: PublicationService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
+  decode(base64String: string | null ):SafeResourceUrl{
+    if(base64String){
+      return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String.toString());
+    }else {
+      return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + "base64String.toString()");
 
+    }
+  }
   loadAll(): void {
     this.isLoading = true;
 

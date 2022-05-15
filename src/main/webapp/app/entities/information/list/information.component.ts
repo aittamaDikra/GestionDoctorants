@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
 import { IInformation } from '../information.model';
@@ -18,6 +18,11 @@ import {DoctorantService} from "../../doctorant/service/doctorant.service";
 import {PublicationService} from "../../publication/service/publication.service";
 import {CountCherchuerExterne} from "../../ChartsModels/CountCherchuerExterne";
 import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
+import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 @Component({
   selector: 'jhi-information',
@@ -29,36 +34,37 @@ export class InformationComponent implements OnInit {
   isLoading = false;
   isShown!: boolean;
   map = new Map();
-  years : Label[]  =[];
-  counts : number[] =[];
-  yearsChercheur : Label[]  =[];
-  countsChercheur : number[] =[];
-  years2:Label[]  =[];
-  counts3:number[] =[];
-  type:Label[]  =[];
-  countCherchuerExterne!:CountCherchuerExterne[];
-  countPubByTypeAnnee!:CountPubByTypeAnnee[];
-  yearspub : Label[]  =[];
-  countstype1 : number[] =[];
-  countstype2 : number[] =[];
-  countstype3 : number[] =[];
-  countstype4 : number[] =[];
-  countstype5 : number[] =[];
-  countstype6 : number[] =[];
-  countstype7 : number[] =[];
+  years: Label[] = [];
+  counts: number[] = [];
+  yearsChercheur: Label[] = [];
+  countsChercheur: number[] = [];
+  years2: Label[] = [];
+  counts3: number[] = [];
+  type: Label[] = [];
+  countCherchuerExterne!: CountCherchuerExterne[];
+  countPubByTypeAnnee!: CountPubByTypeAnnee[];
+  yearspub: Label[] = [];
+  countstype1: number[] = [];
+  countstype2: number[] = [];
+  countstype3: number[] = [];
+  countstype4: number[] = [];
+  countstype5: number[] = [];
+  countstype6: number[] = [];
+  countstype7: number[] = [];
+  title = 'htmltopdf';
 
-
-  @Input() doctorant!: IDoctorant ;
+  @ViewChild('pdfTable') pdfTable!: ElementRef;
+  @Input() doctorant!: IDoctorant;
   @Input() formations!: IFormation[];
-  @Input() formationDoctorant!:FormationDoctorant[];
-  @Input() bac!:IBac;
+  @Input() formationDoctorant!: FormationDoctorant[];
+  @Input() bac!: IBac;
   @Input() publications?: IPublication[];
   @Input() countPub!: CountPub[];
-  @Input() countPubByType!:CountPubByType[];
+  @Input() countPubByType!: CountPubByType[];
 
   //Linearchart
   lineChartData: ChartDataSets[] = [
-    { data: this.counts, label: 'Nombre de publications' },
+    {data: this.counts, label: 'Nombre de publications'},
   ];
   lineChartLabels: Label[] = this.years;
   lineChartOptions: ChartOptions = {
@@ -68,10 +74,10 @@ export class InformationComponent implements OnInit {
       display: true,
       position: "top"
     },
-    scales:{
+    scales: {
       yAxes: [{
-        ticks:{
-          beginAtZero:true
+        ticks: {
+          beginAtZero: true
         },
         scaleLabel: {
           display: true,
@@ -94,11 +100,11 @@ export class InformationComponent implements OnInit {
     },
   ];
   public lineChartLegend = true;
-  public lineChartType : ChartType = 'line';
+  public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
   //Linearchart2
   lineChartData2: ChartDataSets[] = [
-    { data: this.countsChercheur, label: 'Nombre de Collaboration' },
+    {data: this.countsChercheur, label: 'Nombre de Collaboration'},
   ];
   lineChartLabels2: Label[] = this.yearsChercheur;
   lineChartOptions2: ChartOptions = {
@@ -108,10 +114,10 @@ export class InformationComponent implements OnInit {
       display: true,
       position: "top"
     },
-    scales:{
+    scales: {
       yAxes: [{
-        ticks:{
-          beginAtZero:true
+        ticks: {
+          beginAtZero: true
         },
         scaleLabel: {
           display: true,
@@ -134,11 +140,11 @@ export class InformationComponent implements OnInit {
     },
   ];
   public lineChartLegend2 = true;
-  public lineChartType2 : ChartType = 'line';
+  public lineChartType2: ChartType = 'line';
   public lineChartPlugins2 = [];
   //pie
 
-   pieChartOptions: ChartOptions = {
+  pieChartOptions: ChartOptions = {
     responsive: true,
     title: {
       text: 'Nombre de publications par type',
@@ -146,12 +152,12 @@ export class InformationComponent implements OnInit {
       position: "top"
     }
   };
-   pieChartLabels: Label[]=this.type ;
-   pieChartData: SingleDataSet =this.counts3;
-   pieChartType: ChartType = 'pie';
-   pieChartLegend = true;
-   pieChartPlugins = [];
-   pieChartColors: Array < any > = [
+  pieChartLabels: Label[] = this.type;
+  pieChartData: SingleDataSet = this.counts3;
+  pieChartType: ChartType = 'pie';
+  pieChartLegend = true;
+  pieChartPlugins = [];
+  pieChartColors: Array<any> = [
     {
       backgroundColor: ['rgba(30, 169, 224, 0.8)',
         'rgba(255,165,0,0.9)',
@@ -169,10 +175,10 @@ export class InformationComponent implements OnInit {
       display: true,
       position: "top"
     },
-    scales:{
+    scales: {
       yAxes: [{
-        ticks:{
-          beginAtZero:true
+        ticks: {
+          beginAtZero: true
         },
         scaleLabel: {
           display: true,
@@ -189,37 +195,40 @@ export class InformationComponent implements OnInit {
   };
   barChartLabels2: Label[] = this.years2;
   barChartType2: ChartType = 'bar';
-  barChartLegend2= true;
+  barChartLegend2 = true;
   barChartPlugins2 = [];
 
   barChartData2: ChartDataSets[] = [
-    { data: this.countstype1, label: 'Journal' },
-    { data: this.countstype2, label: 'Conférence' },
-    { data: this.countstype3, label: 'Communication Orale' },
-    { data: this.countstype4, label: 'Poster' },
-    { data: this.countstype5, label: 'Ouvrage' },
-    { data: this.countstype6, label: 'Revue' },
-    { data: this.countstype7, label: 'Autre' },
+    {data: this.countstype1, label: 'Journal'},
+    {data: this.countstype2, label: 'Conférence'},
+    {data: this.countstype3, label: 'Communication Orale'},
+    {data: this.countstype4, label: 'Poster'},
+    {data: this.countstype5, label: 'Ouvrage'},
+    {data: this.countstype6, label: 'Revue'},
+    {data: this.countstype7, label: 'Autre'},
 
   ];
 
 
-  constructor(protected publicationService: PublicationService,protected dataUtils: DataUtils,public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService,protected informationService: InformationService) {}
+  constructor(protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService) {
+  }
 
   loadAll(): void {
 
     this.isLoading = true;
   }
-  decode(base64String: string):SafeResourceUrl{
+
+  decode(base64String: string): SafeResourceUrl {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
   }
+
   ngOnInit(): void {
     this.loadAll();
 
     this.publicationService.countTypeCurentUser().subscribe({
-      next:(res: HttpResponse<CountPubByType[]>) => {
+      next: (res: HttpResponse<CountPubByType[]>) => {
         this.countPubByType = res.body ?? [];
-        for(const a of this.countPubByType){
+        for (const a of this.countPubByType) {
           this.type.push(a.type.toString())
           this.counts3.push(a.count)
         }
@@ -229,10 +238,10 @@ export class InformationComponent implements OnInit {
       },
     });
     this.publicationService.count().subscribe({
-      next:(res: HttpResponse<CountPub[]>) => {
+      next: (res: HttpResponse<CountPub[]>) => {
         this.isLoading = false;
         this.countPub = res.body ?? [];
-        for(const a of this.countPub){
+        for (const a of this.countPub) {
           this.years.push(a.annee.toString())
           this.counts.push(a.count)
         }
@@ -242,10 +251,10 @@ export class InformationComponent implements OnInit {
       },
     })
     this.publicationService.countChercheurExterne().subscribe({
-      next:(res: HttpResponse<CountCherchuerExterne[]>) => {
+      next: (res: HttpResponse<CountCherchuerExterne[]>) => {
         this.isLoading = false;
         this.countCherchuerExterne = res.body ?? [];
-        for(const a of this.countCherchuerExterne){
+        for (const a of this.countCherchuerExterne) {
           this.yearsChercheur.push(a.annee.toString())
           this.countsChercheur.push(a.count)
         }
@@ -255,30 +264,30 @@ export class InformationComponent implements OnInit {
       },
     })
     this.publicationService.countPubByAnnee().subscribe({
-      next:(res: HttpResponse<CountPubByTypeAnnee[]>) => {
+      next: (res: HttpResponse<CountPubByTypeAnnee[]>) => {
         this.isLoading = false;
         this.countPubByTypeAnnee = res.body ?? [];
 
-        for(const a of this.countPubByTypeAnnee){
-         if(a.type==="Journal"){
-           this.countstype1.push(a.count)
-         }
-          if(a.type==="Conférence"){
+        for (const a of this.countPubByTypeAnnee) {
+          if (a.type === "Journal") {
+            this.countstype1.push(a.count)
+          }
+          if (a.type === "Conférence") {
             this.countstype2.push(a.count)
           }
-          if(a.type==="Communication Orale"){
+          if (a.type === "Communication Orale") {
             this.countstype1.push(a.count)
           }
-          if(a.type==="Poster"){
+          if (a.type === "Poster") {
             this.countstype1.push(a.count)
           }
-          if(a.type==="Ouvrage"){
+          if (a.type === "Ouvrage") {
             this.countstype1.push(a.count)
           }
-          if(a.type==="Revue"){
+          if (a.type === "Revue") {
             this.countstype1.push(a.count)
           }
-          if(a.type==="Autre"){
+          if (a.type === "Autre") {
             this.countstype1.push(a.count)
           }
         }
@@ -288,10 +297,11 @@ export class InformationComponent implements OnInit {
       },
     })
 
-    this.isShown=false;
+    this.isShown = false;
 
 
   }
+
   openFile(base64String: string, contentType: string | null | undefined): void {
     return this.dataUtils.openFile(base64String, contentType);
   }
@@ -300,18 +310,37 @@ export class InformationComponent implements OnInit {
     return item.id!;
   }
 
-  toggleShow():void {
-    this.isShown = ! this.isShown;
-  }
-  toggleShow2(f:any):void {
-    if(this.map.has(f)){
-      this.map.set(f,!this.map.get(f))
-    }else{
-      this.map.set(f,true)
-    }
-  }
-  setActive(user: Doctorant, isActivated: number): void {
-    this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
+  toggleShow(): void {
+    this.isShown = !this.isShown;
   }
 
+  toggleShow2(f: any): void {
+    if (this.map.has(f)) {
+      this.map.set(f, !this.map.get(f))
+    } else {
+      this.map.set(f, true)
+    }
+  }
+
+  setActive(user: Doctorant, isActivated: number): void {
+    this.doctorantService.update({
+      ...user,
+      etatDossier: isActivated,
+      anneeInscription: new Date().getFullYear()
+    }).subscribe(() => this.loadAll());
+  }
+
+
+
+  public downloadAsPDF():void {
+    const doc = new jsPDF();
+
+    const pdfTable = this.pdfTable.nativeElement;
+
+    const html = htmlToPdfmake(pdfTable.innerHTML);
+
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).download();
+
+  }
 }

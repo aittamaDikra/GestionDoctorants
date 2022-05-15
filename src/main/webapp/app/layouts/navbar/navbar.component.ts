@@ -10,6 +10,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'jhi-navbar',
@@ -32,12 +33,20 @@ export class NavbarComponent implements OnInit {
     private accountService: AccountService,
     private profileService: ProfileService,
     private router: Router
+    ,public _sanitizer: DomSanitizer
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
     }
   }
+  decode(base64String: string | null ):SafeResourceUrl{
+    if(base64String){
+      return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String.toString());
+    }else {
+      return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + "base64String.toString()");
 
+    }
+  }
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;
     this.profileService.getProfileInfo().subscribe(profileInfo => {
