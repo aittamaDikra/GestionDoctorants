@@ -10,6 +10,7 @@ import { Account } from 'app/core/auth/account.model';
 import { UserManagementService } from '../service/user-management.service';
 import { User } from '../user-management.model';
 import { UserManagementDeleteDialogComponent } from '../delete/user-management-delete-dialog.component';
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'jhi-user-mgmt',
@@ -30,14 +31,17 @@ export class UserManagementComponent implements OnInit {
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public _sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => (this.currentAccount = account));
     this.handleNavigation();
   }
-
+  decode(base64String: string):SafeResourceUrl{
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
   setActive(user: User, isActivated: boolean): void {
     this.userService.update({ ...user, activated: isActivated }).subscribe(() => this.loadAll());
   }

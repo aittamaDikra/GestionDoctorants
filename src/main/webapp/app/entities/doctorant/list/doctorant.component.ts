@@ -5,6 +5,7 @@ import {Doctorant, IDoctorant} from '../doctorant.model';
 import { DoctorantService } from '../service/doctorant.service';
 import { DoctorantDeleteDialogComponent } from '../delete/doctorant-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'jhi-doctorant',
@@ -15,8 +16,10 @@ export class DoctorantComponent implements OnInit {
   isLoading = false;
   dtOptions: DataTables.Settings = {};
 
-  constructor(protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
-
+  constructor(public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
+  decode(base64String: string): SafeResourceUrl {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
   loadAll(): void {
     this.isLoading = true;
 

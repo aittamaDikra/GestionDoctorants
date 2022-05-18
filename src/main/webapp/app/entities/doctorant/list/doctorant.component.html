@@ -32,7 +32,7 @@
     <table class="table table-striped" datatable [dtOptions]="dtOptions" aria-describedby="page-heading">
       <thead>
       <tr>
-        <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+        <th scope="col"><span jhiTranslate="global.field.id">Photo</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cne">Cne</span></th>
         <th scope="col"><span>Nom </span></th>
         <th scope="col"><span>Prenom</span></th>
@@ -48,7 +48,7 @@
       <tbody>
       <tr *ngFor="let doctorant of doctorants; trackBy: trackId" data-cy="entityTable">
         <td>
-          <a [routerLink]="['/doctorant', doctorant.id, 'view']">{{ doctorant.id }}</a>
+          <img *ngIf="doctorant.user!.imageUrl" [src]="decode(doctorant.user!.imageUrl)" height="100" width="=100">
         </td>
         <td>{{ doctorant.cne }}</td>
         <td>{{ doctorant.user?.firstName }}</td>

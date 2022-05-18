@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <div *ngIf="doctorant.etatDossier==1">
   <h2 id="page-heading" data-cy="PublicationHeading">
     <span jhiTranslate="doctorantApp.publication.home.title">Publications</span>
@@ -28,94 +27,86 @@
   <div class="alert alert-warning" id="no-result" *ngIf="publications?.length === 0">
     <span jhiTranslate="doctorantApp.publication.home.notFound">No publications found</span>
   </div>
-  <div class="table-responsive" id="entities2" *ngIf="publications && publications.length > 0">
-    <div  *ngFor="let publication of publications;">
-      <div >
-          <div class="panel panel-white post panel-shadow row" >
 
-          <div class="col-md-6" style="border-right-color:black;">
-              <div class="post-heading">
-                <div class="pull-left image">
-                  <img *ngIf="publication.user!.imageUrl" [src]="decode(publication.user!.imageUrl)" class="img-circle avatar" alt="user profile image">
-                </div>
-                <div class="pull-left meta">
-                  <div class="title h5">
-                    <a href="#"><b>{{publication.user!.firstName}} {{publication.user!.lastName}}</b></a>
-                    [{{publication.type}}]
-                  </div>
-                  <h6 class="text-muted time">publiee a {{publication.date}}</h6>
-                </div>
-              </div>
-              <div class="post-description">
-                <p>{{publication.description}}</p>
-                <img *ngIf="publication!.article"  [src]="decode(publication!.article)" height="400" width="600">
-                <div class="stats">
-                  <div class="btn-group">
-                    <button
-                      type="submit"
-                      [routerLink]="['/publication', publication.id, 'view']"
-                      class="btn btn-info btn-sm"
-                      data-cy="entityDetailsButton"
-                    >
-                      <fa-icon icon="eye"></fa-icon>
-                      <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                    </button>
+  <div class="table-responsive" id="entities" *ngIf="publications && publications.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+      <tr>
+        <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.titre">Titre</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.date">Date</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.description">Description</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.type">Type</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.article">Article</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheur">Chercheur</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.chercheurExterne">Chercheur Externe</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.publication.user">Cree par</span></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let publication of publications; trackBy: trackId" data-cy="entityTable">
+        <td>
+          <a [routerLink]="['/publication', publication.id, 'view']">{{ publication.id }}</a>
+        </td>
+        <td>{{ publication.titre }}</td>
+        <td>{{ publication.date }}</td>
+        <td>{{ publication.description }}</td>
+        <td>{{ publication.type }}</td>
+        <td>
+          <a
+            *ngIf="publication.article"
+            (click)="openFile(publication.article, publication.articleContentType)"
+            jhiTranslate="entity.action.open"
+          >open</a
+          >
+          <span *ngIf="publication.article">{{ publication.articleContentType }}, {{ byteSize(publication.article) }}</span>
+        </td>
+        <td>
+          <span *ngFor="let chercheur of publication.chercheurs; let last = last"> {{ chercheur.login }}{{ last ? '' : ', ' }} </span>
+        </td>
+        <td>
+            <span *ngFor="let chercheurExterne of publication.chercheurExternes; let last = last">
+              <a class="form-control-static" [routerLink]="['/chercheur-externe', chercheurExterne.id, 'view']">{{ chercheurExterne.email }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+        </td>
+        <td>
+          {{ publication.user?.login }}
+        </td>
+        <td class="text-end">
+          <div class="btn-group">
+            <button
+              type="submit"
+              [routerLink]="['/publication', publication.id, 'view']"
+              class="btn btn-info btn-sm"
+              data-cy="entityDetailsButton"
+            >
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+            </button>
 
-                    <button
-                      type="submit"
-                      [routerLink]="['/publication', publication.id, 'edit']"
-                      class="btn btn-primary btn-sm"
-                      data-cy="entityEditButton"
-                    >
-                      <fa-icon icon="pencil-alt"></fa-icon>
-                      <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                    </button>
+            <button
+              type="submit"
+              [routerLink]="['/publication', publication.id, 'edit']"
+              class="btn btn-primary btn-sm"
+              data-cy="entityEditButton"
+            >
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+            </button>
 
-                    <button type="submit" (click)="delete(publication)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                      <fa-icon icon="times"></fa-icon>
-                      <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                    </button>
-
-                </div>
-              </div>
-            </div>
+            <button type="submit" (click)="delete(publication)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+            </button>
           </div>
-          <div class="col-md-6">
-            <div class="post-footer">
-              <ul class="comments-list" *ngFor="let chercheur of publication.chercheurs">
-                <li class="comment">
-                  <a class="pull-left" href="#">
-                    <img class="avatar" *ngIf="chercheur!.imageUrl ==null || chercheur!.imageUrl==undefined " src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="avatar">
-                    <img class="avatar" *ngIf="chercheur!.imageUrl" [src]="decode(chercheur!.imageUrl)" alt="avatar">
-                  </a>
-                  <div class="comment-body">
-                    <div class="comment-heading">
-                      <h4 class="user">{{chercheur!.firstName}} {{chercheur!.lastName}}</h4>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="comments-list" *ngFor="let chercheur of publication.chercheurExternes">
-                <li class="comment">
-                  <a class="pull-left" href="#">
-                    <img class="avatar"  src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="avatar">
-                  </a>
-                  <div class="comment-body">
-                    <div class="comment-heading">
-                      <h4 class="user">{{chercheur!.nom}} {{chercheur!.prenom}}</h4>
-                      <h5 class="time">Chercheur Externe</h5>
-                    </div>
-                    <p>{{chercheur.pays}} {{chercheur.universite}}</p>
-                  </div>
-                </li>
-              </ul>
-            </div>            </div>
-          </div>
-        </div>
-        </div>
-    </div>
-    <br/>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+</div>
 <div class="d-flex justify-content-center" *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null ">
   <p style="color: #ff0000"> votre dossier est en cours de traitement ....</p>
 </div>

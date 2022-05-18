@@ -52,7 +52,7 @@
       </canvas>
     </div>
 
-    <div class="chart-wrapper col-6" style=" width: 550px;">
+    <div class="chart-wrapper col-12" style=" height: 550px;">
       <canvas baseChart
               [datasets]="barChartData3"
               [labels]="barChartLabels3"
@@ -119,7 +119,7 @@
       Elle constitue la plateforme officielle pour la gestion des candidatures au Cycle Doctorat ainsi que le suivi et la gestion du parcours des Doctorants de l'ENSAJ, de l'inscription à la soutenance.
     </p>
 
-    <div *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+    <div >
       <h6>Ce que vous pouvez faire :</h6>
       <br>
       <div style="margin: 0 auto;width: 70%;">
@@ -151,7 +151,7 @@
       Elle constitue la plateforme officielle pour la gestion des candidatures au Cycle Doctorat ainsi que le suivi et la gestion du parcours des Doctorants de l'ENSAJ, de l'inscription à la soutenance.
     </p>
 
-    <div *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+    <div >
       <h6>Ce que vous pouvez faire :</h6>
       <br>
       <div style="margin: 0 auto;width: 70%;">

@@ -95,8 +95,8 @@ export class InformationComponent implements OnInit {
   };
   lineChartColors: Color[] = [
     {
-      borderColor: 'rgba(252,97,0,0.3)',
-      backgroundColor: 'rgba(255,128,0,0.3)',
+      borderColor: 'rgb(115,115,255)',
+      backgroundColor: 'rgba(31,218,253,0.81)',
     },
   ];
   public lineChartLegend = true;

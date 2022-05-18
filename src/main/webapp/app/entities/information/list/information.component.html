@@ -8,6 +8,7 @@
     <div class="row">
       <div class="col-md-4" style="padding-left: 50px">
         <div class="profile-img">
+          <img *ngIf="doctorant.user!.imageUrl" [src]="decode(doctorant.user!.imageUrl)">
           <div class="file btn btn-lg btn-primary">
             Change Photo
             <input type="file" name="file"/>
@@ -335,16 +336,7 @@
         </div>
         <div class="col-md-6">
             <div>
-              <canvas baseChart
-                      [data]="pieChartData"
-                      [labels]="pieChartLabels"
-                      [chartType]="pieChartType"
-                      [options]="pieChartOptions"
-                      [plugins]="pieChartPlugins"
-                      [legend]="pieChartLegend"
-                      [colors]="pieChartColors"
-              >
-              </canvas>
+
               <canvas baseChart
                       [datasets]="lineChartData"
                       [labels]="lineChartLabels"
@@ -355,6 +347,17 @@
                       [plugins]="lineChartPlugins">
               </canvas>
               <canvas baseChart
+                      [data]="pieChartData"
+                      [labels]="pieChartLabels"
+                      [chartType]="pieChartType"
+                      [options]="pieChartOptions"
+                      [plugins]="pieChartPlugins"
+                      [legend]="pieChartLegend"
+                      [colors]="pieChartColors"
+              >
+              </canvas>
+
+              <canvas baseChart
                       [datasets]="lineChartData2"
                       [labels]="lineChartLabels2"
                       [options]="lineChartOptions2"
@@ -363,14 +366,7 @@
                       [chartType]="lineChartType2"
                       [plugins]="lineChartPlugins2">
               </canvas>
-              <canvas baseChart
-                      [datasets]="barChartData2"
-                      [labels]="barChartLabels2"
-                      [options]="barChartOptions2"
-                      [plugins]="barChartPlugins2"
-                      [legend]="barChartLegend2"
-                      [chartType]="barChartType2">
-              </canvas>
+
           </div>
         </div>
 
