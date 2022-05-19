@@ -20,6 +20,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a
+            *jhiHasAnyAuthority="['ROLE_ADMIN']"
             class="nav-link"
             routerLink="profile"
             routerLinkActive="active"
@@ -94,7 +95,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a
-            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
             class="nav-link dropdown-toggle"
             ngbDropdownToggle
             href="javascript:void(0);"
@@ -126,6 +127,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.formation">Formation</span>
@@ -138,6 +140,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.formationDoctorant">Formation Doctorant</span>
@@ -150,6 +153,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.cursus">Cursus</span>
@@ -162,6 +166,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.bac">Bac</span>
@@ -174,6 +179,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.etablissement">Etablissement</span>
@@ -186,6 +192,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.equipe">Equipe</span>
@@ -198,6 +205,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.promotion">Promotion</span>
@@ -210,6 +218,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.publication">Publication</span>
@@ -222,6 +231,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.sujet">Sujet</span>
@@ -234,6 +244,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.laboratoire">Laboratoire</span>
@@ -246,6 +257,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.membreEquipe">Membre Equipe</span>
@@ -258,6 +270,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.extraUser">Extra User</span>
@@ -265,6 +278,8 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+
                 class="dropdown-item"
                 routerLink="chef-equipe"
                 routerLinkActive="active"
@@ -277,6 +292,7 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 class="dropdown-item"
                 routerLink="chef-lab"
                 routerLinkActive="active"
@@ -289,6 +305,7 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_DIRECTEUR']"
                 class="dropdown-item"
                 routerLink="bourse"
                 routerLinkActive="active"
@@ -301,6 +318,7 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 class="dropdown-item"
                 routerLink="formation-doctoranle"
                 routerLinkActive="active"
@@ -313,6 +331,7 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 class="dropdown-item"
                 routerLink="formation-suivie"
                 routerLinkActive="active"
@@ -326,6 +345,8 @@
 
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+
                 class="dropdown-item"
                 routerLink="profile"
                 routerLinkActive="active"
@@ -338,6 +359,8 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+
                 class="dropdown-item"
                 routerLink="information"
                 routerLinkActive="active"
@@ -350,6 +373,7 @@
             </li>
             <li>
               <a
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
                 class="dropdown-item"
                 routerLink="chercheur-externe"
                 routerLinkActive="active"

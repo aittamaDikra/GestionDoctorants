@@ -1,7 +1,10 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Sujet;
+import com.mycompany.myapp.repository.ExtraUserRepository;
 import com.mycompany.myapp.repository.SujetRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,11 +36,14 @@ public class SujetResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
+    private UserRepository userRepository;
+    private ExtraUserRepository extraUserRepository;
     private final SujetRepository sujetRepository;
 
-    public SujetResource(SujetRepository sujetRepository) {
+    public SujetResource(ExtraUserRepository extraUserRepository,UserRepository userRepository,SujetRepository sujetRepository) {
         this.sujetRepository = sujetRepository;
+        this.userRepository = userRepository;
+        this.extraUserRepository=extraUserRepository;
     }
 
     /**
@@ -53,6 +59,7 @@ public class SujetResource {
         if (sujet.getId() != null) {
             throw new BadRequestAlertException("A new sujet cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        sujet.setEncadrent(this.extraUserRepository.getExtraUserByInternalUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
         Sujet result = sujetRepository.save(sujet);
         return ResponseEntity
             .created(new URI("/api/sujets/" + result.getId()))

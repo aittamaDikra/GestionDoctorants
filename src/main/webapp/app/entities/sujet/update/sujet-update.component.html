@@ -115,7 +115,7 @@
           />
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.sujet.encadrent" for="field_encadrent">Encadrent</label>
           <select class="form-control" id="field_encadrent" data-cy="encadrent" name="encadrent" formControlName="encadrent">
             <option [ngValue]="null"></option>

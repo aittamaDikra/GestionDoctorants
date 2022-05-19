@@ -6,6 +6,7 @@ import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -213,8 +214,13 @@ public class DoctorantResource {
      */
     @GetMapping("/doctorants")
     public List<Doctorant> getAllDoctorants(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        log.debug("REST request to get all Doctorants");
-        return doctorantRepository.findAllWithEagerRelationships();
+        if(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.PROFESSEUR)){
+            return  doctorantRepository.prof(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
+        }else{
+            log.debug("REST request to get all Doctorants");
+            return doctorantRepository.findAllWithEagerRelationships();
+        }
+
     }
 
     /**

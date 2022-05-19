@@ -1,4 +1,4 @@
-<div *ngIf="doctorant.etatDossier==1">
+<div >
   <h2 id="page-heading" data-cy="PublicationHeading">
     <span jhiTranslate="doctorantApp.publication.home.title">Publications</span>
 
@@ -107,6 +107,8 @@
     </table>
   </div>
 </div>
-<div class="d-flex justify-content-center" *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null ">
+<div *jhiHasAnyAuthority="'ROLE_USER'">
+<div class="d-flex justify-content-center" *ngIf="doctorant.etatDossier==0 || doctorant.etatDossier==null " >
   <p style="color: #ff0000"> votre dossier est en cours de traitement ....</p>
+</div>
 </div>

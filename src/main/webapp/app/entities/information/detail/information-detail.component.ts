@@ -310,19 +310,19 @@ export class InformationDetailComponent implements OnInit {
             this.countstype2.push(a.count)
           }
           if(a.type==="Communication Orale"){
-            this.countstype1.push(a.count)
+            this.countstype3.push(a.count)
           }
           if(a.type==="Poster"){
-            this.countstype1.push(a.count)
+            this.countstype4.push(a.count)
           }
           if(a.type==="Ouvrage"){
-            this.countstype1.push(a.count)
+            this.countstype5.push(a.count)
           }
           if(a.type==="Revue"){
-            this.countstype1.push(a.count)
+            this.countstype6.push(a.count)
           }
           if(a.type==="Autre"){
-            this.countstype1.push(a.count)
+            this.countstype7.push(a.count)
           }
         }
       },

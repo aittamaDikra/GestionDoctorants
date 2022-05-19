@@ -41,7 +41,7 @@
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.genre">Sexe</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.sujet">Sujet</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cursus">Cursus</span></th>
-        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatDossier">Etat Dossier</span></th>
+        <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatDossier" *jhiHasAnyAuthority="['ROLE_RESPONSABLE']">Etat Dossier</span></th>
         <th scope="col"></th>
       </tr>
       </thead>
@@ -63,11 +63,11 @@
           </div>
         </td>
         <td>
-          <div *ngIf="doctorant.cursus">
+          <div *ngIf="doctorant.cursus" >
             <a [routerLink]="['/cursus', doctorant.cursus?.id, 'view']">{{ doctorant.cursus?.nom }}</a>
           </div>
         </td>
-        <td>
+        <td *jhiHasAnyAuthority="['ROLE_RESPONSABLE']">
           <button
             class="btn btn-danger btn-sm"
             (click)="setActive(doctorant, 1)"
@@ -96,6 +96,7 @@
             </button>
 
             <button
+              *jhiHasAnyAuthority="['ROLE_RESPONSABLE']"
               type="submit"
               [routerLink]="['/doctorant', doctorant.id, 'edit']"
               class="btn btn-primary btn-sm"
@@ -105,7 +106,7 @@
               <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
             </button>
 
-            <button type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+            <button  *jhiHasAnyAuthority="['ROLE_RESPONSABLE']" type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
               <fa-icon icon="times"></fa-icon>
               <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
             </button>

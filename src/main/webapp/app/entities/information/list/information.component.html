@@ -309,12 +309,12 @@
             </div>
           </div>
           <hr>
-          <div class="row">
+          <div class="row" *ngFor="let chercheur of publication.chercheurExternes">
             <div class="col-sm-3">
               <h6 class="mb-0">chercheur Externe</h6>
             </div>
             <div class="col-sm-9 text-secondary" >
-              {{publication.chercheurExternes}}
+              {{chercheur.nom}}
             </div>
           </div>
           <hr>

@@ -46,14 +46,18 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
     Optional<Doctorant> findOneWithToOneRelationships(@Param("id") Long id);
 
     @Query(
-        "select  new com.mycompany.myapp.charts.DoctorantCountSalariee(doctorant.etatProfessionnel,doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant GROUP BY doctorant.etatProfessionnel ,doctorant.anneeInscription  "
+        "select  new com.mycompany.myapp.charts.DoctorantCountSalariee(doctorant.etatProfessionnel,doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant where doctorant.anneeInscription IS NOT NULL GROUP BY doctorant.etatProfessionnel ,doctorant.anneeInscription  "
     )
     List<DoctorantCountSalariee> CountEtatProf();
 
     @Query(
-        "select  new com.mycompany.myapp.charts.CountDoc(doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant GROUP BY doctorant.anneeInscription  "
+        "select  new com.mycompany.myapp.charts.CountDoc(doctorant.anneeInscription ,count(doctorant)) from Doctorant doctorant where doctorant.anneeInscription IS NOT NULL  GROUP BY doctorant.anneeInscription  "
     )
     List<CountDoc> countDoctorantGroupByAnneeInscription();
 
+    @Query(
+        "select doctorant  from Doctorant doctorant left join fetch doctorant.sujet s left join fetch s.encadrent  where doctorant.sujet.encadrent.internalUser=:id   "
+    )
+    List<Doctorant> prof(@Param("id") User id);
 
 }
