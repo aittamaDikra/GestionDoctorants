@@ -44,7 +44,7 @@
       "ChercheurExterne"
     ],
     "entitySuffix": "",
-    "herokuAppName": "doctorant",
+    "herokuAppName": "ensaaj",
     "herokuDeployType": "git",
     "herokuJavaVersion": "17",
     "jhiPrefix": "jhi",
