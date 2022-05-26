@@ -137,7 +137,11 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div>
             <label class="form-label" for="field_genre">Sexe</label>
-            <input size="30" type="text" class="form-control" name="genre" id="field_genre" data-cy="genre" formControlName="genre" />
+            <select  type="text" class="form-control" name="genre" id="field_genre" data-cy="genre" formControlName="genre" >
+              <option></option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
             <div *ngIf="editForm.get('genre')!.invalid && (editForm.get('genre')!.dirty || editForm.get('genre')!.touched)">
               <small size="30" class="form-text text-danger" *ngIf="editForm.get('genre')?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
@@ -240,9 +244,9 @@
 
         </div>
         <br>
-        <div style="display: flex; justify-content: space-evenly;">
+        <div style="display: flex; ">
 
-          <div>
+          <div style="padding-left:100px">
             <label class="form-label" for="field_photoCNEPile">CIN Face 1</label>
             <div>
               <div *ngIf="editForm.get('photoCNEPile')!.value" class="form-text text-danger clearfix">
@@ -288,7 +292,7 @@
             />
           </div>
 
-          <div>
+          <div  style="padding-left:200px">
             <label class="form-label" for="field_photoCNEFace">CIN Face 2</label>
             <div>
               <div *ngIf="editForm.get('photoCNEFace')!.value" class="form-text text-danger clearfix">
@@ -335,8 +339,8 @@
           </div>
         </div>
         <br>
-        <div style="display: flex; justify-content: space-evenly; align-items: center;">
-          <div>
+        <div style="display: flex; ">
+          <div style="padding-left:100px">
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.etatProfessionnel" for="field_etatProfessionnel"
             >Etat Professionnel</label
             >
@@ -351,7 +355,7 @@
             </select>
 
           </div>
-          <div>
+          <div style="padding-left:100px">
             <label class="form-label" for="field_photoCv">Curriculum Vitae (CV)</label>
             <div>
               <div *ngIf="editForm.get('photoCv')!.value" class="form-text text-danger clearfix">
@@ -394,7 +398,7 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div >
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.sujet" for="field_sujet">Sujet</label>
-            <select class="form-control" id="field_sujet" data-cy="sujet" name="sujet" formControlName="sujet" [(ngModel)]="sujet" >
+            <select class="form-control" id="field_sujet" data-cy="sujet" name="sujet" formControlName="sujet" [(ngModel)]="sujeta" >
               <option [ngValue]="null"></option>
               <option
                 *ngFor="let sujetOption of sujetsCollection; trackBy: trackSujetById"
@@ -403,6 +407,11 @@
                 {{ sujetOption.titre }}
               </option>
             </select>
+            <div *ngIf="sujeta">
+            <label>Encadrent</label>
+            <input type="text" class="form-control" *ngIf="sujeta.titre==='CyberSecurite'" value="Mohamed LACHGAR" readonly/>
+            <input type="text" class="form-control" *ngIf="sujeta.titre==='BigData'" value="Mohamed HANINE" readonly/>
+            </div>
           </div>
 
 
@@ -418,7 +427,6 @@
               </option>
             </select>
           </div>
-
         </div>
 
 

@@ -39,7 +39,7 @@ export class DoctorantUpdateComponent implements OnInit {
   promotionsSharedCollection: IPromotion[] = [];
   cursusesSharedCollection: ICursus[] = [];
   encadren!:IExtraUser;
-  sujet!:ISujet;
+  sujeta!:ISujet;
   editForm = this.fb.group({
     id: [],
     cne: [null, [Validators.required]],
@@ -87,8 +87,8 @@ export class DoctorantUpdateComponent implements OnInit {
         doctorant.dateNaissance = today;
       }
       if(doctorant.sujet){
-        this.sujet=doctorant.sujet;
-        this.getEncadrent(this.sujet.encadrent);
+        this.sujeta=doctorant.sujet;
+        this.getEncadrent(this.sujeta.encadrent);
       }
 
       this.updateForm(doctorant);

@@ -17,7 +17,16 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.bac.typeBac" for="field_typeBac">Type Bac</label>
-          <input type="text" class="form-control" name="typeBac" id="field_typeBac" data-cy="typeBac" formControlName="typeBac" />
+          <select type="text" class="form-control" name="typeBac" id="field_typeBac" data-cy="typeBac" formControlName="typeBac" >
+            <option></option>
+            <option>Bac Techniques</option>
+            <option>Bac Sciences mathématiques A</option>
+            <option>Bac Sciences mathématiques B</option>
+            <option>Bac Sciences Physiques</option>
+            <option>Bac Sciences et Technologies Électriques</option>
+            <option>Bac SVT</option>
+            <option>Autre</option>
+          </select>
         </div>
 
         <div class="row mb-3">
@@ -78,7 +87,13 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.bac.mention" for="field_mention">Mention</label>
-          <input type="text" class="form-control" name="mention" id="field_mention" data-cy="mention" formControlName="mention" />
+          <select type="text" class="form-control" name="mention" id="field_mention" data-cy="mention" formControlName="mention" >
+            <option></option>
+            <option>Trés Bien</option>
+            <option>Bien</option>
+            <option>A Bien</option>
+            <option>Passable</option>
+          </select>
         </div>
 
         <div class="row mb-3">

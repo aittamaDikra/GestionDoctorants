@@ -51,6 +51,7 @@ export class InformationComponent implements OnInit {
   countstype5: number[] = [];
   countstype6: number[] = [];
   countstype7: number[] = [];
+  types!:string[];
   title = 'htmltopdf';
 
   @ViewChild('pdfTable') pdfTable!: ElementRef;
@@ -64,13 +65,13 @@ export class InformationComponent implements OnInit {
 
   //Linearchart
   lineChartData: ChartDataSets[] = [
-    {data: this.counts, label: 'Nombre de publications'},
+    {data: this.counts, label: 'Nombre des publications'},
   ];
   lineChartLabels: Label[] = this.years;
   lineChartOptions: ChartOptions = {
     responsive: true,
     title: {
-      text: 'Nombre de publications par année',
+      text: 'Nombre des publications par année',
       display: true,
       position: "top"
     },
@@ -81,7 +82,7 @@ export class InformationComponent implements OnInit {
         },
         scaleLabel: {
           display: true,
-          labelString: 'Nbr de publications'
+          labelString: 'Nbr des publications'
         }
       }],
       xAxes: [{
@@ -147,7 +148,7 @@ export class InformationComponent implements OnInit {
   pieChartOptions: ChartOptions = {
     responsive: true,
     title: {
-      text: 'Nombre de publications par type',
+      text: 'Nombres des publications par type',
       display: true,
       position: "top"
     }
@@ -171,7 +172,7 @@ export class InformationComponent implements OnInit {
   barChartOptions2: ChartOptions = {
     responsive: true,
     title: {
-      text: 'Nombre de Publication par type et année',
+      text: 'Nombre des Publications par type et année',
       display: true,
       position: "top"
     },
@@ -182,7 +183,7 @@ export class InformationComponent implements OnInit {
         },
         scaleLabel: {
           display: true,
-          labelString: 'Nbr de Publication'
+          labelString: 'Nbr des Publications'
         }
       }],
       xAxes: [{
@@ -224,6 +225,15 @@ export class InformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    this.publicationService.PublicationType().subscribe({
+      next: (res: HttpResponse<string[]>) => {
+        this.types = res.body ?? [];
+
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    });
 
     this.publicationService.countTypeCurentUser().subscribe({
       next: (res: HttpResponse<CountPubByType[]>) => {

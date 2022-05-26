@@ -174,6 +174,12 @@ public class PublicationResource {
         return publicationRepository.findAllWithEagerRelationships();
     }
 
+    @GetMapping("/publications/type")
+    public List<String> PublicationType() {
+        log.debug("REST request to get all Publications");
+        return publicationRepository.PublicationType(SecurityUtils.getCurrentUserLogin().get());
+    }
+
     /**
      * {@code GET  /publications/:id} : get the "id" publication.
      *

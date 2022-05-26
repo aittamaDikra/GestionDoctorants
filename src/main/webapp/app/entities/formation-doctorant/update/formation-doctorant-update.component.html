@@ -93,7 +93,13 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationDoctorant.mention" for="field_mention">Mention</label>
-          <input type="text" class="form-control" name="mention" id="field_mention" data-cy="mention" formControlName="mention" />
+          <select type="text" class="form-control" name="mention" id="field_mention" data-cy="mention" formControlName="mention" >
+          <option></option>
+          <option>Trés Bien</option>
+          <option>Bien</option>
+          <option>A Bien</option>
+          <option>Passable</option>
+          </select>
         </div>
 
         <div class="row mb-3" *ngIf="false">

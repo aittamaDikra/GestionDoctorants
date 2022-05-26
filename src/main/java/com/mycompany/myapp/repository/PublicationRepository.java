@@ -72,6 +72,8 @@ public interface PublicationRepository extends PublicationRepositoryWithBagRelat
 
     @Query("select new com.mycompany.myapp.charts.CountChercheurPays( c.pays,p.date, count(c.id)) from Publication p left join ChercheurExterne c on p.id=c.id   GROUP BY p.date,c.pays  ")
     List<CountChercheurPays> countPublicationGroupBypays();
+    @Query("select distinct p.type from Publication p left join User user on p.user=user.id where p.user.login=:login")
+    List<String> PublicationType(@Param("login") String login);
 
     default List<Publication> findAllWithEagerRelationships33(String id) {
         return this.fetchBagRelationships(this.findPublicationByUserOrChercheurs(id));

@@ -52,11 +52,15 @@ export class PublicationService {
     return this.http.get<IPublication[]>(`${this.resourceUrl}/this`, { observe: 'response' });
   }
 
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
   count():Observable<HttpResponse<CountPub[]>> {
     return this.http.get<CountPub[]>(`${this.resourceUrl}/count`, { observe: 'response' });
+  }
+  PublicationType():Observable<HttpResponse<string[]>> {
+    return this.http.get<string[]>(`${this.resourceUrl}/type`, { observe: 'response' });
   }
   countByUser(id: number):Observable<HttpResponse<CountPub[]>> {
     return this.http.get<CountPub[]>(`${this.resourceUrl}/count/${id}`, { observe: 'response' });

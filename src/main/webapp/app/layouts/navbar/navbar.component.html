@@ -42,7 +42,7 @@
             (click)="collapseNavbar()"
           >
             <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="info"></fa-icon>
+              <fa-icon icon="certificate"></fa-icon>
               <span>Diplomes</span>
             </span>
           </a>
@@ -56,7 +56,7 @@
             (click)="collapseNavbar()"
           >
             <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="user"></fa-icon>
+              <fa-icon icon="address-card"></fa-icon>
               <span>Informations personnelles</span>
             </span>
           </a>
@@ -80,7 +80,7 @@
             (click)="collapseNavbar()"
           >
             <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="user"></fa-icon>
+              <fa-icon icon="newspaper"></fa-icon>
               <span>Publication</span>
             </span>
           </a>
@@ -104,7 +104,7 @@
           >
             <span>
               <fa-icon icon="th-list"></fa-icon>
-              <span jhiTranslate="global.menu.entities.main">Entities</span>
+              <span >Suivie</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -115,6 +115,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
+                *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.doctorant">Doctorant</span>
@@ -140,7 +141,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
+                *ngIf="false"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.formationDoctorant">Formation Doctorant</span>
@@ -166,7 +167,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']"
+                *ngIf="false"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.bac">Bac</span>
@@ -192,7 +193,6 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.equipe">Equipe</span>
@@ -231,7 +231,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
+                *jhiHasAnyAuthority="['ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.sujet">Sujet</span>
@@ -244,7 +244,6 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.laboratoire">Laboratoire</span>
@@ -257,7 +256,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.membreEquipe">Membre Equipe</span>
@@ -278,7 +277,7 @@
             </li>
             <li>
               <a
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
 
                 class="dropdown-item"
                 routerLink="chef-equipe"
@@ -292,7 +291,7 @@
             </li>
             <li>
               <a
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
                 class="dropdown-item"
                 routerLink="chef-lab"
                 routerLinkActive="active"
@@ -326,12 +325,12 @@
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.formationDoctoranle">Formation Doctoranle</span>
+                <span jhiTranslate="global.menu.entities.formationDoctoranle">Formation Doctorale</span>
               </a>
             </li>
             <li>
               <a
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
                 class="dropdown-item"
                 routerLink="formation-suivie"
                 routerLinkActive="active"
@@ -345,7 +344,7 @@
 
             <li>
               <a
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
 
                 class="dropdown-item"
                 routerLink="profile"
@@ -359,7 +358,7 @@
             </li>
             <li>
               <a
-                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                *njIf="false"
 
                 class="dropdown-item"
                 routerLink="information"
@@ -472,9 +471,11 @@
               <fa-icon icon="user"></fa-icon>
               <span jhiTranslate="global.menu.account.main">Account</span>
             </span>
-            <span *ngIf="account?.imageUrl">
-              <img [src]="decode(account!.imageUrl)" class="profile-image rounded-circle" alt="Avatar" />
+            <span *ngIf="account?.imageUrl && account?.firstName && account?.lastName">
+              <img [src]="decode(account!.imageUrl)" style="float:left; display:inline;" class="profile-image rounded-circle" alt="Avatar" />
+              <p style="float:left; display:inline;">{{account!.firstName}} {{account!.lastName}}</p>
             </span>
+
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
             <li *ngSwitchCase="true">
@@ -487,6 +488,18 @@
               >
                 <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
                 <span>Paramètres</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="true">
+              <a
+                class="dropdown-item"
+                routerLink="profile"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
+                <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
+                <span>profil</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
