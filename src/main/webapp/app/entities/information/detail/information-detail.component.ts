@@ -338,10 +338,14 @@ export class InformationDetailComponent implements OnInit {
   reinscription(): void {
     this.doctorantService.reinscription().pipe(
       mergeMap((bac: HttpResponse<number>) => {
-        return of(0);
+        if (bac.body) {
+          return of(0);
+        } else {
+          return of(0);
+        }
       })
     );
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   previousState(): void {
