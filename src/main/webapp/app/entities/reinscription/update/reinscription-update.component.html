@@ -1,13 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-reinscription-heading"
-        data-cy="ReinscriptionCreateUpdateHeading"
-        jhiTranslate="doctorantApp.reinscription.home.createOrEditLabel"
-      >
-        Create or edit a Reinscription
-      </h2>
+
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -19,7 +13,7 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.reinscription.formulaireReinscription" for="field_formulaireReinscription"
-            >Formulaire Reinscription</label
+          >Formulaire Reinscription</label
           >
           <div>
             <div *ngIf="editForm.get('formulaireReinscription')!.value" class="form-text text-danger clearfix">
@@ -29,10 +23,10 @@
                   openFile(editForm.get('formulaireReinscription')!.value, editForm.get('formulaireReinscriptionContentType')!.value)
                 "
                 jhiTranslate="entity.action.open"
-                >open</a
+              >open</a
               ><br />
               <span class="pull-start"
-                >{{ editForm.get('formulaireReinscriptionContentType')!.value }},
+              >{{ editForm.get('formulaireReinscriptionContentType')!.value }},
                 {{ byteSize(editForm.get('formulaireReinscription')!.value) }}</span
               >
               <button
@@ -44,6 +38,7 @@
               >
                 <fa-icon icon="times"></fa-icon>
               </button>
+
             </div>
             <input
               type="file"
@@ -52,6 +47,8 @@
               (change)="setFileData($event, 'formulaireReinscription', false)"
               jhiTranslate="entity.action.addblob"
             />
+            <p></p>
+            <a download href="../../../content/Formulaire.docx">Téléchargez le formulaire à remplir ici</a>
           </div>
           <input
             type="hidden"
@@ -78,10 +75,10 @@
                 class="pull-start"
                 (click)="openFile(editForm.get('demande')!.value, editForm.get('demandeContentType')!.value)"
                 jhiTranslate="entity.action.open"
-                >open</a
+              >open</a
               ><br />
               <span class="pull-start"
-                >{{ editForm.get('demandeContentType')!.value }}, {{ byteSize(editForm.get('demande')!.value) }}</span
+              >{{ editForm.get('demandeContentType')!.value }}, {{ byteSize(editForm.get('demande')!.value) }}</span
               >
               <button
                 type="button"
@@ -108,8 +105,14 @@
             formControlName="demandeContentType"
           />
         </div>
+        <div class="row mb-3"  >
+          <div style="place-content: flex-start; ">
+            <input type="checkbox" (change)="toggleEditable({event : $event})">
+            <label class="form-label" >Cotutelle</label>
+          </div>
+        </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="contentEditable">
           <label class="form-label" jhiTranslate="doctorantApp.reinscription.etablissement" for="field_etablissement">Etablissement</label>
           <select
             class="form-control"
@@ -127,12 +130,12 @@
               "
               *ngFor="let etablissementOption of etablissementsSharedCollection; trackBy: trackEtablissementById"
             >
-              {{ etablissementOption.id }}
+              {{ etablissementOption.nom }}
             </option>
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="null">
           <label class="form-label" jhiTranslate="doctorantApp.reinscription.doctorant" for="field_doctorant">Doctorant</label>
           <select class="form-control" id="field_doctorant" data-cy="doctorant" name="doctorant" formControlName="doctorant">
             <option [ngValue]="null"></option>
