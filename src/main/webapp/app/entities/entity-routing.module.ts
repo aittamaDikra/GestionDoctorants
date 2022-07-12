@@ -114,6 +114,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'doctorantApp.chercheurExterne.home.title' },
         loadChildren: () => import('./chercheur-externe/chercheur-externe.module').then(m => m.ChercheurExterneModule),
       },
+      {
+        path: 'reinscription',
+        data: { pageTitle: 'doctorantApp.reinscription.home.title' },
+        loadChildren: () => import('./reinscription/reinscription.module').then(m => m.ReinscriptionModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

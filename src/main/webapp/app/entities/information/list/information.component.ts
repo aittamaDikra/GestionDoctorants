@@ -24,6 +24,10 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+import {Observable, of} from "rxjs";
+import {Bourse, IBourse} from "../../bourse/bourse.model";
+import {mergeMap} from "rxjs/operators";
+import {BourseService} from "../../bourse/service/bourse.service";
 
 @Component({
   selector: 'jhi-information',
@@ -54,7 +58,7 @@ export class InformationComponent implements OnInit {
   countstype7: number[] = [];
   types!:string[];
   title = 'htmltopdf';
-
+  bourse!:IBourse;
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   @Input() doctorant!: IDoctorant;
   @Input() formations!: IFormation[];
@@ -63,6 +67,7 @@ export class InformationComponent implements OnInit {
   @Input() publications?: IPublication[];
   @Input() countPub!: CountPub[];
   @Input() countPubByType!: CountPubByType[];
+
 
   //Linearchart
   lineChartData: ChartDataSets[] = [
@@ -212,7 +217,7 @@ export class InformationComponent implements OnInit {
   ];
 
 
-  constructor(protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient
+  constructor(protected bourseService: BourseService,protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient
   ) {
   }
 
@@ -227,6 +232,9 @@ export class InformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    if (this.doctorant.id){
+      this.test(this.doctorant.id).subscribe((value:IBourse)=>this.bourse=value);
+    }
     this.publicationService.PublicationType().subscribe({
       next: (res: HttpResponse<string[]>) => {
         this.types = res.body ?? [];
@@ -425,7 +433,17 @@ export class InformationComponent implements OnInit {
     }).subscribe(() => this.loadAll());
   }
 
-
+  test(id:number): Observable<IBourse> | Observable<never> {
+    return this.bourseService.findByDoc(id).pipe(
+      mergeMap((bourse: HttpResponse<IBourse>) => {
+        if (bourse.body) {
+          return of(bourse.body);
+        } else {
+          return of(new Bourse());
+        }
+      })
+    );
+  }
 
   public downloadAsPDF():void {
     const doc = new jsPDF();

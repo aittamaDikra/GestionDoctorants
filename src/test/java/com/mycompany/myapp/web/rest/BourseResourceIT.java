@@ -2,6 +2,7 @@ package com.mycompany.myapp.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -9,14 +10,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Bourse;
 import com.mycompany.myapp.repository.BourseRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,12 +33,13 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link BourseResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class BourseResourceIT {
 
-    private static final Float DEFAULT_SOMME = 1F;
-    private static final Float UPDATED_SOMME = 2F;
+    private static final String DEFAULT_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_TYPE = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/bourses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -41,6 +49,9 @@ class BourseResourceIT {
 
     @Autowired
     private BourseRepository bourseRepository;
+
+    @Mock
+    private BourseRepository bourseRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -57,7 +68,7 @@ class BourseResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Bourse createEntity(EntityManager em) {
-        Bourse bourse = new Bourse().somme(DEFAULT_SOMME);
+        Bourse bourse = new Bourse().type(DEFAULT_TYPE);
         return bourse;
     }
 
@@ -68,7 +79,7 @@ class BourseResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Bourse createUpdatedEntity(EntityManager em) {
-        Bourse bourse = new Bourse().somme(UPDATED_SOMME);
+        Bourse bourse = new Bourse().type(UPDATED_TYPE);
         return bourse;
     }
 
@@ -92,7 +103,7 @@ class BourseResourceIT {
         List<Bourse> bourseList = bourseRepository.findAll();
         assertThat(bourseList).hasSize(databaseSizeBeforeCreate + 1);
         Bourse testBourse = bourseList.get(bourseList.size() - 1);
-        assertThat(testBourse.getSomme()).isEqualTo(DEFAULT_SOMME);
+        assertThat(testBourse.getType()).isEqualTo(DEFAULT_TYPE);
     }
 
     @Test
@@ -127,7 +138,25 @@ class BourseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bourse.getId().intValue())))
-            .andExpect(jsonPath("$.[*].somme").value(hasItem(DEFAULT_SOMME.doubleValue())));
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBoursesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(bourseRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBourseMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(bourseRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBoursesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(bourseRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBourseMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(bourseRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -142,7 +171,7 @@ class BourseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(bourse.getId().intValue()))
-            .andExpect(jsonPath("$.somme").value(DEFAULT_SOMME.doubleValue()));
+            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE));
     }
 
     @Test
@@ -164,7 +193,7 @@ class BourseResourceIT {
         Bourse updatedBourse = bourseRepository.findById(bourse.getId()).get();
         // Disconnect from session so that the updates on updatedBourse are not directly saved in db
         em.detach(updatedBourse);
-        updatedBourse.somme(UPDATED_SOMME);
+        updatedBourse.type(UPDATED_TYPE);
 
         restBourseMockMvc
             .perform(
@@ -179,7 +208,7 @@ class BourseResourceIT {
         List<Bourse> bourseList = bourseRepository.findAll();
         assertThat(bourseList).hasSize(databaseSizeBeforeUpdate);
         Bourse testBourse = bourseList.get(bourseList.size() - 1);
-        assertThat(testBourse.getSomme()).isEqualTo(UPDATED_SOMME);
+        assertThat(testBourse.getType()).isEqualTo(UPDATED_TYPE);
     }
 
     @Test
@@ -254,7 +283,7 @@ class BourseResourceIT {
         Bourse partialUpdatedBourse = new Bourse();
         partialUpdatedBourse.setId(bourse.getId());
 
-        partialUpdatedBourse.somme(UPDATED_SOMME);
+        partialUpdatedBourse.type(UPDATED_TYPE);
 
         restBourseMockMvc
             .perform(
@@ -269,7 +298,7 @@ class BourseResourceIT {
         List<Bourse> bourseList = bourseRepository.findAll();
         assertThat(bourseList).hasSize(databaseSizeBeforeUpdate);
         Bourse testBourse = bourseList.get(bourseList.size() - 1);
-        assertThat(testBourse.getSomme()).isEqualTo(UPDATED_SOMME);
+        assertThat(testBourse.getType()).isEqualTo(UPDATED_TYPE);
     }
 
     @Test
@@ -284,7 +313,7 @@ class BourseResourceIT {
         Bourse partialUpdatedBourse = new Bourse();
         partialUpdatedBourse.setId(bourse.getId());
 
-        partialUpdatedBourse.somme(UPDATED_SOMME);
+        partialUpdatedBourse.type(UPDATED_TYPE);
 
         restBourseMockMvc
             .perform(
@@ -299,7 +328,7 @@ class BourseResourceIT {
         List<Bourse> bourseList = bourseRepository.findAll();
         assertThat(bourseList).hasSize(databaseSizeBeforeUpdate);
         Bourse testBourse = bourseList.get(bourseList.size() - 1);
-        assertThat(testBourse.getSomme()).isEqualTo(UPDATED_SOMME);
+        assertThat(testBourse.getType()).isEqualTo(UPDATED_TYPE);
     }
 
     @Test

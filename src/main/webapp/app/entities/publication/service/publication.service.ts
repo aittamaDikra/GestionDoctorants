@@ -59,8 +59,14 @@ export class PublicationService {
   count():Observable<HttpResponse<CountPub[]>> {
     return this.http.get<CountPub[]>(`${this.resourceUrl}/count`, { observe: 'response' });
   }
+  countbyUser(login :string):Observable<HttpResponse<CountPub[]>> {
+    return this.http.get<CountPub[]>(`${this.resourceUrl}/count/${login}`, { observe: 'response' });
+  }
   PublicationType():Observable<HttpResponse<string[]>> {
     return this.http.get<string[]>(`${this.resourceUrl}/type`, { observe: 'response' });
+  }
+  PublicationTypeByuser(login:string):Observable<HttpResponse<string[]>> {
+    return this.http.get<string[]>(`${this.resourceUrl}/type/${login}`, { observe: 'response' });
   }
   countByUser(id: number):Observable<HttpResponse<CountPub[]>> {
     return this.http.get<CountPub[]>(`${this.resourceUrl}/count/${id}`, { observe: 'response' });
@@ -80,8 +86,14 @@ export class PublicationService {
   countChercheurExterne():Observable<HttpResponse<CountCherchuerExterne[]>> {
     return this.http.get<CountCherchuerExterne[]>(`${this.resourceUrl}/countTypeAndchercheur/`, { observe: 'response' });
   }
+  countChercheurExterneByUser(login:string):Observable<HttpResponse<CountCherchuerExterne[]>> {
+    return this.http.get<CountCherchuerExterne[]>(`${this.resourceUrl}/countTypeAndchercheur/${login}`, { observe: 'response' });
+  }
   countPubByAnnee():Observable<HttpResponse<CountPubByTypeAnnee[]>> {
     return this.http.get<CountPubByTypeAnnee[]>(`${this.resourceUrl}/countTypeAndAnnee/`, { observe: 'response' });
+  }
+  countPubByAnneeByUser(login:string):Observable<HttpResponse<CountPubByTypeAnnee[]>> {
+    return this.http.get<CountPubByTypeAnnee[]>(`${this.resourceUrl}/countTypeAndAnnee/${login}`, { observe: 'response' });
   }
   countAllPubByAnnee():Observable<HttpResponse<CountPubByTypeAnnee[]>> {
     return this.http.get<CountPubByTypeAnnee[]>(`${this.resourceUrl}/counAlltTypeAndAnnee/`, { observe: 'response' });

@@ -41,7 +41,8 @@
       "Diplomes",
       "Information",
       "Profile",
-      "ChercheurExterne"
+      "ChercheurExterne",
+      "Reinscription"
     ],
     "entitySuffix": "",
     "herokuAppName": "ensaaj",
@@ -50,7 +51,7 @@
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.7.0",
     "languages": ["fr", "ar-ly", "en"],
-    "lastLiquibaseTimestamp": 1651539273000,
+    "lastLiquibaseTimestamp": 1657590671000,
     "messageBroker": false,
     "monorepository": true,
     "nativeLanguage": "fr",

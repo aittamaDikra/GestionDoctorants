@@ -12,13 +12,13 @@
       "updated": "Le Bourse avec l'identifiant {{ param }} a été mis à jour",
       "deleted": "Le Bourse avec l'identifiant {{ param }} a été supprimé",
       "delete": {
-        "question": "Etes-vous certain de vouloir supprimer le Bourse {{ id }} ?"
+        "question": "Êtes-vous certain de vouloir supprimer le Bourse {{ id }} ?"
       },
       "detail": {
         "title": "Bourse"
       },
       "id": "ID",
-      "somme": "Somme",
+      "type": "Type",
       "doctorant": "Doctorant"
     }
   }

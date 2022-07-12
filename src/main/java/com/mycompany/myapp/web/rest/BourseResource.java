@@ -2,9 +2,11 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Bourse;
 import com.mycompany.myapp.repository.BourseRepository;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,9 +35,11 @@ public class BourseResource {
     private String applicationName;
 
     private final BourseRepository bourseRepository;
+    private final DoctorantRepository doctorantRepository;
 
-    public BourseResource(BourseRepository bourseRepository) {
+    public BourseResource(BourseRepository bourseRepository, DoctorantRepository doctorantRepository) {
         this.bourseRepository = bourseRepository;
+        this.doctorantRepository= doctorantRepository;
     }
 
     /**
@@ -121,8 +125,8 @@ public class BourseResource {
         Optional<Bourse> result = bourseRepository
             .findById(bourse.getId())
             .map(existingBourse -> {
-                if (bourse.getSomme() != null) {
-                    existingBourse.setSomme(bourse.getSomme());
+                if (bourse.getType() != null) {
+                    existingBourse.setType(bourse.getType());
                 }
 
                 return existingBourse;
@@ -158,6 +162,24 @@ public class BourseResource {
         log.debug("REST request to get Bourse : {}", id);
         Optional<Bourse> bourse = bourseRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(bourse);
+    }
+    @GetMapping("/bourses/doctorant/{id}")
+    public Bourse getBourseByDoc(@PathVariable Long id) {
+        log.debug("REST request to get Bourse : {}", id);
+        Bourse bourse = bourseRepository.getByDoctorant(doctorantRepository.getById(id));
+        return bourse;
+    }
+
+    @GetMapping("/bourses/doctorant")
+    public ArrayList<Long> getBourseDoc() {
+        List<Bourse> b= bourseRepository.findAllWithEagerRelationships();
+        ArrayList<Long> doctorant = new ArrayList<>();
+        for(Bourse a : b){
+            doctorant.add(a.getDoctorant().getId());
+        }
+        return doctorant;
+
+
     }
 
     /**

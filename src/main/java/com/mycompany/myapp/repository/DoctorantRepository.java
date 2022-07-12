@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring Data SQL repository for the Doctorant entity.
@@ -59,5 +60,11 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
         "select doctorant  from Doctorant doctorant left join fetch doctorant.sujet s left join fetch s.encadrent  where doctorant.sujet.encadrent.internalUser=:id   "
     )
     List<Doctorant> prof(@Param("id") User id);
+
+    @Modifying
+    @Transactional
+    @Query("update Doctorant doc set doc.etatDossier = 0 where doc.id>0")
+
+    void reinscription();
 
 }

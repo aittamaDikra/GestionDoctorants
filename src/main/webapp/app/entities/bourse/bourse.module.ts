@@ -5,10 +5,11 @@ import { BourseDetailComponent } from './detail/bourse-detail.component';
 import { BourseUpdateComponent } from './update/bourse-update.component';
 import { BourseDeleteDialogComponent } from './delete/bourse-delete-dialog.component';
 import { BourseRoutingModule } from './route/bourse-routing.module';
+import {BourseAddDialogComponent} from "./add/bourse-add-dialog.component";
 
 @NgModule({
   imports: [SharedModule, BourseRoutingModule],
-  declarations: [BourseComponent, BourseDetailComponent, BourseUpdateComponent, BourseDeleteDialogComponent],
-  entryComponents: [BourseDeleteDialogComponent],
+  declarations: [BourseComponent, BourseDetailComponent, BourseUpdateComponent, BourseDeleteDialogComponent,BourseAddDialogComponent],
+  entryComponents: [BourseDeleteDialogComponent,BourseAddDialogComponent],
 })
 export class BourseModule {}

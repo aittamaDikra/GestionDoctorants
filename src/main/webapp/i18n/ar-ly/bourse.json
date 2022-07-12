@@ -18,7 +18,7 @@
         "title": "Bourse"
       },
       "id": "ID",
-      "somme": "Somme",
+      "type": "Type",
       "doctorant": "Doctorant"
     }
   }

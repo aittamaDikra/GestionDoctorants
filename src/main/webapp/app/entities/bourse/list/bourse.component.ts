@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IBourse } from '../bourse.model';
 import { BourseService } from '../service/bourse.service';
 import { BourseDeleteDialogComponent } from '../delete/bourse-delete-dialog.component';
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'jhi-bourse',
@@ -14,7 +15,7 @@ export class BourseComponent implements OnInit {
   bourses?: IBourse[];
   isLoading = false;
 
-  constructor(protected bourseService: BourseService, protected modalService: NgbModal) {}
+  constructor(protected bourseService: BourseService,public _sanitizer: DomSanitizer, protected modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -34,10 +35,12 @@ export class BourseComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IBourse): number {
+  trackId(_index: number, item: IBourse): number {
     return item.id!;
   }
-
+  decode(base64String: string): SafeResourceUrl {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
   delete(bourse: IBourse): void {
     const modalRef = this.modalService.open(BourseDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.bourse = bourse;

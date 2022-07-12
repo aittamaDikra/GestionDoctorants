@@ -180,6 +180,12 @@ public class PublicationResource {
         return publicationRepository.PublicationType(SecurityUtils.getCurrentUserLogin().get());
     }
 
+    @GetMapping("/publications/type/{login}")
+    public List<String> PublicationType(@PathVariable String login) {
+        log.debug("REST request to get all Publications");
+        return publicationRepository.PublicationType(login);
+    }
+
     /**
      * {@code GET  /publications/:id} : get the "id" publication.
      *
@@ -212,6 +218,12 @@ public class PublicationResource {
         List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(SecurityUtils.getCurrentUserLogin().get());
         return publication;
     }
+    @GetMapping("/publications/count/{login}")
+    public List<CountPub> getPublicationcountById(@PathVariable String login) {
+
+        List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(login);
+        return publication;
+    }
     @GetMapping("/publications/countALL")
     public List<CountPub> getPublicationcountALL() {
 
@@ -231,12 +243,27 @@ public class PublicationResource {
         List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(SecurityUtils.getCurrentUserLogin().get());
         return publication;
     }
+
+    @GetMapping("/publications/countType/{login}")
+    public List<CountPubByType> getPublicationcounTypetById(@PathVariable String login) {
+
+        List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(login);
+        return publication;
+    }
+
     @GetMapping("/publications/countTypeAndAnnee")
     List<CountPubBytypeAnnee>getPublicationcounTypeandAnnee() {
 
         List<CountPubBytypeAnnee> publication = publicationRepository.countPublicationByTypeGroupByDate(SecurityUtils.getCurrentUserLogin().get());
         return publication;
     }
+    @GetMapping("/publications/countTypeAndAnnee/{login}")
+    List<CountPubBytypeAnnee>getPublicationcounTypeandAnnee(@PathVariable String login) {
+
+        List<CountPubBytypeAnnee> publication = publicationRepository.countPublicationByTypeGroupByDate(login);
+        return publication;
+    }
+
     @GetMapping("/publications/counAlltTypeAndAnnee")
     List<CountPubBytypeAnnee>getAllPublicationcounTypeandAnnee() {
 
@@ -256,7 +283,12 @@ public class PublicationResource {
         List<CountPubByChercheurExterne> publication = publicationRepository.countPublicationGroupByChercheurExternes(SecurityUtils.getCurrentUserLogin().get());
         return publication;
     }
+    @GetMapping("/publications/countTypeAndchercheur/{login}")
+    List<CountPubByChercheurExterne>getPublicationcounTypeandChercheur(@PathVariable String login) {
 
+        List<CountPubByChercheurExterne> publication = publicationRepository.countPublicationGroupByChercheurExternes(login);
+        return publication;
+    }
     @GetMapping("/publications/countTypeALL")
     public List<CountPubByType> getPublicationcountTypeALL() {
 

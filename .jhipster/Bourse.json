@@ -6,8 +6,8 @@
   "entityTableName": "bourse",
   "fields": [
     {
-      "fieldName": "somme",
-      "fieldType": "Float"
+      "fieldName": "type",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

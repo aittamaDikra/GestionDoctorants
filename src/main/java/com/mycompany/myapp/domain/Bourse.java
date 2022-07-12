@@ -18,8 +18,8 @@ public class Bourse implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "somme")
-    private Float somme;
+    @Column(name = "type")
+    private String type;
 
     @JsonIgnoreProperties(
         value = { "sujet", "user", "promotion", "cursus", "formationDoctorants", "formationSuivies" },
@@ -44,17 +44,17 @@ public class Bourse implements Serializable {
         this.id = id;
     }
 
-    public Float getSomme() {
-        return this.somme;
+    public String getType() {
+        return this.type;
     }
 
-    public Bourse somme(Float somme) {
-        this.setSomme(somme);
+    public Bourse type(String type) {
+        this.setType(type);
         return this;
     }
 
-    public void setSomme(Float somme) {
-        this.somme = somme;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Doctorant getDoctorant() {
@@ -94,7 +94,7 @@ public class Bourse implements Serializable {
     public String toString() {
         return "Bourse{" +
             "id=" + getId() +
-            ", somme=" + getSomme() +
+            ", type='" + getType() + "'" +
             "}";
     }
 }

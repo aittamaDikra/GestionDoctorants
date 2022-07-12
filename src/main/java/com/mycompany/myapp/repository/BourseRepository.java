@@ -3,6 +3,8 @@ package com.mycompany.myapp.repository;
 import com.mycompany.myapp.domain.Bourse;
 import java.util.List;
 import java.util.Optional;
+
+import com.mycompany.myapp.domain.Doctorant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -26,15 +28,18 @@ public interface BourseRepository extends JpaRepository<Bourse, Long> {
         return this.findAllWithToOneRelationships(pageable);
     }
 
+
     @Query(
-        value = "select distinct bourse from Bourse bourse left join fetch bourse.doctorant",
+        value = "select distinct bourse from Bourse bourse left join fetch bourse.doctorant d left join fetch d.user ",
         countQuery = "select count(distinct bourse) from Bourse bourse"
     )
     Page<Bourse> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct bourse from Bourse bourse left join fetch bourse.doctorant")
+    @Query("select distinct bourse from Bourse bourse left join fetch bourse.doctorant d left join fetch d.user")
     List<Bourse> findAllWithToOneRelationships();
 
     @Query("select bourse from Bourse bourse left join fetch bourse.doctorant where bourse.id =:id")
     Optional<Bourse> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Bourse getByDoctorant(Doctorant doctorant);
 }

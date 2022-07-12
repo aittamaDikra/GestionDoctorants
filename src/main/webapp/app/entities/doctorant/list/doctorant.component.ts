@@ -6,6 +6,14 @@ import { DoctorantService } from '../service/doctorant.service';
 import { DoctorantDeleteDialogComponent } from '../delete/doctorant-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {BourseUpdateComponent} from "../../bourse/update/bourse-update.component";
+import {BourseAddDialogComponent} from "../../bourse/add/bourse-add-dialog.component";
+import {BourseService} from "../../bourse/service/bourse.service";
+import {IFormationDoctorant} from "../../formation-doctorant/formation-doctorant.model";
+import {Bourse, IBourse} from "../../bourse/bourse.model";
+import {mergeMap} from "rxjs/operators";
+import {Bac, IBac} from "../../bac/bac.model";
+import {Observable, of, Subscription} from "rxjs";
 
 @Component({
   selector: 'jhi-doctorant',
@@ -15,14 +23,14 @@ export class DoctorantComponent implements OnInit {
   doctorants?: IDoctorant[];
   isLoading = false;
   dtOptions: DataTables.Settings = {};
+  bourses: number[]=[];
 
-  constructor(public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
+  constructor(protected bourseService: BourseService,public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
   decode(base64String: string): SafeResourceUrl {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
   }
   loadAll(): void {
     this.isLoading = true;
-
     this.doctorantService.query().subscribe({
       next: (res: HttpResponse<IDoctorant[]>) => {
         this.isLoading = false;
@@ -36,6 +44,7 @@ export class DoctorantComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    this.test2();
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -67,6 +76,27 @@ export class DoctorantComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  bourse(doctorant: IDoctorant): void {
+    const modalRef = this.modalService.open(BourseAddDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.doc = doctorant;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.loadAll();
+      }
+    });
+  }
+
+
+  test2(): void{
+     this.bourseService.findDocs().subscribe({
+      next: (res: HttpResponse<number[]>) => {
+        this.isLoading = false;
+        this.bourses = res.body ?? [];
+      }
+    })
   }
 
   setActive(user: Doctorant, isActivated: number): void {

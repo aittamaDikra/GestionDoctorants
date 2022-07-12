@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import {DoctorantService} from "../entities/doctorant/service/doctorant.service";
 
 @Component({
   selector: 'jhi-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService,private doctoranServices: DoctorantService, private router: Router) {}
 
   ngOnInit(): void {
     this.accountService

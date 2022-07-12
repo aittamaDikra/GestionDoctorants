@@ -69,6 +69,9 @@ export class DoctorantService {
   countByAnnee(): Observable<HttpResponse<CountDoc[]>> {
     return this.http.get<CountDoc[]>(`${this.resourceUrl}/countDoc`, { observe: 'response' });
   }
+  reinscription(): Observable<HttpResponse<number>> {
+     return this.http.get<number>(`${this.resourceUrl}/reinscription`, { observe: 'response' });
+  }
 
   addDoctorantToCollectionIfMissing(
     doctorantCollection: IDoctorant[],

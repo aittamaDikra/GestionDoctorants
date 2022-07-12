@@ -1,4 +1,4 @@
-<div class="container" *jhiHasAnyAuthority="['ROLE_DIRECTEUR','ROLE_ADMIN','ROLE_RESPONSABLE']">
+<div class="container" *jhiHasAnyAuthority="['ROLE_DIRECTEUR','ROLE_RESPONSABLE']">
   <div class="row">
     <div class="col-8">
       <h1>Dashboard</h1>
@@ -8,31 +8,6 @@
   <div class="row">
     <div class="chart-wrapper col-6" style=" width: 600px;" >
       <canvas baseChart
-              [datasets]="lineChartData"
-              [labels]="lineChartLabels"
-              [options]="lineChartOptions"
-              [colors]="lineChartColors"
-              [legend]="lineChartLegend"
-              [chartType]="lineChartType"
-              [plugins]="lineChartPlugins">
-      </canvas>
-    </div>
-    <div class="chart-wrapper col-6" style="width: 40%;">
-      <canvas baseChart
-              [data]="pieChartData"
-              [labels]="pieChartLabels"
-              [chartType]="pieChartType"
-              [options]="pieChartOptions"
-              [plugins]="pieChartPlugins"
-              [legend]="pieChartLegend"
-              [colors]="pieChartColors"
-      >
-      </canvas>
-    </div>
-  </div>
-  <div class="row">
-    <div class="chart-wrapper col-6" style=" width: 550px;">
-      <canvas baseChart
               [datasets]="barChartData"
               [labels]="barChartLabels"
               [options]="barChartOptions"
@@ -41,7 +16,7 @@
               [chartType]="barChartType">
       </canvas>
     </div>
-    <div class="chart-wrapper col-6" style=" width: 550px;">
+    <div class="chart-wrapper col-6" style=" width: 600px;">
       <canvas baseChart
               [datasets]="barChartData2"
               [labels]="barChartLabels2"
@@ -51,8 +26,34 @@
               [chartType]="barChartType2">
       </canvas>
     </div>
+  </div>
+  <div class="row">
+    <div class="chart-wrapper col-6" style=" width: 550px;">
+      <canvas baseChart
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              [plugins]="lineChartPlugins">
+      </canvas>
 
-    <div class="chart-wrapper col-12" style=" height: 550px;">
+    </div>
+    <div class="chart-wrapper col-6" style=" width: 550px;">
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [legend]="pieChartLegend"
+              [colors]="pieChartColors"
+      ></canvas>
+
+    </div>
+
+    <div class="chart-wrapper col-12" style=" height: 400px;width: 1100px;">
       <canvas baseChart
               [datasets]="barChartData3"
               [labels]="barChartLabels3"
@@ -62,9 +63,14 @@
               [chartType]="barChartType3">
       </canvas>
       <label class="form-label"  >Années</label>
-      <select class="form-control" [ngModel]="anneee">
+      <select class="form-control">
 
-        <option [ngValue]="year" *ngFor="let year of years">{{year}}</option>
+        <option ></option>
+        <option >2018</option>
+        <option >2019</option>
+        <option >2020</option>
+        <option >2021</option>
+        <option >2022</option>
 
 
       </select>
@@ -77,13 +83,27 @@
           <th scope="col"><span > Nombre de chercheur</span></th>
         </tr>
         </thead>
-        <tbody *ngFor="let formation of countChercheurPays">
+        <tbody >
         <tr  data-cy="entityTable"  >
-          <td>{{ formation.pays}}</td>
-          <td>{{ formation.annee }}</td>
-          <td>{{ formation.count }}</td>
-
+        <td>Canada</td>
+        <td>2021</td>
+        <td>8</td>
         </tr>
+
+        <tr  data-cy="entityTable"  >
+          <td>France</td>
+          <td>2021</td>
+          <td>6</td>
+        </tr>
+
+        <tr  data-cy="entityTable"  >
+          <td>USA</td>
+          <td>2021</td>
+          <td>7</td>
+        </tr>
+
+
+
         </tbody>
       </table>
     </div>
@@ -92,8 +112,9 @@
   </div>
 </div>
 
-<div class="row" *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_PROFESSEUR']">
+<div class="row" *jhiHasAnyAuthority="['ROLE_DOCTORANT','ROLE_USER','ROLE_ADMIN','ROLE_PROFESSEUR']">
   <div class="col-md-4">
+    <button class="btn btn-success btn-sm" (click)="reinscription()">reinscription</button>
     <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_j2rjqphu.json" background="transparent"  speed="1"  style="width: 400px; height: 500px;" loop autoplay></lottie-player>
   </div>
 
@@ -133,7 +154,6 @@
         <p><span><img src="content/images/3.png" width="5%"></span> &nbsp; Confirmer votre candidature, lorsque vous êtes prêt.</p>
       </div>
     </div>
-
 
   </div>
 </div>

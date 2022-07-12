@@ -12,12 +12,13 @@ import {HttpResponse} from "@angular/common/http";
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Color, Label, SingleDataSet} from "ng2-charts";
 import {Account} from "../../../core/auth/account.model";
-import {takeUntil} from "rxjs/operators";
+import {mergeMap, takeUntil} from "rxjs/operators";
 import {AccountService} from "../../../core/auth/account.service";
-import {Subject} from "rxjs";
+import {of, Subject} from "rxjs";
 import {DoctorantSalariee2} from "../../ChartsModels/DoctorantSalariee2";
 import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
 import {CountChercheurPays} from "../../ChartsModels/CountChercheurPays";
+import {Bac} from "../../bac/bac.model";
 
 @Component({
   selector: 'jhi-information-detail',
@@ -330,8 +331,17 @@ export class InformationDetailComponent implements OnInit {
         this.isLoading = false;
       },
     })
+    this.doctorantService.reinscription();
 
+  }
 
+  reinscription(): void {
+    this.doctorantService.reinscription().pipe(
+      mergeMap((bac: HttpResponse<number>) => {
+        return of(0);
+      })
+    );
+    this.router.navigate(['/login']);
   }
 
   previousState(): void {

@@ -21,7 +21,7 @@ describe('Bourse Service', () => {
 
     elemDefault = {
       id: 0,
-      somme: 0,
+      type: 'AAAAAAA',
     };
   });
 
@@ -57,7 +57,7 @@ describe('Bourse Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          somme: 1,
+          type: 'BBBBBB',
         },
         elemDefault
       );
@@ -89,7 +89,7 @@ describe('Bourse Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          somme: 1,
+          type: 'BBBBBB',
         },
         elemDefault
       );

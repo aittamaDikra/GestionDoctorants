@@ -96,7 +96,6 @@ public class DoctorantResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        doctorantRepository.getById(doctorant.getId()).setAnneeInscription(2000);
 
         Doctorant result = doctorantRepository.save(doctorant);
         return ResponseEntity
@@ -286,6 +285,12 @@ public class DoctorantResource {
     public List<CountDoc> countDoctorantGroupByAnneeInscription() {
         log.debug("REST request to get all Doctorants");
         return doctorantRepository.countDoctorantGroupByAnneeInscription();
+    }
+
+    @GetMapping("/doctorants/reinscription")
+    public int reinscription() {
+        doctorantRepository.reinscription();
+        return 0;
     }
 
     /**

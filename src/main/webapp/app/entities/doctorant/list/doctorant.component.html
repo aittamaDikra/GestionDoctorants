@@ -39,6 +39,7 @@
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cin">Cin</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.anneeInscription">Annee Inscription</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.genre">Sexe</span></th>
+        <th scope="col"><span >Bourse</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.sujet">Sujet</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.cursus">Cursus</span></th>
         <th scope="col"><span jhiTranslate="doctorantApp.doctorant.etatDossier" *jhiHasAnyAuthority="['ROLE_RESPONSABLE']">Etat Dossier</span></th>
@@ -47,6 +48,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let doctorant of doctorants; trackBy: trackId" data-cy="entityTable">
+
         <td>
           <img *ngIf="doctorant.user!.imageUrl" [src]="decode(doctorant.user!.imageUrl)" height="100" width="=100">
         </td>
@@ -56,6 +58,8 @@
         <td>{{ doctorant.cin }}</td>
         <td>{{ doctorant.anneeInscription }}</td>
         <td>{{ doctorant.genre }}</td>
+          <td *ngIf="doctorant.id"><p *ngIf=" bourses.includes(doctorant!.id)"  style="color: green"> boursier</p>
+          <p *ngIf=" bourses.includes(doctorant!.id)==false"  style="color: red"> non boursier</p></td>
 
         <td>
           <div *ngIf="doctorant.sujet">
@@ -94,18 +98,20 @@
               <fa-icon icon="eye"></fa-icon>
               <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
             </button>
-
+            <span *jhiHasAnyAuthority="['ROLE_RESPONSABLE']">
+            <span *ngIf="doctorant!.id">
             <button
-              *jhiHasAnyAuthority="['ROLE_RESPONSABLE']"
+              *ngIf=" bourses.includes(doctorant!.id) == false"
               type="submit"
-              [routerLink]="['/doctorant', doctorant.id, 'edit']"
+              (click)="bourse(doctorant)"
               class="btn btn-primary btn-sm"
               data-cy="entityEditButton"
             >
               <fa-icon icon="pencil-alt"></fa-icon>
-              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              <span class="d-none d-md-inline">bourse</span>
             </button>
-
+              </span>
+</span>
             <button  *jhiHasAnyAuthority="['ROLE_RESPONSABLE']" type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
               <fa-icon icon="times"></fa-icon>
               <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

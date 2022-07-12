@@ -31,43 +31,49 @@
   <div class="table-responsive" id="entities" *ngIf="bourses && bourses.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.bourse.somme">Somme</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.bourse.doctorant">Doctorant</span></th>
-          <th scope="col"></th>
-        </tr>
+      <tr>
+        <th scope="col"><span >CNE PILE</span></th>
+        <th scope="col"><span >CNE FACE</span></th>
+        <th scope="col"><span >CIN</span></th>
+        <th scope="col"><span >TYPE DE BOURSE</span></th>
+        <th scope="col"></th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let bourse of bourses; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/bourse', bourse.id, 'view']">{{ bourse.id }}</a>
-          </td>
-          <td>{{ bourse.somme }}</td>
-          <td>
-            <div *ngIf="bourse.doctorant">
-              <a [routerLink]="['/doctorant', bourse.doctorant?.id, 'view']">{{ bourse.doctorant?.cne }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button type="submit" [routerLink]="['/bourse', bourse.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+      <tr *ngFor="let bourse of bourses; trackBy: trackId" data-cy="entityTable">
+        <td *ngIf="bourse.doctorant">
+          <img *ngIf="bourse.doctorant.photoCNEPile" [src]="decode(bourse.doctorant.photoCNEPile)" height="100" width="=100">
+        </td>
+        <td *ngIf="bourse.doctorant">
+          <img *ngIf="bourse.doctorant.photoCNEFace" [src]="decode(bourse.doctorant.photoCNEFace)" height="100" width="=100">
+        </td>
 
-              <button type="submit" [routerLink]="['/bourse', bourse.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+        <td>
+          <div *ngIf="bourse.doctorant">
+            <a [routerLink]="['/doctorant', bourse.doctorant?.id, 'view']">{{ bourse.doctorant?.cne }}</a>
+          </div>
+        </td>
 
-              <button type="submit" (click)="delete(bourse)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
+        <td>{{ bourse.type }}</td>
+        <td class="text-end">
+          <div class="btn-group">
+            <button type="submit" [routerLink]="['/bourse', bourse.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+            </button>
+
+            <button type="submit" [routerLink]="['/bourse', bourse.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+
+            <button type="submit" (click)="delete(bourse)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

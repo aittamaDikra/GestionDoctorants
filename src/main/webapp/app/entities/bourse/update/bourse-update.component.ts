@@ -21,7 +21,7 @@ export class BourseUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    somme: [],
+    type: [],
     doctorant: [],
   });
 
@@ -54,7 +54,7 @@ export class BourseUpdateComponent implements OnInit {
     }
   }
 
-  trackDoctorantById(index: number, item: IDoctorant): number {
+  trackDoctorantById(_index: number, item: IDoctorant): number {
     return item.id!;
   }
 
@@ -80,7 +80,7 @@ export class BourseUpdateComponent implements OnInit {
   protected updateForm(bourse: IBourse): void {
     this.editForm.patchValue({
       id: bourse.id,
-      somme: bourse.somme,
+      type: bourse.type,
       doctorant: bourse.doctorant,
     });
 
@@ -103,7 +103,7 @@ export class BourseUpdateComponent implements OnInit {
     return {
       ...new Bourse(),
       id: this.editForm.get(['id'])!.value,
-      somme: this.editForm.get(['somme'])!.value,
+      type: this.editForm.get(['type'])!.value,
       doctorant: this.editForm.get(['doctorant'])!.value,
     };
   }

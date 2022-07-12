@@ -1,4 +1,4 @@
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { IBourse, getBourseIdentifier } from '../bourse.model';
 
 export type EntityResponseType = HttpResponse<IBourse>;
 export type EntityArrayResponseType = HttpResponse<IBourse[]>;
+export type EntityArrayResponseType2 = HttpResponse<number[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BourseService {
@@ -30,6 +31,14 @@ export class BourseService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IBourse>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findByDoc(id: number): Observable<EntityResponseType> {
+    return this.http.get<IBourse>(`${this.resourceUrl}/doctorant/${id}`, { observe: 'response' });
+  }
+
+  findDocs(): Observable<EntityArrayResponseType2> {
+    return this.http.get<number[]>(`${this.resourceUrl}/doctorant`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
