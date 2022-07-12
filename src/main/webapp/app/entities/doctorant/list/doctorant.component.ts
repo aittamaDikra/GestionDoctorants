@@ -14,6 +14,7 @@ import {Bourse, IBourse} from "../../bourse/bourse.model";
 import {mergeMap} from "rxjs/operators";
 import {Bac, IBac} from "../../bac/bac.model";
 import {Observable, of, Subscription} from "rxjs";
+import {DoctorantSuccessDialogComponent} from "../success/doctorant-success-dialog.component";
 
 @Component({
   selector: 'jhi-doctorant',
@@ -24,6 +25,8 @@ export class DoctorantComponent implements OnInit {
   isLoading = false;
   dtOptions: DataTables.Settings = {};
   bourses: number[]=[];
+  m!:number;
+
 
   constructor(protected bourseService: BourseService,public _sanitizer: DomSanitizer,protected doctorantService: DoctorantService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
   decode(base64String: string): SafeResourceUrl {
@@ -55,6 +58,23 @@ export class DoctorantComponent implements OnInit {
 
   trackId(index: number, item: IDoctorant): number {
     return item.id!;
+  }
+  reinscription(): Observable<number> {
+    return this.doctorantService.reinscription().pipe(
+      mergeMap((bac: HttpResponse<number>) => {
+        if (bac.body) {
+          return of(bac.body);
+        } else {
+          return of(0);
+        }
+      })
+    );
+  }
+  reinscriptionbtn(): void {
+    this.reinscription().subscribe((value:number)=>this.loadAll());
+    const modalRef = this.modalService.open(DoctorantSuccessDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.closed.subscribe(() => this.loadAll());
+
   }
 
   byteSize(base64String: string): string {

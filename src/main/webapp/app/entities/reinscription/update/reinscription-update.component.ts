@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
@@ -42,7 +42,8 @@ export class ReinscriptionUpdateComponent implements OnInit {
     protected etablissementService: EtablissementService,
     protected doctorantService: DoctorantService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -84,8 +85,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const reinscription = this.createFromForm();
-
-      this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
+    this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
 
   }
 
@@ -105,7 +105,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.router.navigate(['/login']);
   }
 
   protected onSaveError(): void {
