@@ -338,6 +338,7 @@ export class InformationDetailComponent implements OnInit {
     })
     if(this.account?.authorities.includes('ROLE_USER')){
       this.modalService.open(ReinscriptionAddDialogComponent, { size: 'lg', backdrop: 'static' });
+
     }
 
   }

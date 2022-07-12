@@ -2,7 +2,10 @@
   <h2 id="page-heading" data-cy="DoctorantHeading">
     <span jhiTranslate="doctorantApp.doctorant.home.title">Doctorants</span>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end me-2">
+      <button class="btn btn-success me-2" type="submit"
+              (click)="reinscriptionbtn()">Reinscription</button>
+
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="doctorantApp.doctorant.home.refreshListLabel">Refresh List</span>
