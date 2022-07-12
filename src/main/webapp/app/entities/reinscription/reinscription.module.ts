@@ -5,10 +5,11 @@ import { ReinscriptionDetailComponent } from './detail/reinscription-detail.comp
 import { ReinscriptionUpdateComponent } from './update/reinscription-update.component';
 import { ReinscriptionDeleteDialogComponent } from './delete/reinscription-delete-dialog.component';
 import { ReinscriptionRoutingModule } from './route/reinscription-routing.module';
+import {ReinscriptionAddDialogComponent} from "./add/reinscription-add-dialog.component";
 
 @NgModule({
   imports: [SharedModule, ReinscriptionRoutingModule],
-  declarations: [ReinscriptionComponent, ReinscriptionDetailComponent, ReinscriptionUpdateComponent, ReinscriptionDeleteDialogComponent],
-  entryComponents: [ReinscriptionDeleteDialogComponent],
+  declarations: [ReinscriptionComponent, ReinscriptionDetailComponent, ReinscriptionUpdateComponent, ReinscriptionDeleteDialogComponent,ReinscriptionAddDialogComponent],
+  entryComponents: [ReinscriptionDeleteDialogComponent,ReinscriptionAddDialogComponent],
 })
 export class ReinscriptionModule {}

@@ -1,7 +1,10 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Reinscription;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.ReinscriptionRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,11 +34,14 @@ public class ReinscriptionResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
+    private UserRepository userRepository;
+    private DoctorantRepository doctorantRepository;
     private final ReinscriptionRepository reinscriptionRepository;
 
-    public ReinscriptionResource(ReinscriptionRepository reinscriptionRepository) {
+    public ReinscriptionResource(ReinscriptionRepository reinscriptionRepository,UserRepository userRepository, DoctorantRepository doctorantRepository) {
         this.reinscriptionRepository = reinscriptionRepository;
+        this.userRepository = userRepository;
+        this.doctorantRepository = doctorantRepository;
     }
 
     /**
@@ -51,6 +57,8 @@ public class ReinscriptionResource {
         if (reinscription.getId() != null) {
             throw new BadRequestAlertException("A new reinscription cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        reinscription.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
+
         Reinscription result = reinscriptionRepository.save(reinscription);
         return ResponseEntity
             .created(new URI("/api/reinscriptions/" + result.getId()))

@@ -7,10 +7,11 @@ import { DoctorantDeleteDialogComponent } from './delete/doctorant-delete-dialog
 import { DoctorantRoutingModule } from './route/doctorant-routing.module';
 import {InformationModule} from "../information/information.module";
 import {DataTablesModule} from "angular-datatables";
+import {DoctorantSuccessDialogComponent} from "./success/doctorant-success-dialog.component";
 
 @NgModule({
     imports: [SharedModule, DoctorantRoutingModule, InformationModule, DataTablesModule],
-  declarations: [DoctorantComponent, DoctorantDetailComponent, DoctorantUpdateComponent, DoctorantDeleteDialogComponent],
-  entryComponents: [DoctorantDeleteDialogComponent],
+  declarations: [DoctorantComponent, DoctorantDetailComponent, DoctorantUpdateComponent, DoctorantDeleteDialogComponent,DoctorantSuccessDialogComponent],
+  entryComponents: [DoctorantDeleteDialogComponent,DoctorantSuccessDialogComponent],
 })
 export class DoctorantModule {}

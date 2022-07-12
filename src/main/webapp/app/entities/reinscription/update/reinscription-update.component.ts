@@ -21,7 +21,7 @@ import { DoctorantService } from 'app/entities/doctorant/service/doctorant.servi
 })
 export class ReinscriptionUpdateComponent implements OnInit {
   isSaving = false;
-
+  contentEditable=false;
   etablissementsSharedCollection: IEtablissement[] = [];
   doctorantsSharedCollection: IDoctorant[] = [];
 
@@ -49,9 +49,18 @@ export class ReinscriptionUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ reinscription }) => {
       this.updateForm(reinscription);
 
-      this.loadRelationshipsOptions();
     });
+    this.loadRelationshipsOptions();
+
   }
+
+  toggleEditable({event}: { event: any }):void {
+    if ( event.target.checked ) {
+      this.contentEditable = true;
+    }
+    else {this.contentEditable = false;}
+  }
+
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
@@ -75,11 +84,9 @@ export class ReinscriptionUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const reinscription = this.createFromForm();
-    if (reinscription.id !== undefined) {
-      this.subscribeToSaveResponse(this.reinscriptionService.update(reinscription));
-    } else {
+
       this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
-    }
+
   }
 
   trackEtablissementById(_index: number, item: IEtablissement): number {
@@ -164,4 +171,6 @@ export class ReinscriptionUpdateComponent implements OnInit {
       doctorant: this.editForm.get(['doctorant'])!.value,
     };
   }
+
+
 }

@@ -19,6 +19,10 @@ import {DoctorantSalariee2} from "../../ChartsModels/DoctorantSalariee2";
 import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
 import {CountChercheurPays} from "../../ChartsModels/CountChercheurPays";
 import {Bac, IBac} from "../../bac/bac.model";
+import {DoctorantDeleteDialogComponent} from "../../doctorant/delete/doctorant-delete-dialog.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DoctorantSuccessDialogComponent} from "../../doctorant/success/doctorant-success-dialog.component";
+import {ReinscriptionAddDialogComponent} from "../../reinscription/add/reinscription-add-dialog.component";
 
 @Component({
   selector: 'jhi-information-detail',
@@ -234,7 +238,7 @@ export class InformationDetailComponent implements OnInit {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(protected activatedRoute: ActivatedRoute,protected publicationService: PublicationService,protected doctorantService: DoctorantService,private accountService: AccountService, private router: Router) {}
+  constructor(protected modalService: NgbModal,protected activatedRoute: ActivatedRoute,protected publicationService: PublicationService,protected doctorantService: DoctorantService,private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.accountService
@@ -332,7 +336,9 @@ export class InformationDetailComponent implements OnInit {
         this.isLoading = false;
       },
     })
-    this.doctorantService.reinscription();
+    if(this.account?.authorities.includes('ROLE_USER')){
+      this.modalService.open(ReinscriptionAddDialogComponent, { size: 'lg', backdrop: 'static' });
+    }
 
   }
 
@@ -349,7 +355,9 @@ export class InformationDetailComponent implements OnInit {
   }
   reinscriptionbtn(): void {
     this.reinscription().subscribe((value:number)=>this.m=value);;
-    this.router.navigate(['/login']);
+    const modalRef = this.modalService.open(DoctorantSuccessDialogComponent, { size: 'lg', backdrop: 'static' });
+    // unsubscribe not needed because closed completes on modal close
+    ;
 
   }
 
