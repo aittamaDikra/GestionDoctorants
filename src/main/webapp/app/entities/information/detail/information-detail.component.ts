@@ -14,11 +14,11 @@ import {Color, Label, SingleDataSet} from "ng2-charts";
 import {Account} from "../../../core/auth/account.model";
 import {mergeMap, takeUntil} from "rxjs/operators";
 import {AccountService} from "../../../core/auth/account.service";
-import {of, Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {DoctorantSalariee2} from "../../ChartsModels/DoctorantSalariee2";
 import {CountPubByTypeAnnee} from "../../ChartsModels/CountPubByTypeAnnee";
 import {CountChercheurPays} from "../../ChartsModels/CountChercheurPays";
-import {Bac} from "../../bac/bac.model";
+import {Bac, IBac} from "../../bac/bac.model";
 
 @Component({
   selector: 'jhi-information-detail',
@@ -43,6 +43,7 @@ export class InformationDetailComponent implements OnInit {
   countspub1:number[] =[];countspub2:number[] =[];countspub3:number[] =[];
   typepub:string[]  =[];
   isLoading = false;
+  m!:number;
   countChercheurPays!:CountChercheurPays[];
   countstype1 : number[] =[];
   countstype2 : number[] =[];
@@ -335,17 +336,21 @@ export class InformationDetailComponent implements OnInit {
 
   }
 
-  reinscription(): void {
-    this.doctorantService.reinscription().pipe(
+  reinscription(): Observable<number> {
+    return this.doctorantService.reinscription().pipe(
       mergeMap((bac: HttpResponse<number>) => {
         if (bac.body) {
-          return of(0);
+          return of(bac.body);
         } else {
           return of(0);
         }
       })
     );
-    this.router.navigate(['/']);
+  }
+  reinscriptionbtn(): void {
+    this.reinscription().subscribe((value:number)=>this.m=value);;
+    this.router.navigate(['/login']);
+
   }
 
   previousState(): void {
