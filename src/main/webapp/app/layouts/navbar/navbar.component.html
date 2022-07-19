@@ -118,9 +118,22 @@
                 *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.doctorant">Doctorant</span>
+                <span jhiTranslate="global.menu.entities.doctorant">Doctorant (réinscription)</span>
               </a>
             </li>
+            <li>
+            <a
+              class="dropdown-item"
+              routerLink="reinscription"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+              *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.doctorant">Doctorant</span>
+            </a>
+          </li>
             <li>
               <a
                 class="dropdown-item"
