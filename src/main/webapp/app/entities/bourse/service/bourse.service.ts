@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IBourse, getBourseIdentifier } from '../bourse.model';
+import {IBourse, getBourseIdentifier, Bourse} from '../bourse.model';
 
 export type EntityResponseType = HttpResponse<IBourse>;
 export type EntityArrayResponseType = HttpResponse<IBourse[]>;
@@ -33,8 +33,8 @@ export class BourseService {
     return this.http.get<IBourse>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  findByDoc(id: number): Observable<EntityResponseType> {
-    return this.http.get<IBourse>(`${this.resourceUrl}/doctorant/${id}`, { observe: 'response' });
+  findByDoc(login: string): Observable<EntityResponseType> {
+    return this.http.get<Bourse>(`${this.resourceUrl}/doctorant/${login}`, { observe: 'response' });
   }
 
   findDocs(): Observable<EntityArrayResponseType2> {

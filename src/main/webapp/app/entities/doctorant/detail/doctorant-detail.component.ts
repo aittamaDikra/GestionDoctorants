@@ -37,11 +37,14 @@ export class DoctorantDetailComponent implements OnInit {
   publications?: IPublication[];
   countPub!:CountPub[];
   countPubByType!:CountPubByType[];
+  types!:string[];
+  login!:string;
+
   constructor(protected publicationService: PublicationService,protected doctorantService: DoctorantService,private userService: UserManagementService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
   loadAll(): void {
     this.activatedRoute.data.subscribe(({ doctorant }) => {
       this.doctorant = doctorant;
-
+      this.login=doctorant.user?.login;
       this.formationDoctorantService.findByDoctorant(doctorant.id).subscribe({
         next: (res: HttpResponse<IFormationDoctorant[]>) => {
           this.isLoading = true;
@@ -65,6 +68,14 @@ export class DoctorantDetailComponent implements OnInit {
         next: (res: HttpResponse<IPublication[]>) => {
           this.isLoading = false;
           this.publications = res.body ?? [];
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+      this.publicationService.PublicationTypeByuser(doctorant?.user.login).subscribe({
+        next: (res: HttpResponse<string[]>) => {
+          this.types = res.body ?? [];
         },
         error: () => {
           this.isLoading = false;

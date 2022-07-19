@@ -221,7 +221,7 @@ public class PublicationResource {
     @GetMapping("/publications/count/{login}")
     public List<CountPub> getPublicationcountById(@PathVariable String login) {
 
-        List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(login);
+        List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(login.toString());
         return publication;
     }
     @GetMapping("/publications/countALL")
@@ -230,7 +230,7 @@ public class PublicationResource {
         List<CountPub> publication = publicationRepository.countPublicationOrderByDate();
         return publication;
     }
-    @GetMapping("/publications/count/{id}")
+    @GetMapping("/publications/count/id/{id}")
     public List<CountPub> getPublicationcount(@PathVariable Long id) {
 
         List<CountPub> publication = publicationRepository.countPublicationByUserOrderByDate(userRepository.getById(id).getLogin());
@@ -296,7 +296,7 @@ public class PublicationResource {
         return publication;
     }
 
-    @GetMapping("/publications/countType/{id}")
+    @GetMapping("/publications/countType/id/{id}")
     public List<CountPubByType> getPublicationcountTypeByUser(@PathVariable Long id) {
 
         List<CountPubByType> publication = publicationRepository.countPublicationByUserGroupbyType(userRepository.getById(id).getLogin());
