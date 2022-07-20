@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.FormationSuivie;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.FormationSuivieRepository;
 import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -59,6 +60,7 @@ public class FormationSuivieResource {
         if (formationSuivie.getId() != null) {
             throw new BadRequestAlertException("A new formationSuivie cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        formationSuivie.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
         FormationSuivie result = formationSuivieRepository.save(formationSuivie);
         return ResponseEntity
             .created(new URI("/api/formation-suivies/" + result.getId()))
