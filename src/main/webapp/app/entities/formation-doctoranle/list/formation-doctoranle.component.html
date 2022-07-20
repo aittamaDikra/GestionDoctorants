@@ -34,8 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationDoctoranle.thematique">Thematique</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationDoctoranle.dateDeFormation">Date De Formation</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationDoctoranle.dureeDeFormation">Duree De Formation</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.formationDoctoranle.description">Description</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -45,8 +44,7 @@
             <a [routerLink]="['/formation-doctoranle', formationDoctoranle.id, 'view']">{{ formationDoctoranle.id }}</a>
           </td>
           <td>{{ formationDoctoranle.thematique }}</td>
-          <td>{{ formationDoctoranle.dateDeFormation | formatMediumDate }}</td>
-          <td>{{ formationDoctoranle.dureeDeFormation }}</td>
+          <td>{{ formationDoctoranle.description }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

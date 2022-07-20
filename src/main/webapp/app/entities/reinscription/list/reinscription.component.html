@@ -33,10 +33,11 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.reinscription.doctorant">Doctorant</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.formulaireReinscription">Formulaire Reinscription</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.demande">Demande</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.reinscription.annee">Annee</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.etablissement">Etablissement</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.reinscription.doctorant">Doctorant</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -44,11 +45,6 @@
         <tr *ngFor="let reinscription of reinscriptions; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/reinscription', reinscription.id, 'view']">{{ reinscription.id }}</a>
-          </td>
-          <td>
-            <div *ngIf="reinscription.doctorant">
-              <a [routerLink]="['/doctorant', reinscription.doctorant?.id, 'view']">{{ reinscription.doctorant?.cne }}</a>
-            </div>
           </td>
           <td>
             <a
@@ -70,12 +66,17 @@
             >
             <span *ngIf="reinscription.demande">{{ reinscription.demandeContentType }}, {{ byteSize(reinscription.demande) }}</span>
           </td>
+          <td>{{ reinscription.annee }}</td>
           <td>
             <div *ngIf="reinscription.etablissement">
               <a [routerLink]="['/etablissement', reinscription.etablissement?.id, 'view']">{{ reinscription.etablissement?.id }}</a>
             </div>
           </td>
-
+          <td>
+            <div *ngIf="reinscription.doctorant">
+              <a [routerLink]="['/doctorant', reinscription.doctorant?.id, 'view']">{{ reinscription.doctorant?.id }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

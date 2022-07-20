@@ -2,7 +2,6 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,11 +25,8 @@ public class FormationDoctoranle implements Serializable {
     @Column(name = "thematique", nullable = false)
     private String thematique;
 
-    @Column(name = "date_de_formation")
-    private LocalDate dateDeFormation;
-
-    @Column(name = "duree_de_formation")
-    private Integer dureeDeFormation;
+    @Column(name = "description")
+    private String description;
 
     @OneToMany(mappedBy = "formationDoctoranle")
     @JsonIgnoreProperties(value = { "formationDoctoranle", "doctorant" }, allowSetters = true)
@@ -64,30 +60,17 @@ public class FormationDoctoranle implements Serializable {
         this.thematique = thematique;
     }
 
-    public LocalDate getDateDeFormation() {
-        return this.dateDeFormation;
+    public String getDescription() {
+        return this.description;
     }
 
-    public FormationDoctoranle dateDeFormation(LocalDate dateDeFormation) {
-        this.setDateDeFormation(dateDeFormation);
+    public FormationDoctoranle description(String description) {
+        this.setDescription(description);
         return this;
     }
 
-    public void setDateDeFormation(LocalDate dateDeFormation) {
-        this.dateDeFormation = dateDeFormation;
-    }
-
-    public Integer getDureeDeFormation() {
-        return this.dureeDeFormation;
-    }
-
-    public FormationDoctoranle dureeDeFormation(Integer dureeDeFormation) {
-        this.setDureeDeFormation(dureeDeFormation);
-        return this;
-    }
-
-    public void setDureeDeFormation(Integer dureeDeFormation) {
-        this.dureeDeFormation = dureeDeFormation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<FormationSuivie> getFormationSuivies() {
@@ -146,8 +129,7 @@ public class FormationDoctoranle implements Serializable {
         return "FormationDoctoranle{" +
             "id=" + getId() +
             ", thematique='" + getThematique() + "'" +
-            ", dateDeFormation='" + getDateDeFormation() + "'" +
-            ", dureeDeFormation=" + getDureeDeFormation() +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

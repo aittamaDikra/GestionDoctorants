@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
@@ -31,6 +31,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
     formulaireReinscriptionContentType: [],
     demande: [],
     demandeContentType: [],
+    annee: [],
     etablissement: [],
     doctorant: [],
   });
@@ -42,8 +43,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
     protected etablissementService: EtablissementService,
     protected doctorantService: DoctorantService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder,
-    private router: Router
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -54,14 +54,12 @@ export class ReinscriptionUpdateComponent implements OnInit {
     this.loadRelationshipsOptions();
 
   }
-
   toggleEditable({event}: { event: any }):void {
     if ( event.target.checked ) {
       this.contentEditable = true;
     }
     else {this.contentEditable = false;}
   }
-
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
@@ -85,8 +83,11 @@ export class ReinscriptionUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const reinscription = this.createFromForm();
-    this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
-
+    if (reinscription.id !== undefined) {
+      this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
+    } else {
+      this.subscribeToSaveResponse(this.reinscriptionService.create(reinscription));
+    }
   }
 
   trackEtablissementById(_index: number, item: IEtablissement): number {
@@ -105,7 +106,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.router.navigate(['/login']);
+    this.previousState();
   }
 
   protected onSaveError(): void {
@@ -123,6 +124,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
       formulaireReinscriptionContentType: reinscription.formulaireReinscriptionContentType,
       demande: reinscription.demande,
       demandeContentType: reinscription.demandeContentType,
+      annee: reinscription.annee,
       etablissement: reinscription.etablissement,
       doctorant: reinscription.doctorant,
     });
@@ -167,10 +169,9 @@ export class ReinscriptionUpdateComponent implements OnInit {
       formulaireReinscription: this.editForm.get(['formulaireReinscription'])!.value,
       demandeContentType: this.editForm.get(['demandeContentType'])!.value,
       demande: this.editForm.get(['demande'])!.value,
+      annee: this.editForm.get(['annee'])!.value,
       etablissement: this.editForm.get(['etablissement'])!.value,
       doctorant: this.editForm.get(['doctorant'])!.value,
     };
   }
-
-
 }

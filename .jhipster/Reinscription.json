@@ -10,6 +10,10 @@
       "fieldName": "demande",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "annee",
+      "fieldType": "Double"
     }
   ],
   "name": "Reinscription",

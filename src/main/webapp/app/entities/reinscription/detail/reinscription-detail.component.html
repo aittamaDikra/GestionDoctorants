@@ -32,6 +32,10 @@
             {{ reinscription.demandeContentType }}, {{ byteSize(reinscription.demande) }}
           </div>
         </dd>
+        <dt><span jhiTranslate="doctorantApp.reinscription.annee">Annee</span></dt>
+        <dd>
+          <span>{{ reinscription.annee }}</span>
+        </dd>
         <dt><span jhiTranslate="doctorantApp.reinscription.etablissement">Etablissement</span></dt>
         <dd>
           <div *ngIf="reinscription.etablissement">

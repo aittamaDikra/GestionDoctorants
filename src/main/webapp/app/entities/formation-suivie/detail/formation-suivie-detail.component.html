@@ -22,7 +22,20 @@
         </dd>
         <dt><span jhiTranslate="doctorantApp.formationSuivie.attestation">Attestation</span></dt>
         <dd>
-          <span>{{ formationSuivie.attestation }}</span>
+          <div *ngIf="formationSuivie.attestation">
+            <a (click)="openFile(formationSuivie.attestation, formationSuivie.attestationContentType)" jhiTranslate="entity.action.open"
+              >open</a
+            >
+            {{ formationSuivie.attestationContentType }}, {{ byteSize(formationSuivie.attestation) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.formationSuivie.date">Date</span></dt>
+        <dd>
+          <span>{{ formationSuivie.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="doctorantApp.formationSuivie.titre">Titre</span></dt>
+        <dd>
+          <span>{{ formationSuivie.titre }}</span>
         </dd>
         <dt><span jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle">Formation Doctoranle</span></dt>
         <dd>

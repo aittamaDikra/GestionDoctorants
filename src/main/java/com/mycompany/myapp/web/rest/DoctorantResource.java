@@ -4,10 +4,12 @@ import com.mycompany.myapp.charts.CountDoc;
 import com.mycompany.myapp.charts.DocS;
 import com.mycompany.myapp.charts.DoctorantCountSalariee;
 import com.mycompany.myapp.domain.Doctorant;
+import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
+import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,12 +39,15 @@ public class DoctorantResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+    private final MailService mailService;
 
     private final DoctorantRepository doctorantRepository;
 
     private UserRepository userRepository;
 
-    public DoctorantResource(UserRepository userRepository, DoctorantRepository doctorantRepository) {
+    public DoctorantResource(MailService mailService,
+                             MailService mailService1, UserRepository userRepository, DoctorantRepository doctorantRepository) {
+        this.mailService = mailService1;
 
         this.userRepository = userRepository;
         this.doctorantRepository = doctorantRepository;
@@ -289,7 +294,13 @@ public class DoctorantResource {
 
     @GetMapping("/doctorants/reinscription")
     public int reinscription() {
+        for(User i :userRepository.listEmail()){
+            mailService.sendEmail(i.getEmail(),"Ré-Inscription au Centre des Etudes Doctorales ","mail/reinscription",false,true);
+            mailService.sendEmailFromTemplate(i,"mail/reinscription","email.activation.title");
+
+        }
         doctorantRepository.reinscription();
+
         return 0;
     }
 

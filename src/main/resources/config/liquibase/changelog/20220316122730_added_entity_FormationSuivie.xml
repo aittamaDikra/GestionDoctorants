@@ -17,8 +17,17 @@
             <column name="duree" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="attestation" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="attestation" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="attestation_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="titre" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
             <column name="formation_doctoranle_id" type="bigint">
                 <constraints nullable="true" />
@@ -48,7 +57,10 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="duree" type="numeric"/>
-            <column name="attestation" type="string"/>
+            <column name="attestation" type="blob"/>
+            <column name="attestation_content_type" type="string"/>
+            <column name="date" type="date"/>
+            <column name="titre" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

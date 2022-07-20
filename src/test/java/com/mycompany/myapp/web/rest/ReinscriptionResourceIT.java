@@ -41,6 +41,9 @@ class ReinscriptionResourceIT {
     private static final String DEFAULT_DEMANDE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_DEMANDE_CONTENT_TYPE = "image/png";
 
+    private static final Double DEFAULT_ANNEE = 1D;
+    private static final Double UPDATED_ANNEE = 2D;
+
     private static final String ENTITY_API_URL = "/api/reinscriptions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -69,7 +72,8 @@ class ReinscriptionResourceIT {
             .formulaireReinscription(DEFAULT_FORMULAIRE_REINSCRIPTION)
             .formulaireReinscriptionContentType(DEFAULT_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE)
             .demande(DEFAULT_DEMANDE)
-            .demandeContentType(DEFAULT_DEMANDE_CONTENT_TYPE);
+            .demandeContentType(DEFAULT_DEMANDE_CONTENT_TYPE)
+            .annee(DEFAULT_ANNEE);
         return reinscription;
     }
 
@@ -84,7 +88,8 @@ class ReinscriptionResourceIT {
             .formulaireReinscription(UPDATED_FORMULAIRE_REINSCRIPTION)
             .formulaireReinscriptionContentType(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE)
             .demande(UPDATED_DEMANDE)
-            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE);
+            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE)
+            .annee(UPDATED_ANNEE);
         return reinscription;
     }
 
@@ -115,6 +120,7 @@ class ReinscriptionResourceIT {
         assertThat(testReinscription.getFormulaireReinscriptionContentType()).isEqualTo(DEFAULT_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE);
         assertThat(testReinscription.getDemande()).isEqualTo(DEFAULT_DEMANDE);
         assertThat(testReinscription.getDemandeContentType()).isEqualTo(DEFAULT_DEMANDE_CONTENT_TYPE);
+        assertThat(testReinscription.getAnnee()).isEqualTo(DEFAULT_ANNEE);
     }
 
     @Test
@@ -157,7 +163,8 @@ class ReinscriptionResourceIT {
                 jsonPath("$.[*].formulaireReinscription").value(hasItem(Base64Utils.encodeToString(DEFAULT_FORMULAIRE_REINSCRIPTION)))
             )
             .andExpect(jsonPath("$.[*].demandeContentType").value(hasItem(DEFAULT_DEMANDE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].demande").value(hasItem(Base64Utils.encodeToString(DEFAULT_DEMANDE))));
+            .andExpect(jsonPath("$.[*].demande").value(hasItem(Base64Utils.encodeToString(DEFAULT_DEMANDE))))
+            .andExpect(jsonPath("$.[*].annee").value(hasItem(DEFAULT_ANNEE.doubleValue())));
     }
 
     @Test
@@ -175,7 +182,8 @@ class ReinscriptionResourceIT {
             .andExpect(jsonPath("$.formulaireReinscriptionContentType").value(DEFAULT_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE))
             .andExpect(jsonPath("$.formulaireReinscription").value(Base64Utils.encodeToString(DEFAULT_FORMULAIRE_REINSCRIPTION)))
             .andExpect(jsonPath("$.demandeContentType").value(DEFAULT_DEMANDE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.demande").value(Base64Utils.encodeToString(DEFAULT_DEMANDE)));
+            .andExpect(jsonPath("$.demande").value(Base64Utils.encodeToString(DEFAULT_DEMANDE)))
+            .andExpect(jsonPath("$.annee").value(DEFAULT_ANNEE.doubleValue()));
     }
 
     @Test
@@ -201,7 +209,8 @@ class ReinscriptionResourceIT {
             .formulaireReinscription(UPDATED_FORMULAIRE_REINSCRIPTION)
             .formulaireReinscriptionContentType(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE)
             .demande(UPDATED_DEMANDE)
-            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE);
+            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE)
+            .annee(UPDATED_ANNEE);
 
         restReinscriptionMockMvc
             .perform(
@@ -220,6 +229,7 @@ class ReinscriptionResourceIT {
         assertThat(testReinscription.getFormulaireReinscriptionContentType()).isEqualTo(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE);
         assertThat(testReinscription.getDemande()).isEqualTo(UPDATED_DEMANDE);
         assertThat(testReinscription.getDemandeContentType()).isEqualTo(UPDATED_DEMANDE_CONTENT_TYPE);
+        assertThat(testReinscription.getAnnee()).isEqualTo(UPDATED_ANNEE);
     }
 
     @Test
@@ -301,7 +311,8 @@ class ReinscriptionResourceIT {
             .formulaireReinscription(UPDATED_FORMULAIRE_REINSCRIPTION)
             .formulaireReinscriptionContentType(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE)
             .demande(UPDATED_DEMANDE)
-            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE);
+            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE)
+            .annee(UPDATED_ANNEE);
 
         restReinscriptionMockMvc
             .perform(
@@ -320,6 +331,7 @@ class ReinscriptionResourceIT {
         assertThat(testReinscription.getFormulaireReinscriptionContentType()).isEqualTo(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE);
         assertThat(testReinscription.getDemande()).isEqualTo(UPDATED_DEMANDE);
         assertThat(testReinscription.getDemandeContentType()).isEqualTo(UPDATED_DEMANDE_CONTENT_TYPE);
+        assertThat(testReinscription.getAnnee()).isEqualTo(UPDATED_ANNEE);
     }
 
     @Test
@@ -338,7 +350,8 @@ class ReinscriptionResourceIT {
             .formulaireReinscription(UPDATED_FORMULAIRE_REINSCRIPTION)
             .formulaireReinscriptionContentType(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE)
             .demande(UPDATED_DEMANDE)
-            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE);
+            .demandeContentType(UPDATED_DEMANDE_CONTENT_TYPE)
+            .annee(UPDATED_ANNEE);
 
         restReinscriptionMockMvc
             .perform(
@@ -357,6 +370,7 @@ class ReinscriptionResourceIT {
         assertThat(testReinscription.getFormulaireReinscriptionContentType()).isEqualTo(UPDATED_FORMULAIRE_REINSCRIPTION_CONTENT_TYPE);
         assertThat(testReinscription.getDemande()).isEqualTo(UPDATED_DEMANDE);
         assertThat(testReinscription.getDemandeContentType()).isEqualTo(UPDATED_DEMANDE_CONTENT_TYPE);
+        assertThat(testReinscription.getAnnee()).isEqualTo(UPDATED_ANNEE);
     }
 
     @Test

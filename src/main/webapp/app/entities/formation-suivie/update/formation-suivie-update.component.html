@@ -32,23 +32,70 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.attestation" for="field_attestation">Attestation</label>
+          <div>
+            <div *ngIf="editForm.get('attestation')!.value" class="form-text text-danger clearfix">
+              <a
+                class="pull-start"
+                (click)="openFile(editForm.get('attestation')!.value, editForm.get('attestationContentType')!.value)"
+                jhiTranslate="entity.action.open"
+                >open</a
+              ><br />
+              <span class="pull-start"
+                >{{ editForm.get('attestationContentType')!.value }}, {{ byteSize(editForm.get('attestation')!.value) }}</span
+              >
+              <button
+                type="button"
+                (click)="editForm.patchValue({ attestation: null }); editForm.patchValue({ attestationContentType: null })"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_attestation"
+              data-cy="attestation"
+              (change)="setFileData($event, 'attestation', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
           <input
-            type="text"
+            type="hidden"
             class="form-control"
             name="attestation"
             id="field_attestation"
             data-cy="attestation"
             formControlName="attestation"
           />
-          <div *ngIf="editForm.get('attestation')!.invalid && (editForm.get('attestation')!.dirty || editForm.get('attestation')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('attestation')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
+          <input
+            type="hidden"
+            class="form-control"
+            name="attestationContentType"
+            id="field_attestationContentType"
+            formControlName="attestationContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.date" for="field_date">Date</label>
+          <div class="input-group">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="text"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
           </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.titre" for="field_titre">Titre</label>
+          <input type="text" class="form-control" name="titre" id="field_titre" data-cy="titre" formControlName="titre" />
         </div>
 
         <div class="row mb-3">

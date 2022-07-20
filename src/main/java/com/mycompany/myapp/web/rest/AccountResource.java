@@ -90,7 +90,12 @@ public class AccountResource {
             throw new AccountResourceException("No user was found for this activation key");
         }
     }
+    @GetMapping("/sennd")
+    public List<User> dd() {
+        List<User> user = userRepository.listEmail();
+        return user;
 
+    }
     /**
      * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
      *

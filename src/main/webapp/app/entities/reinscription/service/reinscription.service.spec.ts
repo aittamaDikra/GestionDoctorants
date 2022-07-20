@@ -25,6 +25,7 @@ describe('Reinscription Service', () => {
       formulaireReinscription: 'AAAAAAA',
       demandeContentType: 'image/png',
       demande: 'AAAAAAA',
+      annee: 0,
     };
   });
 
@@ -62,6 +63,7 @@ describe('Reinscription Service', () => {
           id: 1,
           formulaireReinscription: 'BBBBBB',
           demande: 'BBBBBB',
+          annee: 1,
         },
         elemDefault
       );
@@ -80,6 +82,7 @@ describe('Reinscription Service', () => {
         {
           formulaireReinscription: 'BBBBBB',
           demande: 'BBBBBB',
+          annee: 1,
         },
         new Reinscription()
       );
@@ -101,6 +104,7 @@ describe('Reinscription Service', () => {
           id: 1,
           formulaireReinscription: 'BBBBBB',
           demande: 'BBBBBB',
+          annee: 1,
         },
         elemDefault
       );
@@ -152,7 +156,7 @@ describe('Reinscription Service', () => {
       });
 
       it('should add only unique Reinscription to an array', () => {
-        const reinscriptionArray: IReinscription[] = [{ id: 123 }, { id: 456 }, { id: 66019 }];
+        const reinscriptionArray: IReinscription[] = [{ id: 123 }, { id: 456 }, { id: 32898 }];
         const reinscriptionCollection: IReinscription[] = [{ id: 123 }];
         expectedResult = service.addReinscriptionToCollectionIfMissing(reinscriptionCollection, ...reinscriptionArray);
         expect(expectedResult).toHaveLength(3);

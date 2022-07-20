@@ -12,8 +12,16 @@
     },
     {
       "fieldName": "attestation",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "titre",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

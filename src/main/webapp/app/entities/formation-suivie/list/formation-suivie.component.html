@@ -35,6 +35,8 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.duree">Duree</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.attestation">Attestation</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.date">Date</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.titre">Titre</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle">Formation Doctoranle</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.doctorant">Doctorant</span></th>
           <th scope="col"></th>
@@ -46,7 +48,19 @@
             <a [routerLink]="['/formation-suivie', formationSuivie.id, 'view']">{{ formationSuivie.id }}</a>
           </td>
           <td>{{ formationSuivie.duree }}</td>
-          <td>{{ formationSuivie.attestation }}</td>
+          <td>
+            <a
+              *ngIf="formationSuivie.attestation"
+              (click)="openFile(formationSuivie.attestation, formationSuivie.attestationContentType)"
+              jhiTranslate="entity.action.open"
+              >open</a
+            >
+            <span *ngIf="formationSuivie.attestation"
+              >{{ formationSuivie.attestationContentType }}, {{ byteSize(formationSuivie.attestation) }}</span
+            >
+          </td>
+          <td>{{ formationSuivie.date | formatMediumDate }}</td>
+          <td>{{ formationSuivie.titre }}</td>
           <td>
             <div *ngIf="formationSuivie.formationDoctoranle">
               <a [routerLink]="['/formation-doctoranle', formationSuivie.formationDoctoranle?.id, 'view']">{{

@@ -32,6 +32,9 @@ public class Reinscription implements Serializable {
     @Column(name = "demande_content_type")
     private String demandeContentType;
 
+    @Column(name = "annee")
+    private Double annee;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "formationDoctorant" }, allowSetters = true)
     private Etablissement etablissement;
@@ -110,6 +113,19 @@ public class Reinscription implements Serializable {
         this.demandeContentType = demandeContentType;
     }
 
+    public Double getAnnee() {
+        return this.annee;
+    }
+
+    public Reinscription annee(Double annee) {
+        this.setAnnee(annee);
+        return this;
+    }
+
+    public void setAnnee(Double annee) {
+        this.annee = annee;
+    }
+
     public Etablissement getEtablissement() {
         return this.etablissement;
     }
@@ -164,6 +180,7 @@ public class Reinscription implements Serializable {
             ", formulaireReinscriptionContentType='" + getFormulaireReinscriptionContentType() + "'" +
             ", demande='" + getDemande() + "'" +
             ", demandeContentType='" + getDemandeContentType() + "'" +
+            ", annee=" + getAnnee() +
             "}";
     }
 }

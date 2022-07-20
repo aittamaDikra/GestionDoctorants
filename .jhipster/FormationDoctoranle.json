@@ -11,12 +11,8 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "dateDeFormation",
-      "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "dureeDeFormation",
-      "fieldType": "Integer"
+      "fieldName": "description",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

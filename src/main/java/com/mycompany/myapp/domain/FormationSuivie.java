@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -23,9 +24,18 @@ public class FormationSuivie implements Serializable {
     @Column(name = "duree", nullable = false)
     private Integer duree;
 
-    @NotNull
-    @Column(name = "attestation", nullable = false)
-    private String attestation;
+    @Lob
+    @Column(name = "attestation")
+    private byte[] attestation;
+
+    @Column(name = "attestation_content_type")
+    private String attestationContentType;
+
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "titre")
+    private String titre;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "formationSuivies" }, allowSetters = true)
@@ -66,17 +76,56 @@ public class FormationSuivie implements Serializable {
         this.duree = duree;
     }
 
-    public String getAttestation() {
+    public byte[] getAttestation() {
         return this.attestation;
     }
 
-    public FormationSuivie attestation(String attestation) {
+    public FormationSuivie attestation(byte[] attestation) {
         this.setAttestation(attestation);
         return this;
     }
 
-    public void setAttestation(String attestation) {
+    public void setAttestation(byte[] attestation) {
         this.attestation = attestation;
+    }
+
+    public String getAttestationContentType() {
+        return this.attestationContentType;
+    }
+
+    public FormationSuivie attestationContentType(String attestationContentType) {
+        this.attestationContentType = attestationContentType;
+        return this;
+    }
+
+    public void setAttestationContentType(String attestationContentType) {
+        this.attestationContentType = attestationContentType;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public FormationSuivie date(LocalDate date) {
+        this.setDate(date);
+        return this;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getTitre() {
+        return this.titre;
+    }
+
+    public FormationSuivie titre(String titre) {
+        this.setTitre(titre);
+        return this;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public FormationDoctoranle getFormationDoctoranle() {
@@ -131,6 +180,9 @@ public class FormationSuivie implements Serializable {
             "id=" + getId() +
             ", duree=" + getDuree() +
             ", attestation='" + getAttestation() + "'" +
+            ", attestationContentType='" + getAttestationContentType() + "'" +
+            ", date='" + getDate() + "'" +
+            ", titre='" + getTitre() + "'" +
             "}";
     }
 }
