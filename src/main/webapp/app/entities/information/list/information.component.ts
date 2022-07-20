@@ -24,10 +24,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
-import {Observable, of} from "rxjs";
-import {Bourse, IBourse} from "../../bourse/bourse.model";
-import {mergeMap} from "rxjs/operators";
 import {BourseService} from "../../bourse/service/bourse.service";
+import {Bourse} from "../../bourse/bourse.model";
 
 @Component({
   selector: 'jhi-information',
@@ -56,9 +54,9 @@ export class InformationComponent implements OnInit {
   countstype5: number[] = [];
   countstype6: number[] = [];
   countstype7: number[] = [];
-  types!:string[];
   title = 'htmltopdf';
-  bourse!:IBourse;
+  bourse!:Bourse;
+
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   @Input() doctorant!: IDoctorant;
   @Input() formations!: IFormation[];
@@ -67,8 +65,8 @@ export class InformationComponent implements OnInit {
   @Input() publications?: IPublication[];
   @Input() countPub!: CountPub[];
   @Input() countPubByType!: CountPubByType[];
-
-
+  @Input() types!:string[];
+  @Input() login!:string;
   //Linearchart
   lineChartData: ChartDataSets[] = [
     {data: this.counts, label: 'Nombre des publications'},
@@ -223,29 +221,20 @@ export class InformationComponent implements OnInit {
 
   loadAll(): void {
 
-    this.isLoading = true;
-  }
-
-  decode(base64String: string): SafeResourceUrl {
-    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
-  }
-
-  ngOnInit(): void {
-    this.loadAll();
-    if (this.doctorant.id){
-      this.test(this.doctorant.id).subscribe((value:IBourse)=>this.bourse=value);
-    }
-    this.publicationService.PublicationType().subscribe({
-      next: (res: HttpResponse<string[]>) => {
-        this.types = res.body ?? [];
-
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
-
-    this.publicationService.countTypeCurentUser().subscribe({
+      this.publicationService.countbyUser(this.login).subscribe({
+        next: (res: HttpResponse<CountPub[]>) => {
+          this.isLoading = false;
+          this.countPub = res.body ?? [];
+          for (const a of this.countPub) {
+            this.years.push(a.annee.toString())
+            this.counts.push(a.count)
+          }
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      })
+    this.publicationService.countTypeByUser(this.login).subscribe({
       next: (res: HttpResponse<CountPubByType[]>) => {
         this.countPubByType = res.body ?? [];
         for (const a of this.countPubByType) {
@@ -257,20 +246,31 @@ export class InformationComponent implements OnInit {
         this.isLoading = false;
       },
     });
-    this.publicationService.count().subscribe({
-      next: (res: HttpResponse<CountPub[]>) => {
+
+
+    this.isLoading = true;
+  }
+
+  decode(base64String: string): SafeResourceUrl {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
+
+  ngOnInit(): void {
+    this.loadAll();
+    this.bourseService.findByDoc(this.login).subscribe({
+      next: (res: HttpResponse<Bourse>) => {
         this.isLoading = false;
-        this.countPub = res.body ?? [];
-        for (const a of this.countPub) {
-          this.years.push(a.annee.toString())
-          this.counts.push(a.count)
+        if(res.body){
+          this.bourse =res.body ;
         }
+
       },
       error: () => {
         this.isLoading = false;
       },
     })
-    this.publicationService.countChercheurExterne().subscribe({
+
+    this.publicationService.countChercheurExterneByUser(this.login).subscribe({
       next: (res: HttpResponse<CountCherchuerExterne[]>) => {
         this.isLoading = false;
         this.countCherchuerExterne = res.body ?? [];
@@ -433,17 +433,7 @@ export class InformationComponent implements OnInit {
     }).subscribe(() => this.loadAll());
   }
 
-  test(id:number): Observable<IBourse> | Observable<never> {
-    return this.bourseService.findByDoc(id).pipe(
-      mergeMap((bourse: HttpResponse<IBourse>) => {
-        if (bourse.body) {
-          return of(bourse.body);
-        } else {
-          return of(new Bourse());
-        }
-      })
-    );
-  }
+
 
   public downloadAsPDF():void {
     const doc = new jsPDF();

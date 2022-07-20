@@ -7,6 +7,7 @@ export interface IReinscription {
   formulaireReinscription?: string | null;
   demandeContentType?: string | null;
   demande?: string | null;
+  annee?: number | null;
   etablissement?: IEtablissement | null;
   doctorant?: IDoctorant | null;
 }
@@ -18,6 +19,7 @@ export class Reinscription implements IReinscription {
     public formulaireReinscription?: string | null,
     public demandeContentType?: string | null,
     public demande?: string | null,
+    public annee?: number | null,
     public etablissement?: IEtablissement | null,
     public doctorant?: IDoctorant | null
   ) {}

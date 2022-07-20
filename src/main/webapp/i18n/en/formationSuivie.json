@@ -20,6 +20,8 @@
       "id": "ID",
       "duree": "Duree",
       "attestation": "Attestation",
+      "date": "Date",
+      "titre": "Titre",
       "formationDoctoranle": "Formation Doctoranle",
       "doctorant": "Doctorant"
     }

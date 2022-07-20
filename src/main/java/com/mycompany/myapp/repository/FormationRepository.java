@@ -14,5 +14,4 @@ import java.util.List;
 @Repository
 public interface FormationRepository extends JpaRepository<Formation, Long> {
     List<Formation> findByCursus(Cursus cursus);
-
 }

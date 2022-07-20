@@ -7,6 +7,9 @@ import { finalize, map } from 'rxjs/operators';
 
 import { IFormationSuivie, FormationSuivie } from '../formation-suivie.model';
 import { FormationSuivieService } from '../service/formation-suivie.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IFormationDoctoranle } from 'app/entities/formation-doctoranle/formation-doctoranle.model';
 import { FormationDoctoranleService } from 'app/entities/formation-doctoranle/service/formation-doctoranle.service';
 import { IDoctorant } from 'app/entities/doctorant/doctorant.model';
@@ -25,12 +28,17 @@ export class FormationSuivieUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     duree: [null, [Validators.required]],
-    attestation: [null, [Validators.required]],
+    attestation: [],
+    attestationContentType: [],
+    date: [],
+    titre: [],
     formationDoctoranle: [],
     doctorant: [],
   });
 
   constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
     protected formationSuivieService: FormationSuivieService,
     protected formationDoctoranleService: FormationDoctoranleService,
     protected doctorantService: DoctorantService,
@@ -43,6 +51,21 @@ export class FormationSuivieUpdateComponent implements OnInit {
       this.updateForm(formationSuivie);
 
       this.loadRelationshipsOptions();
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    this.dataUtils.openFile(base64String, contentType);
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('doctorantApp.error', { ...err, key: 'error.file.' + err.key })),
     });
   }
 
@@ -60,11 +83,11 @@ export class FormationSuivieUpdateComponent implements OnInit {
     }
   }
 
-  trackFormationDoctoranleById(index: number, item: IFormationDoctoranle): number {
+  trackFormationDoctoranleById(_index: number, item: IFormationDoctoranle): number {
     return item.id!;
   }
 
-  trackDoctorantById(index: number, item: IDoctorant): number {
+  trackDoctorantById(_index: number, item: IDoctorant): number {
     return item.id!;
   }
 
@@ -92,6 +115,9 @@ export class FormationSuivieUpdateComponent implements OnInit {
       id: formationSuivie.id,
       duree: formationSuivie.duree,
       attestation: formationSuivie.attestation,
+      attestationContentType: formationSuivie.attestationContentType,
+      date: formationSuivie.date,
+      titre: formationSuivie.titre,
       formationDoctoranle: formationSuivie.formationDoctoranle,
       doctorant: formationSuivie.doctorant,
     });
@@ -136,7 +162,10 @@ export class FormationSuivieUpdateComponent implements OnInit {
       ...new FormationSuivie(),
       id: this.editForm.get(['id'])!.value,
       duree: this.editForm.get(['duree'])!.value,
+      attestationContentType: this.editForm.get(['attestationContentType'])!.value,
       attestation: this.editForm.get(['attestation'])!.value,
+      date: this.editForm.get(['date'])!.value,
+      titre: this.editForm.get(['titre'])!.value,
       formationDoctoranle: this.editForm.get(['formationDoctoranle'])!.value,
       doctorant: this.editForm.get(['doctorant'])!.value,
     };

@@ -8,6 +8,9 @@ import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import javax.xml.crypto.Data;
 
 /**
  * REST controller for managing {@link com.mycompany.myapp.domain.Reinscription}.
@@ -58,7 +63,10 @@ public class ReinscriptionResource {
             throw new BadRequestAlertException("A new reinscription cannot already have an ID", ENTITY_NAME, "idexists");
         }
         reinscription.setDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
-
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        reinscription.setAnnee(Double.valueOf(year));
         Reinscription result = reinscriptionRepository.save(reinscription);
         return ResponseEntity
             .created(new URI("/api/reinscriptions/" + result.getId()))
@@ -142,6 +150,9 @@ public class ReinscriptionResource {
                 }
                 if (reinscription.getDemandeContentType() != null) {
                     existingReinscription.setDemandeContentType(reinscription.getDemandeContentType());
+                }
+                if (reinscription.getAnnee() != null) {
+                    existingReinscription.setAnnee(reinscription.getAnnee());
                 }
 
                 return existingReinscription;

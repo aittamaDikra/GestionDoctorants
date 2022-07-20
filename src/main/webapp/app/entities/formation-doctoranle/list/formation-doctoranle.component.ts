@@ -34,7 +34,7 @@ export class FormationDoctoranleComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IFormationDoctoranle): number {
+  trackId(_index: number, item: IFormationDoctoranle): number {
     return item.id!;
   }
 

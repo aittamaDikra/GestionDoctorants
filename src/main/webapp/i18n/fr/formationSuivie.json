@@ -12,7 +12,7 @@
       "updated": "Le Formation Suivie avec l'identifiant {{ param }} a été mis à jour",
       "deleted": "Le Formation Suivie avec l'identifiant {{ param }} a été supprimé",
       "delete": {
-        "question": "Etes-vous certain de vouloir supprimer le Formation Suivie {{ id }} ?"
+        "question": "Êtes-vous certain de vouloir supprimer le Formation Suivie {{ id }} ?"
       },
       "detail": {
         "title": "Formation Suivie"
@@ -20,6 +20,8 @@
       "id": "ID",
       "duree": "Duree",
       "attestation": "Attestation",
+      "date": "Date",
+      "titre": "Titre",
       "formationDoctoranle": "Formation Doctoranle",
       "doctorant": "Doctorant"
     }

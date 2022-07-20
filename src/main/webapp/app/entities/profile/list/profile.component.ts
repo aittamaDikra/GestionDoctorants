@@ -40,10 +40,12 @@ export class ProfileComponent implements OnInit {
   bac!:IBac;
   show = false;
   publications?: IPublication[];
-  countPub!:CountPub[];
   countPubByType!:CountPubByType[];
   counts3!:number[] ;
   type!:Label[] ;
+  types!:string[];
+  login!:string;
+
   constructor(protected publicationService: PublicationService,public _sanitizer: DomSanitizer,protected dataUtils: DataUtils, protected bacService: BacService, protected formationDoctorantService:FormationDoctorantService, protected formationService: FormationService, protected serviceDoctorant: DoctorantService, protected modalService: NgbModal, private accountService: AccountService) {}
 
   loadAll(): void {
@@ -51,6 +53,7 @@ export class ProfileComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.account = account;
+        this.login=account.login;
       }
     });
     this.serviceDoctorant.findActiveUser().pipe(
@@ -97,20 +100,21 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       },
     });
-    this.publicationService.count().subscribe({
-      next:(res: HttpResponse<CountPub[]>) => {
-        this.isLoading = false;
-        this.countPub = res.body ?? [];
+
+    this.up().subscribe((value:IBac)=>this.bac=value);
+    this.publicationService.PublicationType().subscribe({
+      next: (res: HttpResponse<string[]>) => {
+        this.types = res.body ?? [];
       },
       error: () => {
         this.isLoading = false;
       },
-    })
-    this.up().subscribe((value:IBac)=>this.bac=value);
+    });
+
     this.publicationService.countTypeCurentUser().subscribe({
-      next:(res: HttpResponse<CountPubByType[]>) => {
+      next: (res: HttpResponse<CountPubByType[]>) => {
         this.countPubByType = res.body ?? [];
-        for(const a of this.countPubByType){
+        for (const a of this.countPubByType) {
           this.type.push(a.type.toString())
           this.counts3.push(a.count)
         }

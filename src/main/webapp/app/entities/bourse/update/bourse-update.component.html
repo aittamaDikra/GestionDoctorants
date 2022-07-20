@@ -15,7 +15,12 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.bourse.type" for="field_type">Type</label>
-          <input type="text" class="form-control" name="type" id="field_type" data-cy="type" formControlName="type" />
+          <select  class="form-control" name="type" id="field_type" data-cy="type" formControlName="type" >
+            <option value="Bourse d'excellence">Bourse d'excellence</option>
+            <option value="Bourse de l'enseignement supérieure">Bourse de l'enseignement supérieure</option>
+            <option value="Autre">Autre</option>
+
+          </select>
         </div>
 
         <div class="row mb-3">

@@ -19,8 +19,7 @@
       },
       "id": "ID",
       "thematique": "Thematique",
-      "dateDeFormation": "Date De Formation",
-      "dureeDeFormation": "Duree De Formation",
+      "description": "Description",
       "formationSuivie": "Formation Suivie"
     }
   }

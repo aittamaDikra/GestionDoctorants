@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IFormationSuivie, getFormationSuivieIdentifier } from '../formation-suivie.model';
@@ -17,32 +20,41 @@ export class FormationSuivieService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(formationSuivie: IFormationSuivie): Observable<EntityResponseType> {
-    return this.http.post<IFormationSuivie>(this.resourceUrl, formationSuivie, { observe: 'response' });
+    const copy = this.convertDateFromClient(formationSuivie);
+    return this.http
+      .post<IFormationSuivie>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   update(formationSuivie: IFormationSuivie): Observable<EntityResponseType> {
-    return this.http.put<IFormationSuivie>(
-      `${this.resourceUrl}/${getFormationSuivieIdentifier(formationSuivie) as number}`,
-      formationSuivie,
-      { observe: 'response' }
-    );
+    const copy = this.convertDateFromClient(formationSuivie);
+    return this.http
+      .put<IFormationSuivie>(`${this.resourceUrl}/${getFormationSuivieIdentifier(formationSuivie) as number}`, copy, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   partialUpdate(formationSuivie: IFormationSuivie): Observable<EntityResponseType> {
-    return this.http.patch<IFormationSuivie>(
-      `${this.resourceUrl}/${getFormationSuivieIdentifier(formationSuivie) as number}`,
-      formationSuivie,
-      { observe: 'response' }
-    );
+    const copy = this.convertDateFromClient(formationSuivie);
+    return this.http
+      .patch<IFormationSuivie>(`${this.resourceUrl}/${getFormationSuivieIdentifier(formationSuivie) as number}`, copy, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IFormationSuivie>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<IFormationSuivie>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IFormationSuivie[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<IFormationSuivie[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -69,5 +81,27 @@ export class FormationSuivieService {
       return [...formationSuiviesToAdd, ...formationSuivieCollection];
     }
     return formationSuivieCollection;
+  }
+
+  protected convertDateFromClient(formationSuivie: IFormationSuivie): IFormationSuivie {
+    return Object.assign({}, formationSuivie, {
+      date: formationSuivie.date?.isValid() ? formationSuivie.date.format(DATE_FORMAT) : undefined,
+    });
+  }
+
+  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    if (res.body) {
+      res.body.date = res.body.date ? dayjs(res.body.date) : undefined;
+    }
+    return res;
+  }
+
+  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    if (res.body) {
+      res.body.forEach((formationSuivie: IFormationSuivie) => {
+        formationSuivie.date = formationSuivie.date ? dayjs(formationSuivie.date) : undefined;
+      });
+    }
+    return res;
   }
 }

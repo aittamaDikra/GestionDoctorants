@@ -1,7 +1,9 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.FormationDoctoranle;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.FormationDoctoranleRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,6 +40,7 @@ public class FormationDoctoranleResource {
 
     public FormationDoctoranleResource(FormationDoctoranleRepository formationDoctoranleRepository) {
         this.formationDoctoranleRepository = formationDoctoranleRepository;
+
     }
 
     /**
@@ -54,6 +57,7 @@ public class FormationDoctoranleResource {
         if (formationDoctoranle.getId() != null) {
             throw new BadRequestAlertException("A new formationDoctoranle cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         FormationDoctoranle result = formationDoctoranleRepository.save(formationDoctoranle);
         return ResponseEntity
             .created(new URI("/api/formation-doctoranles/" + result.getId()))
@@ -129,11 +133,8 @@ public class FormationDoctoranleResource {
                 if (formationDoctoranle.getThematique() != null) {
                     existingFormationDoctoranle.setThematique(formationDoctoranle.getThematique());
                 }
-                if (formationDoctoranle.getDateDeFormation() != null) {
-                    existingFormationDoctoranle.setDateDeFormation(formationDoctoranle.getDateDeFormation());
-                }
-                if (formationDoctoranle.getDureeDeFormation() != null) {
-                    existingFormationDoctoranle.setDureeDeFormation(formationDoctoranle.getDureeDeFormation());
+                if (formationDoctoranle.getDescription() != null) {
+                    existingFormationDoctoranle.setDescription(formationDoctoranle.getDescription());
                 }
 
                 return existingFormationDoctoranle;

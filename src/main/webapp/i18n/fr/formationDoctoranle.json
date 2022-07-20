@@ -12,15 +12,14 @@
       "updated": "Le Formation Doctoranle avec l'identifiant {{ param }} a été mis à jour",
       "deleted": "Le Formation Doctoranle avec l'identifiant {{ param }} a été supprimé",
       "delete": {
-        "question": "Etes-vous certain de vouloir supprimer le Formation Doctoranle {{ id }} ?"
+        "question": "Êtes-vous certain de vouloir supprimer le Formation Doctoranle {{ id }} ?"
       },
       "detail": {
         "title": "Formation Doctoranle"
       },
       "id": "ID",
       "thematique": "Thematique",
-      "dateDeFormation": "Date De Formation",
-      "dureeDeFormation": "Duree De Formation",
+      "description": "Description",
       "formationSuivie": "Formation Suivie"
     }
   }

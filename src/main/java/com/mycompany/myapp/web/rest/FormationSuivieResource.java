@@ -1,7 +1,9 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.FormationSuivie;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.FormationSuivieRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,9 +37,12 @@ public class FormationSuivieResource {
     private String applicationName;
 
     private final FormationSuivieRepository formationSuivieRepository;
-
-    public FormationSuivieResource(FormationSuivieRepository formationSuivieRepository) {
+    private UserRepository userRepository;
+    private DoctorantRepository doctorantRepository;
+    public FormationSuivieResource(FormationSuivieRepository formationSuivieRepository,UserRepository userRepository, DoctorantRepository doctorantRepository) {
         this.formationSuivieRepository = formationSuivieRepository;
+        this.userRepository = userRepository;
+        this.doctorantRepository = doctorantRepository;
     }
 
     /**
@@ -131,6 +136,15 @@ public class FormationSuivieResource {
                 }
                 if (formationSuivie.getAttestation() != null) {
                     existingFormationSuivie.setAttestation(formationSuivie.getAttestation());
+                }
+                if (formationSuivie.getAttestationContentType() != null) {
+                    existingFormationSuivie.setAttestationContentType(formationSuivie.getAttestationContentType());
+                }
+                if (formationSuivie.getDate() != null) {
+                    existingFormationSuivie.setDate(formationSuivie.getDate());
+                }
+                if (formationSuivie.getTitre() != null) {
+                    existingFormationSuivie.setTitre(formationSuivie.getTitre());
                 }
 
                 return existingFormationSuivie;

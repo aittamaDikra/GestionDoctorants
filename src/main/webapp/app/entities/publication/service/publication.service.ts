@@ -69,7 +69,7 @@ export class PublicationService {
     return this.http.get<string[]>(`${this.resourceUrl}/type/${login}`, { observe: 'response' });
   }
   countByUser(id: number):Observable<HttpResponse<CountPub[]>> {
-    return this.http.get<CountPub[]>(`${this.resourceUrl}/count/${id}`, { observe: 'response' });
+    return this.http.get<CountPub[]>(`${this.resourceUrl}/count/id/${id}`, { observe: 'response' });
   }
   countAll():Observable<HttpResponse<CountPub[]>> {
     return this.http.get<CountPub[]>(`${this.resourceUrl}/countALL/`, { observe: 'response' });
@@ -77,8 +77,8 @@ export class PublicationService {
   countTypeCurentUser():Observable<HttpResponse<CountPubByType[]>> {
     return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countType`, { observe: 'response' });
   }
-  countTypeByUser(id: number):Observable<HttpResponse<CountPubByType[]>> {
-    return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countType/${id}`, { observe: 'response' });
+  countTypeByUser(login: string):Observable<HttpResponse<CountPubByType[]>> {
+    return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countType/${login}`, { observe: 'response' });
   }
   countTypeAll():Observable<HttpResponse<CountPubByType[]>> {
     return this.http.get<CountPubByType[]>(`${this.resourceUrl}/countTypeALL/`, { observe: 'response' });

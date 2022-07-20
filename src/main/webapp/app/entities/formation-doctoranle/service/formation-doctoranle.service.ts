@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IFormationDoctoranle, getFormationDoctoranleIdentifier } from '../formation-doctoranle.model';
@@ -20,41 +17,32 @@ export class FormationDoctoranleService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(formationDoctoranle: IFormationDoctoranle): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(formationDoctoranle);
-    return this.http
-      .post<IFormationDoctoranle>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<IFormationDoctoranle>(this.resourceUrl, formationDoctoranle, { observe: 'response' });
   }
 
   update(formationDoctoranle: IFormationDoctoranle): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(formationDoctoranle);
-    return this.http
-      .put<IFormationDoctoranle>(`${this.resourceUrl}/${getFormationDoctoranleIdentifier(formationDoctoranle) as number}`, copy, {
-        observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<IFormationDoctoranle>(
+      `${this.resourceUrl}/${getFormationDoctoranleIdentifier(formationDoctoranle) as number}`,
+      formationDoctoranle,
+      { observe: 'response' }
+    );
   }
 
   partialUpdate(formationDoctoranle: IFormationDoctoranle): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(formationDoctoranle);
-    return this.http
-      .patch<IFormationDoctoranle>(`${this.resourceUrl}/${getFormationDoctoranleIdentifier(formationDoctoranle) as number}`, copy, {
-        observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<IFormationDoctoranle>(
+      `${this.resourceUrl}/${getFormationDoctoranleIdentifier(formationDoctoranle) as number}`,
+      formationDoctoranle,
+      { observe: 'response' }
+    );
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<IFormationDoctoranle>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<IFormationDoctoranle>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<IFormationDoctoranle[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<IFormationDoctoranle[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -81,27 +69,5 @@ export class FormationDoctoranleService {
       return [...formationDoctoranlesToAdd, ...formationDoctoranleCollection];
     }
     return formationDoctoranleCollection;
-  }
-
-  protected convertDateFromClient(formationDoctoranle: IFormationDoctoranle): IFormationDoctoranle {
-    return Object.assign({}, formationDoctoranle, {
-      dateDeFormation: formationDoctoranle.dateDeFormation?.isValid() ? formationDoctoranle.dateDeFormation.format(DATE_FORMAT) : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.dateDeFormation = res.body.dateDeFormation ? dayjs(res.body.dateDeFormation) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((formationDoctoranle: IFormationDoctoranle) => {
-        formationDoctoranle.dateDeFormation = formationDoctoranle.dateDeFormation ? dayjs(formationDoctoranle.dateDeFormation) : undefined;
-      });
-    }
-    return res;
   }
 }

@@ -3,6 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Bourse;
 import com.mycompany.myapp.repository.BourseRepository;
 import com.mycompany.myapp.repository.DoctorantRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,13 +34,16 @@ public class BourseResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+    private UserRepository userRepository;
 
     private final BourseRepository bourseRepository;
     private final DoctorantRepository doctorantRepository;
 
-    public BourseResource(BourseRepository bourseRepository, DoctorantRepository doctorantRepository) {
+    public BourseResource(UserRepository userRepository,BourseRepository bourseRepository, DoctorantRepository doctorantRepository) {
         this.bourseRepository = bourseRepository;
         this.doctorantRepository= doctorantRepository;
+        this.userRepository = userRepository;
+
     }
 
     /**
@@ -163,10 +167,10 @@ public class BourseResource {
         Optional<Bourse> bourse = bourseRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(bourse);
     }
-    @GetMapping("/bourses/doctorant/{id}")
-    public Bourse getBourseByDoc(@PathVariable Long id) {
-        log.debug("REST request to get Bourse : {}", id);
-        Bourse bourse = bourseRepository.getByDoctorant(doctorantRepository.getById(id));
+    @GetMapping("/bourses/doctorant/{login}")
+    public Bourse getBourseByDoc(@PathVariable String login) {
+        log.debug("REST request to get Bourse : {}", login);
+        Bourse bourse = bourseRepository.getByDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(login)));
         return bourse;
     }
 

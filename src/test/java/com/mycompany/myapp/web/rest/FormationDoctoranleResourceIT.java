@@ -9,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.FormationDoctoranle;
 import com.mycompany.myapp.repository.FormationDoctoranleRepository;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -35,11 +33,8 @@ class FormationDoctoranleResourceIT {
     private static final String DEFAULT_THEMATIQUE = "AAAAAAAAAA";
     private static final String UPDATED_THEMATIQUE = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_DATE_DE_FORMATION = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE_DE_FORMATION = LocalDate.now(ZoneId.systemDefault());
-
-    private static final Integer DEFAULT_DUREE_DE_FORMATION = 1;
-    private static final Integer UPDATED_DUREE_DE_FORMATION = 2;
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/formation-doctoranles";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -65,10 +60,7 @@ class FormationDoctoranleResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FormationDoctoranle createEntity(EntityManager em) {
-        FormationDoctoranle formationDoctoranle = new FormationDoctoranle()
-            .thematique(DEFAULT_THEMATIQUE)
-            .dateDeFormation(DEFAULT_DATE_DE_FORMATION)
-            .dureeDeFormation(DEFAULT_DUREE_DE_FORMATION);
+        FormationDoctoranle formationDoctoranle = new FormationDoctoranle().thematique(DEFAULT_THEMATIQUE).description(DEFAULT_DESCRIPTION);
         return formationDoctoranle;
     }
 
@@ -79,10 +71,7 @@ class FormationDoctoranleResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FormationDoctoranle createUpdatedEntity(EntityManager em) {
-        FormationDoctoranle formationDoctoranle = new FormationDoctoranle()
-            .thematique(UPDATED_THEMATIQUE)
-            .dateDeFormation(UPDATED_DATE_DE_FORMATION)
-            .dureeDeFormation(UPDATED_DUREE_DE_FORMATION);
+        FormationDoctoranle formationDoctoranle = new FormationDoctoranle().thematique(UPDATED_THEMATIQUE).description(UPDATED_DESCRIPTION);
         return formationDoctoranle;
     }
 
@@ -110,8 +99,7 @@ class FormationDoctoranleResourceIT {
         assertThat(formationDoctoranleList).hasSize(databaseSizeBeforeCreate + 1);
         FormationDoctoranle testFormationDoctoranle = formationDoctoranleList.get(formationDoctoranleList.size() - 1);
         assertThat(testFormationDoctoranle.getThematique()).isEqualTo(DEFAULT_THEMATIQUE);
-        assertThat(testFormationDoctoranle.getDateDeFormation()).isEqualTo(DEFAULT_DATE_DE_FORMATION);
-        assertThat(testFormationDoctoranle.getDureeDeFormation()).isEqualTo(DEFAULT_DUREE_DE_FORMATION);
+        assertThat(testFormationDoctoranle.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -172,8 +160,7 @@ class FormationDoctoranleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(formationDoctoranle.getId().intValue())))
             .andExpect(jsonPath("$.[*].thematique").value(hasItem(DEFAULT_THEMATIQUE)))
-            .andExpect(jsonPath("$.[*].dateDeFormation").value(hasItem(DEFAULT_DATE_DE_FORMATION.toString())))
-            .andExpect(jsonPath("$.[*].dureeDeFormation").value(hasItem(DEFAULT_DUREE_DE_FORMATION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
@@ -189,8 +176,7 @@ class FormationDoctoranleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(formationDoctoranle.getId().intValue()))
             .andExpect(jsonPath("$.thematique").value(DEFAULT_THEMATIQUE))
-            .andExpect(jsonPath("$.dateDeFormation").value(DEFAULT_DATE_DE_FORMATION.toString()))
-            .andExpect(jsonPath("$.dureeDeFormation").value(DEFAULT_DUREE_DE_FORMATION));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -212,10 +198,7 @@ class FormationDoctoranleResourceIT {
         FormationDoctoranle updatedFormationDoctoranle = formationDoctoranleRepository.findById(formationDoctoranle.getId()).get();
         // Disconnect from session so that the updates on updatedFormationDoctoranle are not directly saved in db
         em.detach(updatedFormationDoctoranle);
-        updatedFormationDoctoranle
-            .thematique(UPDATED_THEMATIQUE)
-            .dateDeFormation(UPDATED_DATE_DE_FORMATION)
-            .dureeDeFormation(UPDATED_DUREE_DE_FORMATION);
+        updatedFormationDoctoranle.thematique(UPDATED_THEMATIQUE).description(UPDATED_DESCRIPTION);
 
         restFormationDoctoranleMockMvc
             .perform(
@@ -231,8 +214,7 @@ class FormationDoctoranleResourceIT {
         assertThat(formationDoctoranleList).hasSize(databaseSizeBeforeUpdate);
         FormationDoctoranle testFormationDoctoranle = formationDoctoranleList.get(formationDoctoranleList.size() - 1);
         assertThat(testFormationDoctoranle.getThematique()).isEqualTo(UPDATED_THEMATIQUE);
-        assertThat(testFormationDoctoranle.getDateDeFormation()).isEqualTo(UPDATED_DATE_DE_FORMATION);
-        assertThat(testFormationDoctoranle.getDureeDeFormation()).isEqualTo(UPDATED_DUREE_DE_FORMATION);
+        assertThat(testFormationDoctoranle.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test
@@ -326,8 +308,7 @@ class FormationDoctoranleResourceIT {
         assertThat(formationDoctoranleList).hasSize(databaseSizeBeforeUpdate);
         FormationDoctoranle testFormationDoctoranle = formationDoctoranleList.get(formationDoctoranleList.size() - 1);
         assertThat(testFormationDoctoranle.getThematique()).isEqualTo(UPDATED_THEMATIQUE);
-        assertThat(testFormationDoctoranle.getDateDeFormation()).isEqualTo(DEFAULT_DATE_DE_FORMATION);
-        assertThat(testFormationDoctoranle.getDureeDeFormation()).isEqualTo(DEFAULT_DUREE_DE_FORMATION);
+        assertThat(testFormationDoctoranle.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -342,10 +323,7 @@ class FormationDoctoranleResourceIT {
         FormationDoctoranle partialUpdatedFormationDoctoranle = new FormationDoctoranle();
         partialUpdatedFormationDoctoranle.setId(formationDoctoranle.getId());
 
-        partialUpdatedFormationDoctoranle
-            .thematique(UPDATED_THEMATIQUE)
-            .dateDeFormation(UPDATED_DATE_DE_FORMATION)
-            .dureeDeFormation(UPDATED_DUREE_DE_FORMATION);
+        partialUpdatedFormationDoctoranle.thematique(UPDATED_THEMATIQUE).description(UPDATED_DESCRIPTION);
 
         restFormationDoctoranleMockMvc
             .perform(
@@ -361,8 +339,7 @@ class FormationDoctoranleResourceIT {
         assertThat(formationDoctoranleList).hasSize(databaseSizeBeforeUpdate);
         FormationDoctoranle testFormationDoctoranle = formationDoctoranleList.get(formationDoctoranleList.size() - 1);
         assertThat(testFormationDoctoranle.getThematique()).isEqualTo(UPDATED_THEMATIQUE);
-        assertThat(testFormationDoctoranle.getDateDeFormation()).isEqualTo(UPDATED_DATE_DE_FORMATION);
-        assertThat(testFormationDoctoranle.getDureeDeFormation()).isEqualTo(UPDATED_DUREE_DE_FORMATION);
+        assertThat(testFormationDoctoranle.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

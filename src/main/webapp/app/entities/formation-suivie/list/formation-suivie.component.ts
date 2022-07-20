@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IFormationSuivie } from '../formation-suivie.model';
 import { FormationSuivieService } from '../service/formation-suivie.service';
 import { FormationSuivieDeleteDialogComponent } from '../delete/formation-suivie-delete-dialog.component';
+import { DataUtils } from 'app/core/util/data-util.service';
 
 @Component({
   selector: 'jhi-formation-suivie',
@@ -14,7 +15,7 @@ export class FormationSuivieComponent implements OnInit {
   formationSuivies?: IFormationSuivie[];
   isLoading = false;
 
-  constructor(protected formationSuivieService: FormationSuivieService, protected modalService: NgbModal) {}
+  constructor(protected formationSuivieService: FormationSuivieService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -34,8 +35,16 @@ export class FormationSuivieComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IFormationSuivie): number {
+  trackId(_index: number, item: IFormationSuivie): number {
     return item.id!;
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 
   delete(formationSuivie: IFormationSuivie): void {

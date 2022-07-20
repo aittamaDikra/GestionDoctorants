@@ -9,7 +9,7 @@ import {ReinscriptionAddDialogComponent} from "./add/reinscription-add-dialog.co
 
 @NgModule({
   imports: [SharedModule, ReinscriptionRoutingModule],
-  declarations: [ReinscriptionComponent, ReinscriptionDetailComponent, ReinscriptionUpdateComponent, ReinscriptionDeleteDialogComponent,ReinscriptionAddDialogComponent],
+  declarations: [ReinscriptionComponent,ReinscriptionAddDialogComponent, ReinscriptionDetailComponent, ReinscriptionUpdateComponent, ReinscriptionDeleteDialogComponent],
   entryComponents: [ReinscriptionDeleteDialogComponent,ReinscriptionAddDialogComponent],
 })
 export class ReinscriptionModule {}

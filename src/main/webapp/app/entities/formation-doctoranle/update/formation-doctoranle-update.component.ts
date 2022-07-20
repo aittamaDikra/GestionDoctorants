@@ -18,8 +18,7 @@ export class FormationDoctoranleUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     thematique: [null, [Validators.required]],
-    dateDeFormation: [],
-    dureeDeFormation: [],
+    description: [],
   });
 
   constructor(
@@ -71,8 +70,7 @@ export class FormationDoctoranleUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: formationDoctoranle.id,
       thematique: formationDoctoranle.thematique,
-      dateDeFormation: formationDoctoranle.dateDeFormation,
-      dureeDeFormation: formationDoctoranle.dureeDeFormation,
+      description: formationDoctoranle.description,
     });
   }
 
@@ -81,8 +79,7 @@ export class FormationDoctoranleUpdateComponent implements OnInit {
       ...new FormationDoctoranle(),
       id: this.editForm.get(['id'])!.value,
       thematique: this.editForm.get(['thematique'])!.value,
-      dateDeFormation: this.editForm.get(['dateDeFormation'])!.value,
-      dureeDeFormation: this.editForm.get(['dureeDeFormation'])!.value,
+      description: this.editForm.get(['description'])!.value,
     };
   }
 }

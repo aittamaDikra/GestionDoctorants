@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.FormationSuivie;
 import com.mycompany.myapp.repository.FormationSuivieRepository;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link FormationSuivieResource} REST controller.
@@ -33,8 +36,16 @@ class FormationSuivieResourceIT {
     private static final Integer DEFAULT_DUREE = 1;
     private static final Integer UPDATED_DUREE = 2;
 
-    private static final String DEFAULT_ATTESTATION = "AAAAAAAAAA";
-    private static final String UPDATED_ATTESTATION = "BBBBBBBBBB";
+    private static final byte[] DEFAULT_ATTESTATION = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_ATTESTATION = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_ATTESTATION_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_ATTESTATION_CONTENT_TYPE = "image/png";
+
+    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_TITRE = "AAAAAAAAAA";
+    private static final String UPDATED_TITRE = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/formation-suivies";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -60,7 +71,12 @@ class FormationSuivieResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FormationSuivie createEntity(EntityManager em) {
-        FormationSuivie formationSuivie = new FormationSuivie().duree(DEFAULT_DUREE).attestation(DEFAULT_ATTESTATION);
+        FormationSuivie formationSuivie = new FormationSuivie()
+            .duree(DEFAULT_DUREE)
+            .attestation(DEFAULT_ATTESTATION)
+            .attestationContentType(DEFAULT_ATTESTATION_CONTENT_TYPE)
+            .date(DEFAULT_DATE)
+            .titre(DEFAULT_TITRE);
         return formationSuivie;
     }
 
@@ -71,7 +87,12 @@ class FormationSuivieResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FormationSuivie createUpdatedEntity(EntityManager em) {
-        FormationSuivie formationSuivie = new FormationSuivie().duree(UPDATED_DUREE).attestation(UPDATED_ATTESTATION);
+        FormationSuivie formationSuivie = new FormationSuivie()
+            .duree(UPDATED_DUREE)
+            .attestation(UPDATED_ATTESTATION)
+            .attestationContentType(UPDATED_ATTESTATION_CONTENT_TYPE)
+            .date(UPDATED_DATE)
+            .titre(UPDATED_TITRE);
         return formationSuivie;
     }
 
@@ -100,6 +121,9 @@ class FormationSuivieResourceIT {
         FormationSuivie testFormationSuivie = formationSuivieList.get(formationSuivieList.size() - 1);
         assertThat(testFormationSuivie.getDuree()).isEqualTo(DEFAULT_DUREE);
         assertThat(testFormationSuivie.getAttestation()).isEqualTo(DEFAULT_ATTESTATION);
+        assertThat(testFormationSuivie.getAttestationContentType()).isEqualTo(DEFAULT_ATTESTATION_CONTENT_TYPE);
+        assertThat(testFormationSuivie.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testFormationSuivie.getTitre()).isEqualTo(DEFAULT_TITRE);
     }
 
     @Test
@@ -149,28 +173,6 @@ class FormationSuivieResourceIT {
 
     @Test
     @Transactional
-    void checkAttestationIsRequired() throws Exception {
-        int databaseSizeBeforeTest = formationSuivieRepository.findAll().size();
-        // set the field null
-        formationSuivie.setAttestation(null);
-
-        // Create the FormationSuivie, which fails.
-
-        restFormationSuivieMockMvc
-            .perform(
-                post(ENTITY_API_URL)
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(formationSuivie))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<FormationSuivie> formationSuivieList = formationSuivieRepository.findAll();
-        assertThat(formationSuivieList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllFormationSuivies() throws Exception {
         // Initialize the database
         formationSuivieRepository.saveAndFlush(formationSuivie);
@@ -182,7 +184,10 @@ class FormationSuivieResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(formationSuivie.getId().intValue())))
             .andExpect(jsonPath("$.[*].duree").value(hasItem(DEFAULT_DUREE)))
-            .andExpect(jsonPath("$.[*].attestation").value(hasItem(DEFAULT_ATTESTATION)));
+            .andExpect(jsonPath("$.[*].attestationContentType").value(hasItem(DEFAULT_ATTESTATION_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].attestation").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTESTATION))))
+            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE)));
     }
 
     @Test
@@ -198,7 +203,10 @@ class FormationSuivieResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(formationSuivie.getId().intValue()))
             .andExpect(jsonPath("$.duree").value(DEFAULT_DUREE))
-            .andExpect(jsonPath("$.attestation").value(DEFAULT_ATTESTATION));
+            .andExpect(jsonPath("$.attestationContentType").value(DEFAULT_ATTESTATION_CONTENT_TYPE))
+            .andExpect(jsonPath("$.attestation").value(Base64Utils.encodeToString(DEFAULT_ATTESTATION)))
+            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
+            .andExpect(jsonPath("$.titre").value(DEFAULT_TITRE));
     }
 
     @Test
@@ -220,7 +228,12 @@ class FormationSuivieResourceIT {
         FormationSuivie updatedFormationSuivie = formationSuivieRepository.findById(formationSuivie.getId()).get();
         // Disconnect from session so that the updates on updatedFormationSuivie are not directly saved in db
         em.detach(updatedFormationSuivie);
-        updatedFormationSuivie.duree(UPDATED_DUREE).attestation(UPDATED_ATTESTATION);
+        updatedFormationSuivie
+            .duree(UPDATED_DUREE)
+            .attestation(UPDATED_ATTESTATION)
+            .attestationContentType(UPDATED_ATTESTATION_CONTENT_TYPE)
+            .date(UPDATED_DATE)
+            .titre(UPDATED_TITRE);
 
         restFormationSuivieMockMvc
             .perform(
@@ -237,6 +250,9 @@ class FormationSuivieResourceIT {
         FormationSuivie testFormationSuivie = formationSuivieList.get(formationSuivieList.size() - 1);
         assertThat(testFormationSuivie.getDuree()).isEqualTo(UPDATED_DUREE);
         assertThat(testFormationSuivie.getAttestation()).isEqualTo(UPDATED_ATTESTATION);
+        assertThat(testFormationSuivie.getAttestationContentType()).isEqualTo(UPDATED_ATTESTATION_CONTENT_TYPE);
+        assertThat(testFormationSuivie.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFormationSuivie.getTitre()).isEqualTo(UPDATED_TITRE);
     }
 
     @Test
@@ -331,6 +347,9 @@ class FormationSuivieResourceIT {
         FormationSuivie testFormationSuivie = formationSuivieList.get(formationSuivieList.size() - 1);
         assertThat(testFormationSuivie.getDuree()).isEqualTo(UPDATED_DUREE);
         assertThat(testFormationSuivie.getAttestation()).isEqualTo(DEFAULT_ATTESTATION);
+        assertThat(testFormationSuivie.getAttestationContentType()).isEqualTo(DEFAULT_ATTESTATION_CONTENT_TYPE);
+        assertThat(testFormationSuivie.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testFormationSuivie.getTitre()).isEqualTo(DEFAULT_TITRE);
     }
 
     @Test
@@ -345,7 +364,12 @@ class FormationSuivieResourceIT {
         FormationSuivie partialUpdatedFormationSuivie = new FormationSuivie();
         partialUpdatedFormationSuivie.setId(formationSuivie.getId());
 
-        partialUpdatedFormationSuivie.duree(UPDATED_DUREE).attestation(UPDATED_ATTESTATION);
+        partialUpdatedFormationSuivie
+            .duree(UPDATED_DUREE)
+            .attestation(UPDATED_ATTESTATION)
+            .attestationContentType(UPDATED_ATTESTATION_CONTENT_TYPE)
+            .date(UPDATED_DATE)
+            .titre(UPDATED_TITRE);
 
         restFormationSuivieMockMvc
             .perform(
@@ -362,6 +386,9 @@ class FormationSuivieResourceIT {
         FormationSuivie testFormationSuivie = formationSuivieList.get(formationSuivieList.size() - 1);
         assertThat(testFormationSuivie.getDuree()).isEqualTo(UPDATED_DUREE);
         assertThat(testFormationSuivie.getAttestation()).isEqualTo(UPDATED_ATTESTATION);
+        assertThat(testFormationSuivie.getAttestationContentType()).isEqualTo(UPDATED_ATTESTATION_CONTENT_TYPE);
+        assertThat(testFormationSuivie.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFormationSuivie.getTitre()).isEqualTo(UPDATED_TITRE);
     }
 
     @Test
