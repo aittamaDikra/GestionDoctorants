@@ -41,9 +41,16 @@
             >
               Approuvé
             </button>
+            </div>
             <hr>
-            <button class="btn btn-primary btn-sm" (click)="openPDF()">Imprimer le profil</button>
-          </div>
+            <div class="row mb-3"  >
+              <div style="place-content: flex-start; ">
+                <button class="btn btn-primary btn-sm" (click)="openPDF()">Imprimer le profil</button>
+                <input type="checkbox" (change)="toggleEditable({event : $event})">
+                <label class="form-label" >Avec les notes</label>
+              </div>
+            </div>
+
         </div>
       </div>
       <div class="col-md-4">
@@ -56,8 +63,7 @@
           <h6>Lieu de naissance : {{doctorant.lieuNaissance}}</h6>
           <h6>Téléphone : {{doctorant.numeroTelephone}}</h6>
           <h6>Sexe : {{doctorant.genre}}</h6>
-          <h6 *ngIf="bourse.type">bourse : <span  style="color: green" >{{bourse?.type}}</span></h6>
-          <h6 *ngIf="bourse.id==0"  style="color: #ff4c4c"> non boursier</h6>
+          <h6 *ngIf="bourse.id">bourse : <span  style="color: green" >{{bourse?.type}}</span></h6>
 
         </div>
       </div>
@@ -382,6 +388,36 @@
 
       </div>
 
+    </div>
+    <div [style.display]="'none'">
+      <table id="pdf" class="table table-bordered" aria-describedby="page-heading">
+        <thead>
+        <tr>
+          <th rowspan="2">Bac</th>
+          <th [attr.colspan]="fd.formation?.nbAnnee" *ngFor="let fd of formationDoctorant">{{fd.formation?.nom}}</th>
+        </tr>
+        <tr>
+          <ng-container *ngFor="let fd of formationDoctorant">
+            <th *ngFor="let n of [].constructor(fd.formation?.nbAnnee); let r = index;" >Année {{r+1}}</th>
+          </ng-container>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr>
+          <th>{{bac.noteBac}}</th>
+          <ng-container *ngFor="let fd of formationDoctorant">
+            <th *ngIf="fd.note1">{{fd.note1}}</th>
+            <th *ngIf="fd.note2">{{fd.note2}}</th>
+            <th *ngIf="fd.note3">{{fd.note3}}</th>
+            <th *ngIf="fd.note4">{{fd.note4}}</th>
+            <th *ngIf="fd.note5">{{fd.note5}}</th>
+
+          </ng-container>
+        </tr>
+
+        </tbody>
+      </table>
     </div>
   </form>
 </div>

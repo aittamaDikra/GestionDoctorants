@@ -26,6 +26,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
 import {BourseService} from "../../bourse/service/bourse.service";
 import {Bourse} from "../../bourse/bourse.model";
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: 'jhi-information',
@@ -34,6 +35,7 @@ import {Bourse} from "../../bourse/bourse.model";
 })
 export class InformationComponent implements OnInit {
   information?: IInformation[];
+  contentEditable=false;
   isLoading = false;
   isShown!: boolean;
   map = new Map();
@@ -55,7 +57,7 @@ export class InformationComponent implements OnInit {
   countstype6: number[] = [];
   countstype7: number[] = [];
   title = 'htmltopdf';
-  bourse!:Bourse;
+  bourse:Bourse=new Bourse(0);
 
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   @Input() doctorant!: IDoctorant;
@@ -364,42 +366,20 @@ export class InformationComponent implements OnInit {
     doc.text(String(this.doctorant.genre),   110, 190);
     doc.setFontSize(20);
     doc.setTextColor("#3399ff")
-    doc.text("Notes",30,200);
-    doc.setFontSize(14);
-    doc.setTextColor("#000000")
-    doc.text("Bac",50,210)
-    doc.text(String(this.bac.noteBac),   70, 210);
-    let x=220;
-    for (const fd of this.formationDoctorant){
-      doc.text(String(fd.formation?.nom),50,x)
-      x=x+5;
-      if(fd.note1){
-        doc.text("Année 1",70,x)
-        doc.text(String(fd.note1),110,x)
-        x=x+10;
-      }
-      if(fd.note2){
-        doc.text("Année 2",70,x)
-        doc.text(String(fd.note2),110,x)
-        x=x+10;
+    if(this.contentEditable){
+      doc.setFontSize(20);
+      doc.setTextColor("#3399ff")
+      doc.text("Notes",30,200);
+      autoTable(doc, {
+        html: '#pdf',
+        theme : 'plain',
+        startY: 210,
+        headStyles : { lineWidth:0.5,lineColor:[0,0,0]},
+        bodyStyles : { lineWidth:0.5,lineColor:[0,0,0]}
 
-      }
-      if(fd.note3){
-        doc.text("Année 3",70,x)
-        doc.text(String(fd.note3),110,x)
-        x=x+10;
-      }
-      if(fd.note4){
-        doc.text("Année 4",70,x)
-        doc.text(String(fd.note4),110,x)
-        x=x+10;
-      }
-      if(fd.note5){
-        doc.text("Année 5",70,x)
-        doc.text(String(fd.note5),110,x)
-        x=x+10;
-      }
+      })
     }
+
     doc.save("Profil.pdf");
 
   }
@@ -424,7 +404,12 @@ export class InformationComponent implements OnInit {
       this.map.set(f, true)
     }
   }
-
+  toggleEditable({event}: { event: any }):void {
+    if ( event.target.checked ) {
+      this.contentEditable = true;
+    }
+    else {this.contentEditable = false;}
+  }
   setActive(user: Doctorant, isActivated: number): void {
     this.doctorantService.update({
       ...user,
@@ -446,4 +431,6 @@ export class InformationComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).download();
 
   }
+
+
 }

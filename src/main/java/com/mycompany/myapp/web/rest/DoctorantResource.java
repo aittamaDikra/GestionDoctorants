@@ -295,9 +295,7 @@ public class DoctorantResource {
     @GetMapping("/doctorants/reinscription")
     public int reinscription() {
         for(User i :userRepository.listEmail()){
-            mailService.sendEmail(i.getEmail(),"Ré-Inscription au Centre des Etudes Doctorales ","mail/reinscription",false,true);
-            mailService.sendEmailFromTemplate(i,"mail/reinscription","email.activation.title");
-
+            mailService.sendEmailFromTemplate(i,"mail/reinscription","email.reinscription.text");
         }
         doctorantRepository.reinscription();
 
