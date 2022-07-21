@@ -23,6 +23,8 @@ import {DoctorantDeleteDialogComponent} from "../../doctorant/delete/doctorant-d
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DoctorantSuccessDialogComponent} from "../../doctorant/success/doctorant-success-dialog.component";
 import {ReinscriptionAddDialogComponent} from "../../reinscription/add/reinscription-add-dialog.component";
+import {Doctorant} from "../../doctorant/doctorant.model";
+import {ReinscriptionService} from "../../reinscription/service/reinscription.service";
 
 @Component({
   selector: 'jhi-information-detail',
@@ -34,6 +36,7 @@ export class InformationDetailComponent implements OnInit {
   countPub!:CountPub[];
   countPubByType!:CountPubByType[];
   countDoc!:CountDoc[];
+  doctorant!:Doctorant;
   doctorantSalariee!:DoctorantSalariee[];
   doctorantSalariee2!:DoctorantSalariee2[];
   years:Label[]  =[];
@@ -56,6 +59,7 @@ export class InformationDetailComponent implements OnInit {
   countstype5 : number[] =[];
   countstype6 : number[] =[];
   countstype7 : number[] =[];
+  condition!:boolean;
   countPubByTypeAnnee!:CountPubByTypeAnnee[]
   //Linearchart
   lineChartData: ChartDataSets[] = [
@@ -238,7 +242,7 @@ export class InformationDetailComponent implements OnInit {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(protected modalService: NgbModal,protected activatedRoute: ActivatedRoute,protected publicationService: PublicationService,protected doctorantService: DoctorantService,private accountService: AccountService, private router: Router) {}
+  constructor(protected modalService: NgbModal,protected activatedRoute: ActivatedRoute,protected publicationService: PublicationService,protected doctorantService: DoctorantService,private accountService: AccountService, private reinscriptionService: ReinscriptionService,private router: Router) {}
 
   ngOnInit(): void {
     this.accountService
@@ -270,6 +274,20 @@ export class InformationDetailComponent implements OnInit {
                 this.isLoading = false;
               },
             });
+            if(this.account?.authorities.includes('ROLE_USER')){
+              this.reinscriptionService.condition().subscribe({
+                next: (res: HttpResponse<boolean>) => {
+                  this.isLoading = true;
+                  if(res.body===true){
+                    this.modalService.open(ReinscriptionAddDialogComponent, { size: 'lg', backdrop: 'static' });
+                  }
+                },
+                error: () => {
+                  this.isLoading = false;
+                },
+              });
+            }
+
             this.publicationService.countAll().subscribe({
               next: (res: HttpResponse<CountPub[]>) => {
                 this.isLoading = false;
@@ -336,10 +354,6 @@ export class InformationDetailComponent implements OnInit {
         this.isLoading = false;
       },
     })
-    if(this.account?.authorities.includes('ROLE_USER')){
-      this.modalService.open(ReinscriptionAddDialogComponent, { size: 'lg', backdrop: 'static' });
-
-    }
 
   }
 

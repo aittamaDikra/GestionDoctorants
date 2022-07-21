@@ -275,17 +275,6 @@ export class InformationComponent implements OnInit {
         this.isLoading = false;
       },
     });
-
-
-    this.isLoading = true;
-  }
-
-  decode(base64String: string): SafeResourceUrl {
-    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
-  }
-
-  ngOnInit(): void {
-    this.loadAll();
     this.bourseService.findByDoc(this.login).subscribe({
       next: (res: HttpResponse<Bourse>) => {
         this.isLoading = false;
@@ -368,19 +357,30 @@ export class InformationComponent implements OnInit {
     })
     this.formationSuivieService.Dureepartheme(this.login).subscribe({
       next: (res: HttpResponse<CountPubByType[]>) => {
-        this.isLoading = false;
+        this.isLoading = true;
 
-          this.DureePareTheme =  res.body ?? [];
-          for (const a of this.DureePareTheme) {
-            this.theme.push(a.type.toString())
-            this.dureeG.push(a.count)
-          }
+        this.DureePareTheme =  res.body ?? [];
+        for (const a of this.DureePareTheme) {
+          this.theme.push(a.type.toString())
+          this.dureeG.push(a.count)
+        }
 
       },
       error: () => {
         this.isLoading = false;
       },
     })
+
+
+    this.isLoading = true;
+  }
+
+  decode(base64String: string): SafeResourceUrl {
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + base64String);
+  }
+
+  ngOnInit(): void {
+    this.loadAll();
 
     this.isShown = false;
 

@@ -38,7 +38,7 @@ export class PublicationComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.publicationService.query().subscribe({
+    this.publicationService.publicationCurentUser().subscribe({
       next: (res: HttpResponse<IPublication[]>) => {
         this.isLoading = false;
         this.publications = res.body ?? [];

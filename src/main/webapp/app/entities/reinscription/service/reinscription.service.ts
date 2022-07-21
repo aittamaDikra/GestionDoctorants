@@ -41,6 +41,10 @@ export class ReinscriptionService {
     return this.http.get<IReinscription[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+ condition(): Observable<HttpResponse<boolean>> {
+    return this.http.get<boolean>(`${this.resourceUrl}/condition`, {observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

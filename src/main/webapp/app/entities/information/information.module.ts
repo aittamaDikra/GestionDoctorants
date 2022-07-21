@@ -5,9 +5,11 @@ import { InformationDetailComponent } from './detail/information-detail.componen
 import { InformationRoutingModule } from './route/information-routing.module';
 import {ChartsModule} from "ng2-charts";
 import { LottiePlayer } from '@lottiefiles/lottie-player';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
-    imports: [SharedModule, InformationRoutingModule, ChartsModule],
+  imports: [SharedModule, InformationRoutingModule, ChartsModule, MatExpansionModule, MatCardModule],
     declarations: [InformationComponent, InformationDetailComponent],
   exports: [
     InformationComponent,
