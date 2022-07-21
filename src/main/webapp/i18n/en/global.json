@@ -30,6 +30,7 @@
         "profile": "Profile",
         "chercheurExterne": "Chercheur Externe",
         "reinscription": "Reinscription",
+        "notification": "Notification",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

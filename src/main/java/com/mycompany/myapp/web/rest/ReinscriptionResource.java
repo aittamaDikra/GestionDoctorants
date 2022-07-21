@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Doctorant;
 import com.mycompany.myapp.domain.Reinscription;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.ReinscriptionRepository;
@@ -174,6 +175,27 @@ public class ReinscriptionResource {
     public List<Reinscription> getAllReinscriptions() {
         log.debug("REST request to get all Reinscriptions");
         return reinscriptionRepository.findAll();
+    }
+    @GetMapping("/reinscriptions/condition")
+    public boolean reinscriptionscondition() {
+        log.debug("REST request to get all Reinscriptions");
+        Doctorant d=doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        Reinscription reinscription =reinscriptionRepository.reinscriptionscondition(Double.valueOf(year),d.getId());
+        if(d.getEtatDossier()==0 && reinscription==null ){
+            if( d.getAnneeInscription()==year){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        else{
+            return false;
+
+        }
+
     }
 
     /**

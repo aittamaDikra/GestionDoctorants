@@ -119,6 +119,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'doctorantApp.reinscription.home.title' },
         loadChildren: () => import('./reinscription/reinscription.module').then(m => m.ReinscriptionModule),
       },
+      {
+        path: 'notification',
+        data: { pageTitle: 'doctorantApp.notification.home.title' },
+        loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
