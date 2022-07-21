@@ -39,7 +39,7 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div>
             <label class="form-label" for="field_nomArabe">الاسم العائلي</label>
-            <input type="text" class="form-control" id="field_nomArabe" data-cy="nomArabe" formControlName="nomArabe" />
+            <input  [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" id="field_nomArabe" data-cy="nomArabe" formControlName="nomArabe" />
             <div *ngIf="editForm.get('nomArabe')!.invalid && (editForm.get('nomArabe')!.dirty || editForm.get('nomArabe')!.touched)">
               <small
                 class="form-text text-danger"
@@ -54,6 +54,7 @@
           <div>
             <label class="form-label" for="field_prnomArabe">الاسم الشخصي</label>
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="text"
               class="form-control"
               name="prnomArabe"
@@ -78,6 +79,7 @@
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.dateNaissance" for="field_dateNaissance">Date Naissance</label>
             <div class="d-flex">
               <input
+                [readonly]="editForm.get('etatDossier')!.value===1"
                 id="field_dateNaissance"
                 data-cy="dateNaissance"
                 type="datetime-local"
@@ -112,6 +114,7 @@
           <div>
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.lieuNaissance" for="field_lieuNaissance">Lieu Naissance</label>
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="text"
               class="form-control"
               name="lieuNaissance"
@@ -151,6 +154,7 @@
           <div>
             <label class="form-label" for="field_nationalite">Nationalité</label>
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               size="30"
               type="text"
               class="form-control"
@@ -174,7 +178,7 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div>
             <label class="form-label" jhiTranslate="doctorantApp.doctorant.adresse" for="field_adresse">Adresse</label>
-            <input type="text" class="form-control" name="adresse" id="field_adresse" data-cy="adresse" formControlName="adresse" />
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" name="adresse" id="field_adresse" data-cy="adresse" formControlName="adresse" />
             <div *ngIf="editForm.get('adresse')!.invalid && (editForm.get('adresse')!.dirty || editForm.get('adresse')!.touched)">
               <small
                 class="form-text text-danger"
@@ -190,6 +194,7 @@
             >Numero Telephone</label
             >
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="number"
               class="form-control"
               name="numeroTelephone"
@@ -225,7 +230,7 @@
         <div style="display: flex; justify-content: space-evenly;">
           <div>
             <label class="form-label" for="field_cne">N° Cne</label>
-            <input type="text" class="form-control" name="cne" id="field_cne" data-cy="cne" formControlName="cne" />
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" name="cne" id="field_cne" data-cy="cne" formControlName="cne" />
             <div *ngIf="editForm.get('cne')!.invalid && (editForm.get('cne')!.dirty || editForm.get('cne')!.touched)">
               <small class="form-text text-danger" *ngIf="editForm.get('cne')?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
@@ -234,7 +239,7 @@
           </div>
           <div>
             <label class="form-label" for="field_cin">N° Cin</label>
-            <input type="text" class="form-control" name="cin" id="field_cin" data-cy="cin" formControlName="cin" />
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" name="cin" id="field_cin" data-cy="cin" formControlName="cin" />
             <div *ngIf="editForm.get('cin')!.invalid && (editForm.get('cin')!.dirty || editForm.get('cin')!.touched)">
               <small class="form-text text-danger" *ngIf="editForm.get('cin')?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
@@ -268,6 +273,7 @@
                 </button>
               </div>
               <input
+                [readonly]="editForm.get('etatDossier')!.value===1"
                 type="file"
                 id="file_photoCNEPile"
                 data-cy="photoCNEPile"
@@ -276,6 +282,7 @@
               />
             </div>
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="hidden"
               class="form-control"
               name="photoCNEPile"
@@ -284,6 +291,7 @@
               formControlName="photoCNEPile"
             />
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="hidden"
               class="form-control"
               name="photoCNEPileContentType"
@@ -314,6 +322,7 @@
                 </button>
               </div>
               <input
+                [readonly]="editForm.get('etatDossier')!.value===1"
                 type="file"
                 id="file_photoCNEFace"
                 data-cy="photoCNEFace"
@@ -322,6 +331,7 @@
               />
             </div>
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="hidden"
               class="form-control"
               name="photoCNEFace"
@@ -330,6 +340,7 @@
               formControlName="photoCNEFace"
             />
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="hidden"
               class="form-control"
               name="photoCNEFaceContentType"
@@ -377,6 +388,7 @@
                 </button>
               </div>
               <input
+                [readonly]="editForm.get('etatDossier')!.value===1"
                 type="file"
                 id="file_photoCv"
                 data-cy="photoCv"
@@ -384,8 +396,9 @@
                 jhiTranslate="entity.action.addblob"
               />
             </div>
-            <input type="hidden" class="form-control" name="photoCv" id="field_photoCv" data-cy="photoCv" formControlName="photoCv" />
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="hidden" class="form-control" name="photoCv" id="field_photoCv" data-cy="photoCv" formControlName="photoCv" />
             <input
+              [readonly]="editForm.get('etatDossier')!.value===1"
               type="hidden"
               class="form-control"
               name="photoCvContentType"
@@ -409,8 +422,8 @@
             </select>
             <div *ngIf="sujeta">
             <label>Encadrent</label>
-            <input type="text" class="form-control" *ngIf="sujeta.titre==='CyberSecurite'" value="Mohamed LACHGAR" readonly/>
-            <input type="text" class="form-control" *ngIf="sujeta.titre==='BigData'" value="Mohamed HANINE" readonly/>
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" *ngIf="sujeta.titre==='CyberSecurite'" value="Mohamed LACHGAR" readonly/>
+            <input [readonly]="editForm.get('etatDossier')!.value===1" type="text" class="form-control" *ngIf="sujeta.titre==='BigData'" value="Mohamed HANINE" readonly/>
             </div>
           </div>
 
@@ -435,6 +448,7 @@
           >Annee Inscription</label
           >
           <input
+            [readonly]="editForm.get('etatDossier')!.value===1"
             type="number"
             class="form-control"
             name="anneeInscription"
@@ -447,6 +461,7 @@
         <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.doctorant.etatDossier" for="field_etatDossier">Etat Dossier</label>
           <input
+            [readonly]="editForm.get('etatDossier')!.value===1"
             type="number"
             class="form-control"
             name="etatDossier"
@@ -488,12 +503,13 @@
 
       </div>
       <br><hr>
-      <div style="display: flex; justify-content: space-evenly;">
+      <div style="display: flex; justify-content: space-evenly;" *ngIf="editForm.get('etatDossier')!.value!==1">
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
 
         <button
+
           type="submit"
           id="save-entity"
           data-cy="entityCreateSaveButton"

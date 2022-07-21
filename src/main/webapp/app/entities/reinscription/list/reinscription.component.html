@@ -69,12 +69,12 @@
           <td>{{ reinscription.annee }}</td>
           <td>
             <div *ngIf="reinscription.etablissement">
-              <a [routerLink]="['/etablissement', reinscription.etablissement?.id, 'view']">{{ reinscription.etablissement?.id }}</a>
+              <a [routerLink]="['/etablissement', reinscription.etablissement?.id, 'view']">{{ reinscription.etablissement?.nom }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="reinscription.doctorant">
-              <a [routerLink]="['/doctorant', reinscription.doctorant?.id, 'view']">{{ reinscription.doctorant?.id }}</a>
+              <a [routerLink]="['/doctorant', reinscription.doctorant?.id, 'view']">{{ reinscription.doctorant?.cin }}</a>
             </div>
           </td>
           <td class="text-end">
