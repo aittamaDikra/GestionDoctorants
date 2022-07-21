@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IFormationSuivie, getFormationSuivieIdentifier } from '../formation-suivie.model';
+import {CountPubByType} from "../../ChartsModels/CountPubByType";
 
 export type EntityResponseType = HttpResponse<IFormationSuivie>;
 export type EntityArrayResponseType = HttpResponse<IFormationSuivie[]>;
@@ -56,6 +57,23 @@ export class FormationSuivieService {
       .get<IFormationSuivie[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
+  findbydoc(login: string): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IFormationSuivie[]>(`${this.resourceUrl}/doctorant/${login}`, {  observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+  findbyThis(): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IFormationSuivie[]>(`${this.resourceUrl}/doctorant/this`, {  observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+  Countduree(login: string): Observable<HttpResponse<number>> {
+    return this.http
+      .get<number>(`${this.resourceUrl}/duree/${login}`, {  observe: 'response' });
+  }
+  Dureepartheme(login: string):Observable<HttpResponse<CountPubByType[]>> {
+  return this.http.get<CountPubByType[]>(`${this.resourceUrl}/Dureepartheme/${login}`, { observe: 'response' });
+}
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });

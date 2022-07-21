@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.charts.Dureepartheme;
 import com.mycompany.myapp.domain.FormationSuivie;
 import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.FormationSuivieRepository;
@@ -182,6 +183,32 @@ public class FormationSuivieResource {
         Optional<FormationSuivie> formationSuivie = formationSuivieRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(formationSuivie);
     }
+    @GetMapping("/formation-suivies/doctorant/{login}")
+    public List<FormationSuivie> getFormationSuivieByDoctorant(@PathVariable String login) {
+        log.debug("REST request to get FormationSuivie : {}", login);
+        List<FormationSuivie> formationSuivie = formationSuivieRepository.findByDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(login)));
+        return formationSuivie;
+    }
+    @GetMapping("/formation-suivies/doctorant/this")
+    public List<FormationSuivie> getFormationSuivieBythis() {
+        log.debug("REST request to get FormationSuivie : {}");
+        List<FormationSuivie> formationSuivie = formationSuivieRepository.findByDoctorant(doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())));
+        return formationSuivie;
+    }
+
+    @GetMapping("/formation-suivies/duree/{login}")
+    public float SumDuree (@PathVariable String login) {
+        log.debug("REST request to get FormationSuivie : {}", login);
+        float duree = formationSuivieRepository.sumDuree(doctorantRepository.getByUser(userRepository.getByLogin(login)).getId());
+        return duree;
+    }
+    @GetMapping("/formation-suivies/Dureepartheme/{login}")
+    public List<Dureepartheme> Dureepartheme (@PathVariable String login) {
+        log.debug("REST request to get FormationSuivie : {}", login);
+        List<Dureepartheme> duree = formationSuivieRepository.Dureepartheme(doctorantRepository.getByUser(userRepository.getByLogin(login)).getId());
+        return duree;
+    }
+
 
     /**
      * {@code DELETE  /formation-suivies/:id} : delete the "id" formationSuivie.

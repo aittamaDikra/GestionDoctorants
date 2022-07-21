@@ -27,6 +27,8 @@ import htmlToPdfmake from 'html-to-pdfmake';
 import {BourseService} from "../../bourse/service/bourse.service";
 import {Bourse} from "../../bourse/bourse.model";
 import autoTable from "jspdf-autotable";
+import {FormationSuivie} from "../../formation-suivie/formation-suivie.model";
+import {FormationSuivieService} from "../../formation-suivie/service/formation-suivie.service";
 
 @Component({
   selector: 'jhi-information',
@@ -48,6 +50,7 @@ export class InformationComponent implements OnInit {
   type: Label[] = [];
   countCherchuerExterne!: CountCherchuerExterne[];
   countPubByTypeAnnee!: CountPubByTypeAnnee[];
+  formationsuivie!:FormationSuivie[];
   yearspub: Label[] = [];
   countstype1: number[] = [];
   countstype2: number[] = [];
@@ -56,9 +59,12 @@ export class InformationComponent implements OnInit {
   countstype5: number[] = [];
   countstype6: number[] = [];
   countstype7: number[] = [];
+  dureeG: number[] = [];
+  theme: Label[] = [];
   title = 'htmltopdf';
   bourse:Bourse=new Bourse(0);
-
+  duree!:number;
+  DureePareTheme!: CountPubByType[];
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   @Input() doctorant!: IDoctorant;
   @Input() formations!: IFormation[];
@@ -216,26 +222,47 @@ export class InformationComponent implements OnInit {
 
   ];
 
+  //formation par duree
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Duree par heure'
+        }
+      }]
+    },};
+  barChartLabels: Label[] = this.theme;
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+  barChartPlugins = [];
+  barChartData: ChartDataSets[] = [
+    { data: this.dureeG, label: 'Duree de formation par Theme' }
+  ];
 
-  constructor(protected bourseService: BourseService,protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient
+  constructor(protected formationSuivieService:FormationSuivieService,protected bourseService: BourseService,protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient
   ) {
   }
 
   loadAll(): void {
 
-      this.publicationService.countbyUser(this.login).subscribe({
-        next: (res: HttpResponse<CountPub[]>) => {
-          this.isLoading = false;
-          this.countPub = res.body ?? [];
-          for (const a of this.countPub) {
-            this.years.push(a.annee.toString())
-            this.counts.push(a.count)
-          }
-        },
-        error: () => {
-          this.isLoading = false;
-        },
-      })
+    this.publicationService.countbyUser(this.login).subscribe({
+      next: (res: HttpResponse<CountPub[]>) => {
+        this.isLoading = false;
+        this.countPub = res.body ?? [];
+        for (const a of this.countPub) {
+          this.years.push(a.annee.toString())
+          this.counts.push(a.count)
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
     this.publicationService.countTypeByUser(this.login).subscribe({
       next: (res: HttpResponse<CountPubByType[]>) => {
         this.countPubByType = res.body ?? [];
@@ -313,6 +340,42 @@ export class InformationComponent implements OnInit {
             this.countstype1.push(a.count)
           }
         }
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
+    this.formationSuivieService.findbydoc(this.login).subscribe({
+      next: (res: HttpResponse<FormationSuivie[]>) => {
+        this.isLoading = false;
+        this.formationsuivie = res.body ?? [];
+
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
+    this.formationSuivieService.Countduree(this.login).subscribe({
+      next: (res: HttpResponse<number>) => {
+        this.isLoading = false;
+        if(res.body){
+          this.duree = res.body;
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    })
+    this.formationSuivieService.Dureepartheme(this.login).subscribe({
+      next: (res: HttpResponse<CountPubByType[]>) => {
+        this.isLoading = false;
+
+          this.DureePareTheme =  res.body ?? [];
+          for (const a of this.DureePareTheme) {
+            this.theme.push(a.type.toString())
+            this.dureeG.push(a.count)
+          }
+
       },
       error: () => {
         this.isLoading = false;

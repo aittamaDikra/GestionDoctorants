@@ -89,6 +89,7 @@
           >
             Approuvé
           </button>
+          <p style="color: #ff2e2e;" *ngIf="doctorant.etatDossier==3">ce dossier est retire</p>
         </td>
         <td class="text-end">
           <div class="btn-group">
@@ -115,10 +116,24 @@
             </button>
               </span>
 </span>
-            <button  *jhiHasAnyAuthority="['ROLE_RESPONSABLE']" type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+            <button  *ngif="false" type="submit" (click)="delete(doctorant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
               <fa-icon icon="times"></fa-icon>
               <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
             </button>
+            <div *jhiHasAnyAuthority="['ROLE_RESPONSABLE']" >
+            <button *ngIf="doctorant.etatDossier!=3"  type="submit" (click)="setActive(doctorant, 3)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" >Desistement</span>
+            </button>
+              <button
+                class="btn btn-success btn-sm"
+                (click)="setActive(doctorant, 0)"
+                *ngIf="doctorant.etatDossier==3"
+              >
+                Rendre
+              </button>
+            </div>
+
           </div>
         </td>
       </tr>

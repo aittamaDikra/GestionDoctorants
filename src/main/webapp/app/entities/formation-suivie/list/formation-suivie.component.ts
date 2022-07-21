@@ -20,7 +20,7 @@ export class FormationSuivieComponent implements OnInit {
   loadAll(): void {
     this.isLoading = true;
 
-    this.formationSuivieService.query().subscribe({
+    this.formationSuivieService.findbyThis().subscribe({
       next: (res: HttpResponse<IFormationSuivie[]>) => {
         this.isLoading = false;
         this.formationSuivies = res.body ?? [];
