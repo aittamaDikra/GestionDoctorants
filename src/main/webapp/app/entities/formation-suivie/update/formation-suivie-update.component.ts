@@ -10,7 +10,7 @@ import { FormationSuivieService } from '../service/formation-suivie.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IFormationDoctoranle } from 'app/entities/formation-doctoranle/formation-doctoranle.model';
+import {FormationDoctoranle, IFormationDoctoranle} from 'app/entities/formation-doctoranle/formation-doctoranle.model';
 import { FormationDoctoranleService } from 'app/entities/formation-doctoranle/service/formation-doctoranle.service';
 import { IDoctorant } from 'app/entities/doctorant/doctorant.model';
 import { DoctorantService } from 'app/entities/doctorant/service/doctorant.service';
@@ -24,7 +24,7 @@ export class FormationSuivieUpdateComponent implements OnInit {
 
   formationDoctoranlesSharedCollection: IFormationDoctoranle[] = [];
   doctorantsSharedCollection: IDoctorant[] = [];
-
+  formationDoctoranlee!:FormationDoctoranle;
   editForm = this.fb.group({
     id: [],
     duree: [null, [Validators.required]],

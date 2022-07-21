@@ -36,9 +36,8 @@
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.duree">Duree</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.attestation">Attestation</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.date">Date</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.titre">Titre</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle">Formation Doctoranle</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.doctorant">Doctorant</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.doctorant" *ngIf="false">Doctorant</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -60,15 +59,14 @@
             >
           </td>
           <td>{{ formationSuivie.date | formatMediumDate }}</td>
-          <td>{{ formationSuivie.titre }}</td>
           <td>
             <div *ngIf="formationSuivie.formationDoctoranle">
               <a [routerLink]="['/formation-doctoranle', formationSuivie.formationDoctoranle?.id, 'view']">{{
-                formationSuivie.formationDoctoranle?.id
-              }}</a>
+                formationSuivie.formationDoctoranle?.thematique
+              }}</a><span *ngIf="formationSuivie.formationDoctoranle?.thematique==='Autre' "> ({{formationSuivie.titre}})</span>
             </div>
           </td>
-          <td>
+          <td  *ngIf="false">
             <div *ngIf="formationSuivie.doctorant">
               <a [routerLink]="['/doctorant', formationSuivie.doctorant?.id, 'view']">{{ formationSuivie.doctorant?.id }}</a>
             </div>

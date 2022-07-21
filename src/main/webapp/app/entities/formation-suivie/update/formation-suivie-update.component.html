@@ -16,6 +16,36 @@
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle" for="field_formationDoctoranle"
+          >Formation Doctoranle</label
+          >
+          <select
+            class="form-control"
+            id="field_formationDoctoranle"
+            data-cy="formationDoctoranle"
+            name="formationDoctoranle"
+            formControlName="formationDoctoranle"
+            [(ngModel)]="formationDoctoranlee"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                formationDoctoranleOption.id === editForm.get('formationDoctoranle')!.value?.id
+                  ? editForm.get('formationDoctoranle')!.value
+                  : formationDoctoranleOption
+              "
+              *ngFor="let formationDoctoranleOption of formationDoctoranlesSharedCollection; trackBy: trackFormationDoctoranleById"
+            >
+              {{ formationDoctoranleOption?.thematique }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3" *ngIf="formationDoctoranlee.thematique=='Autre'">
+          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.titre" for="field_titre">Titre</label>
+          <input type="text" class="form-control" name="titre" id="field_titre" data-cy="titre" formControlName="titre" />
+        </div>
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.duree" for="field_duree">Duree</label>
@@ -29,6 +59,23 @@
             </small>
           </div>
         </div>
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.date" for="field_date">Date</label>
+          <div class="input-group">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="text"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.attestation" for="field_attestation">Attestation</label>
@@ -76,54 +123,12 @@
           />
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.date" for="field_date">Date</label>
-          <div class="input-group">
-            <input
-              id="field_date"
-              data-cy="date"
-              type="text"
-              class="form-control"
-              name="date"
-              ngbDatepicker
-              #dateDp="ngbDatepicker"
-              formControlName="date"
-            />
-            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-          </div>
-        </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.titre" for="field_titre">Titre</label>
-          <input type="text" class="form-control" name="titre" id="field_titre" data-cy="titre" formControlName="titre" />
-        </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle" for="field_formationDoctoranle"
-            >Formation Doctoranle</label
-          >
-          <select
-            class="form-control"
-            id="field_formationDoctoranle"
-            data-cy="formationDoctoranle"
-            name="formationDoctoranle"
-            formControlName="formationDoctoranle"
-          >
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                formationDoctoranleOption.id === editForm.get('formationDoctoranle')!.value?.id
-                  ? editForm.get('formationDoctoranle')!.value
-                  : formationDoctoranleOption
-              "
-              *ngFor="let formationDoctoranleOption of formationDoctoranlesSharedCollection; trackBy: trackFormationDoctoranleById"
-            >
-              {{ formationDoctoranleOption.id }}
-            </option>
-          </select>
-        </div>
 
-        <div class="row mb-3">
+
+
+        <div class="row mb-3" *ngIf="false">
           <label class="form-label" jhiTranslate="doctorantApp.formationSuivie.doctorant" for="field_doctorant">Doctorant</label>
           <select class="form-control" id="field_doctorant" data-cy="doctorant" name="doctorant" formControlName="doctorant">
             <option [ngValue]="null"></option>
