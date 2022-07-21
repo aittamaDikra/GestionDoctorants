@@ -1,7 +1,10 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Notification;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.NotificationRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,9 +40,12 @@ public class NotificationResource {
     private String applicationName;
 
     private final NotificationRepository notificationRepository;
-
-    public NotificationResource(NotificationRepository notificationRepository) {
+    private UserRepository userRepository;
+    private DoctorantRepository doctorantRepository;
+    public NotificationResource(NotificationRepository notificationRepository,UserRepository userRepository, DoctorantRepository doctorantRepository) {
         this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
+        this.doctorantRepository = doctorantRepository;
     }
 
     /**
@@ -55,10 +61,10 @@ public class NotificationResource {
         if (notification.getId() != null) {
             throw new BadRequestAlertException("A new notification cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        notification.setDate(Instant.from(localDate));
+        Instant lt= Instant.now();
+        notification.setDate(lt);
         notification.setVu(false);
+        notification.setDescription(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getFirstName()+" "+userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getLastName()+" ("+doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())).getCne()+") :"+notification.getDescription());
         Notification result = notificationRepository.save(notification);
         return ResponseEntity
             .created(new URI("/api/notifications/" + result.getId()))
@@ -181,6 +187,13 @@ public class NotificationResource {
     public List<Notification> findNotificationNonVu() {
         log.debug("REST request to get Notification : {}");
         List<Notification> notification = notificationRepository.findNotificationNonVu();
+        return notification;
+    }
+
+    @GetMapping("/notifications/count")
+    public Long countNotification() {
+        log.debug("REST request to get Notification : {}");
+        Long notification = notificationRepository.countNotification();
         return notification;
     }
     /**

@@ -40,6 +40,34 @@
             </span>
           </a>
         </li>
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="formation-suivie"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span >
+              <fa-icon icon="hourglass"></fa-icon>
+              <span>Formations</span>
+            </span>
+          </a>
+        </li>
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="notification/new"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span >
+              <fa-icon icon="file-circle-plus"></fa-icon>
+              <span>Demandes</span>
+            </span>
+          </a>
+        </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a
             class="nav-link"
@@ -267,7 +295,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *njIf="false"
+                *ngIf="false"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span jhiTranslate="global.menu.entities.membreEquipe">Membre Equipe</span>
@@ -470,6 +498,35 @@
             </li>
           </ul>
         </li>
+        <ng-container  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RESPONSABLE']">
+          <li  ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="notifnavBarDropdown">
+            <span>
+              <fa-icon icon="bell"></fa-icon>
+            </span>
+            </a>
+            <ul class="dropdown-menu" ngbDropdownMenu style="width: 500px" >
+              <h4 style="text-align: center">Notifications</h4>
+              <li *ngFor="let notif of notification">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0);"
+                >
+                  <div style="display: flex">
+                    <div style="width: 90%">{{ notif.description }}</div>
+                    <div style="width: 10%"><button class="btn btn-light" (click)="changeTrue(notif)"><span><fa-icon icon="check"></fa-icon></span></button></div>
+                  </div>
+
+
+                </a>
+                <div class="dropdown-divider"></div>
+
+              </li>
+              <li style="text-align: center"><a href="#">Voir plus</a></li>
+            </ul>
+          </li>
+        </ng-container>
+
         <li
           ngbDropdown
           class="nav-item dropdown pointer"

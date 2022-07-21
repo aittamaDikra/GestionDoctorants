@@ -15,4 +15,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     @Query("select notification from Notification notification where notification.vu=false")
     List<Notification> findNotificationNonVu();
+
+    @Query("select count(notification) from Notification notification where notification.vu=false")
+    Long countNotification();
 }
