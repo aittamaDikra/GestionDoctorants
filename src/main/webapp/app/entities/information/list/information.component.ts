@@ -29,6 +29,9 @@ import {Bourse} from "../../bourse/bourse.model";
 import autoTable from "jspdf-autotable";
 import {FormationSuivie} from "../../formation-suivie/formation-suivie.model";
 import {FormationSuivieService} from "../../formation-suivie/service/formation-suivie.service";
+import {SujetService} from "../../sujet/service/sujet.service";
+import {Sujet} from "../../sujet/sujet.model";
+import {Encadrent} from "../../ChartsModels/Encadrent";
 
 @Component({
   selector: 'jhi-information',
@@ -64,6 +67,7 @@ export class InformationComponent implements OnInit {
   title = 'htmltopdf';
   bourse:Bourse=new Bourse(0);
   duree!:number;
+  sujetEncadrent!:Encadrent;
   DureePareTheme!: CountPubByType[];
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   @Input() doctorant!: IDoctorant;
@@ -244,15 +248,24 @@ export class InformationComponent implements OnInit {
     { data: this.dureeG, label: 'Duree de formation par Theme' }
   ];
 
-  constructor(protected formationSuivieService:FormationSuivieService,protected bourseService: BourseService,protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient
+  constructor(protected formationSuivieService:FormationSuivieService,protected bourseService: BourseService,protected publicationService: PublicationService, protected dataUtils: DataUtils, public _sanitizer: DomSanitizer, protected doctorantService: DoctorantService, protected informationService: InformationService, private http: HttpClient,protected sujetService:SujetService
   ) {
   }
 
   loadAll(): void {
-
+    this.isLoading=true;
+    this.sujetService.findLogin(this.login).subscribe({
+      next: (res: HttpResponse<Encadrent>) => {
+        if(res.body){
+          this.sujetEncadrent = res.body;
+        }
+      },
+      error: () => {
+        this.isLoading=true;
+      },
+    })
     this.publicationService.countbyUser(this.login).subscribe({
       next: (res: HttpResponse<CountPub[]>) => {
-        this.isLoading = false;
         this.countPub = res.body ?? [];
         for (const a of this.countPub) {
           this.years.push(a.annee.toString())
@@ -260,7 +273,7 @@ export class InformationComponent implements OnInit {
         }
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading=true;
       },
     })
     this.publicationService.countTypeByUser(this.login).subscribe({
@@ -272,25 +285,23 @@ export class InformationComponent implements OnInit {
         }
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading = true;
       },
     });
     this.bourseService.findByDoc(this.login).subscribe({
       next: (res: HttpResponse<Bourse>) => {
-        this.isLoading = false;
         if(res.body){
           this.bourse =res.body ;
         }
 
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading=true;
       },
     })
 
     this.publicationService.countChercheurExterneByUser(this.login).subscribe({
       next: (res: HttpResponse<CountCherchuerExterne[]>) => {
-        this.isLoading = false;
         this.countCherchuerExterne = res.body ?? [];
         for (const a of this.countCherchuerExterne) {
           this.yearsChercheur.push(a.annee.toString())
@@ -298,12 +309,11 @@ export class InformationComponent implements OnInit {
         }
       },
       error: () => {
-        this.isLoading = false;
-      },
+        this.isLoading=true;
+        },
     })
     this.publicationService.countPubByAnnee().subscribe({
       next: (res: HttpResponse<CountPubByTypeAnnee[]>) => {
-        this.isLoading = false;
         this.countPubByTypeAnnee = res.body ?? [];
 
         for (const a of this.countPubByTypeAnnee) {
@@ -331,33 +341,32 @@ export class InformationComponent implements OnInit {
         }
       },
       error: () => {
-        this.isLoading = false;
-      },
+        this.isLoading=true;
+        },
     })
     this.formationSuivieService.findbydoc(this.login).subscribe({
+
       next: (res: HttpResponse<FormationSuivie[]>) => {
-        this.isLoading = false;
+        this.isLoading=false;
         this.formationsuivie = res.body ?? [];
 
       },
       error: () => {
-        this.isLoading = false;
-      },
+        this.isLoading=true;
+        },
     })
     this.formationSuivieService.Countduree(this.login).subscribe({
       next: (res: HttpResponse<number>) => {
-        this.isLoading = false;
         if(res.body){
           this.duree = res.body;
         }
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading=true;
       },
     })
     this.formationSuivieService.Dureepartheme(this.login).subscribe({
       next: (res: HttpResponse<CountPubByType[]>) => {
-        this.isLoading = true;
 
         this.DureePareTheme =  res.body ?? [];
         for (const a of this.DureePareTheme) {
@@ -367,12 +376,11 @@ export class InformationComponent implements OnInit {
 
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading=true;
       },
     })
 
 
-    this.isLoading = true;
   }
 
   decode(base64String: string): SafeResourceUrl {
@@ -381,10 +389,6 @@ export class InformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
-
-    this.isShown = false;
-
-
   }
 
   public openPDF(): void {
@@ -474,11 +478,12 @@ export class InformationComponent implements OnInit {
     else {this.contentEditable = false;}
   }
   setActive(user: Doctorant, isActivated: number): void {
-    this.doctorantService.update({
-      ...user,
-      etatDossier: isActivated,
-      anneeInscription: new Date().getFullYear()
-    }).subscribe(() => this.loadAll());
+    if(user.anneeInscription===null){
+      this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => window. location. reload());
+    }else{
+      this.doctorantService.update({ ...user, etatDossier: isActivated }).subscribe(() => window. location. reload());
+
+    }
   }
 
 

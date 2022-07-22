@@ -15,6 +15,7 @@ import {NotificationService} from "../../entities/notification/service/notificat
 import {HttpResponse} from "@angular/common/http";
 import {CountPub} from "../../entities/ChartsModels/CountPub";
 import {Notification} from "../../entities/notification/notification.model";
+import {Doctorant, IDoctorant} from "../../entities/doctorant/doctorant.model";
 
 @Component({
   selector: 'jhi-navbar',
@@ -55,8 +56,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.entitiesNavbarItems = EntityNavbarItems;
+  loadAll(): void {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
@@ -78,6 +78,10 @@ export class NavbarComponent implements OnInit {
         }
       },
     })
+  }
+  ngOnInit(): void {
+    this.entitiesNavbarItems = EntityNavbarItems;
+    this.loadAll();
   }
 
   changeLanguage(languageKey: string): void {
@@ -103,8 +107,8 @@ export class NavbarComponent implements OnInit {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
-  changeTrue(notif : Notification) :void {
-    notif.vu=true;
-    this.notificationService.update(notif);
+
+  changeTrue(notif : Notification): void {
+    this.notificationService.update({ ...notif, vu: true }).subscribe(() => this.loadAll());
   }
 }

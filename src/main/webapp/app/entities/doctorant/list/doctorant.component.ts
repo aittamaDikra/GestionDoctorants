@@ -34,6 +34,7 @@ export class DoctorantComponent implements OnInit {
   }
   loadAll(): void {
     this.isLoading = true;
+    this.test2();
     this.doctorantService.query().subscribe({
       next: (res: HttpResponse<IDoctorant[]>) => {
         this.isLoading = false;
@@ -43,11 +44,11 @@ export class DoctorantComponent implements OnInit {
         this.isLoading = false;
       },
     });
+
   }
 
   ngOnInit(): void {
     this.loadAll();
-    this.test2();
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -120,6 +121,11 @@ export class DoctorantComponent implements OnInit {
   }
 
   setActive(user: Doctorant, isActivated: number): void {
-    this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
+    if(user.anneeInscription===null){
+      this.doctorantService.update({ ...user, etatDossier: isActivated,anneeInscription:new Date().getFullYear() }).subscribe(() => this.loadAll());
+    }else{
+      this.doctorantService.update({ ...user, etatDossier: isActivated }).subscribe(() => this.loadAll());
+
+    }
   }
 }

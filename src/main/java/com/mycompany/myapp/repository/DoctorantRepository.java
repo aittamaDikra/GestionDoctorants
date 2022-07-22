@@ -33,7 +33,7 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
     }
 
     @Query(
-        value = "select distinct doctorant from Doctorant doctorant left join fetch doctorant.sujet left join fetch doctorant.promotion",
+        value = "select distinct doctorant from Doctorant doctorant left join fetch doctorant.sujet s left join fetch s.encadrent left join fetch doctorant.promotion",
         countQuery = "select count(distinct doctorant) from Doctorant doctorant"
     )
     Page<Doctorant> findAllWithToOneRelationships(Pageable pageable);
@@ -63,8 +63,7 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Doctorant doc set doc.etatDossier = 0 where doc.id>0")
-
+    @Query("update Doctorant doc set doc.etatDossier = 0 where doc.id>0 and doc.etatDossier=3")
     void reinscription();
 
 }

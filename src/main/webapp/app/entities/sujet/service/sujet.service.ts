@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { ISujet, getSujetIdentifier } from '../sujet.model';
+import {ISujet, getSujetIdentifier, Sujet} from '../sujet.model';
+import {Encadrent} from "../../ChartsModels/Encadrent";
 
 export type EntityResponseType = HttpResponse<ISujet>;
 export type EntityArrayResponseType = HttpResponse<ISujet[]>;
@@ -35,6 +36,10 @@ export class SujetService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<ISujet[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
+
+  findLogin(login:string): Observable<HttpResponse<Encadrent>> {
+    return this.http.get<Encadrent>(`${this.resourceUrl}/login/${login}`, { observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

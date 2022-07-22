@@ -4,6 +4,7 @@
 <!------ Include the above in your HEAD tag ---------->
 <div class="container" id="pdfTable" #pdfTable>
   <form method="post">
+    <div  *ngIf="doctorant">
     <div class="row">
       <div class="col-md-4" style="padding-left: 50px">
         <div class="profile-img">
@@ -25,6 +26,7 @@
           <h6>CNE : {{doctorant.cne}}</h6>
           <h6>CIN : {{doctorant.cin}}</h6>
           <h6 *ngIf="doctorant.anneeInscription">Année d'inscription : {{doctorant.anneeInscription}}</h6>
+          <h6>Sujet : {{sujetEncadrent.sujet}}</h6>
 
           <div *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_RESPONSABLE']">
             <button
@@ -64,13 +66,15 @@
           <h6>Lieu de naissance : {{doctorant.lieuNaissance}}</h6>
           <h6>Téléphone : {{doctorant.numeroTelephone}}</h6>
           <h6>Sexe : {{doctorant.genre}}</h6>
-          <h6 *ngIf="bourse.id">bourse : <span  style="color: green" >{{bourse?.type}}</span></h6>
-          <h6 *ngIf="bourse.id===0">bourse : <span  style="color: #ff3939" >Non Bourisier</span></h6>
+          <h6>Encadrant :{{sujetEncadrent.nom}} {{sujetEncadrent.prenom}}</h6>
+          <h6 *ngIf="bourse.id">Bourse : <span  style="color: green" >{{bourse?.type}}</span></h6>
+          <h6 *ngIf="bourse.id===0">Bourse : <span  style="color: #ff3939" >Non Bourisier</span></h6>
 
         </div>
       </div>
     </div>
-    <div class="row">
+    </div>
+    <div class="row" *ngIf="publications && publications.length > 0" >
       <h1>&nbsp;</h1>
       <div class="row" style="padding-left: 100px;">
         <div class="headerWrap">
@@ -318,7 +322,7 @@
                       <hr>
                       <div class="row">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">chercheur</h6>
+                          <h6 class="mb-0">Co-auteur</h6>
                         </div>
                         <div class="col-sm-9 text-secondary" *ngFor="let chercheur of publication.chercheurs">
                           {{chercheur.login}}
@@ -391,51 +395,54 @@
       </div>
 
     </div>
-    <div class="row" style="padding-left: 100px;">
-      <div class="headerWrap">
-        <div class="header"><h4>Formation Doctorale ({{duree}} Heure)</h4></div>
-      </div>
-    </div>
-    <div class="row" *ngFor="let fd of formationsuivie" style="padding-left: 100px;">
-      <div class="card h-100" >
-        <div class="card-body">
-          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i><a (click)="toggleShow2(fd.formationDoctoranle?.thematique)" type="checkbox" >{{fd.formationDoctoranle?.thematique}}<span *ngIf="fd.formationDoctoranle?.thematique==='Autre'">"{{fd?.titre}}"</span><div style="text-align: left;">({{fd.duree}} Heure)</div></a></h6>
-          <div  *ngIf="map.get(fd.formationDoctoranle?.thematique)">
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Date Obtention
-                </h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                {{fd.date}}
-              </div>
-            </div>
 
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Diplome
-                </h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <div class="col-md-6" *ngIf="fd.attestation">
-                  <img [src]="decode(fd.attestation)" width="50%" (click)=openFile(fd.attestation,fd.attestationContentType)>
+    <div   *ngIf="formationsuivie && formationsuivie.length > 0" >
+      <div class="row" style="padding-left: 100px;">
+        <div class="headerWrap">
+          <div class="header"><h4>Formation Doctorale ({{duree}} Heure)</h4></div>
+        </div>
+      </div>
+      <div class="row" *ngFor="let fd of formationsuivie" style="padding-left: 100px;">
+        <div class="card h-100" >
+          <div class="card-body">
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i><a (click)="toggleShow2(fd.formationDoctoranle?.thematique)" type="checkbox" >{{fd.formationDoctoranle?.thematique}}<span *ngIf="fd.formationDoctoranle?.thematique==='Autre'">"{{fd?.titre}}"</span><div style="text-align: left;">({{fd.duree}} Heure)</div></a></h6>
+            <div  *ngIf="map.get(fd.formationDoctoranle?.thematique)">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Date Obtention
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{fd.date}}
                 </div>
               </div>
-              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Diplome
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div class="col-md-6" *ngIf="fd.attestation">
+                    <img [src]="decode(fd.attestation)" width="50%" (click)=openFile(fd.attestation,fd.attestationContentType)>
+                  </div>
+                </div>
+                <hr>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="chart-wrapper" style="padding-left: 100px;">
-      <canvas baseChart
-              [datasets]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [plugins]="barChartPlugins"
-              [legend]="barChartLegend"
-              [chartType]="barChartType">
-      </canvas>
+      <div class="chart-wrapper" style="padding-left: 100px;">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+        </canvas>
+      </div>
     </div>
 
 

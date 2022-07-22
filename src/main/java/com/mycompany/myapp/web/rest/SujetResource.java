@@ -1,6 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.charts.Encadrent;
 import com.mycompany.myapp.domain.Sujet;
+import com.mycompany.myapp.repository.DoctorantRepository;
 import com.mycompany.myapp.repository.ExtraUserRepository;
 import com.mycompany.myapp.repository.SujetRepository;
 import com.mycompany.myapp.repository.UserRepository;
@@ -39,11 +41,13 @@ public class SujetResource {
     private UserRepository userRepository;
     private ExtraUserRepository extraUserRepository;
     private final SujetRepository sujetRepository;
+    private DoctorantRepository doctorantRepository;
 
-    public SujetResource(ExtraUserRepository extraUserRepository,UserRepository userRepository,SujetRepository sujetRepository) {
+    public SujetResource(ExtraUserRepository extraUserRepository,UserRepository userRepository,SujetRepository sujetRepository, DoctorantRepository doctorantRepository) {
         this.sujetRepository = sujetRepository;
         this.userRepository = userRepository;
         this.extraUserRepository=extraUserRepository;
+        this.doctorantRepository = doctorantRepository;
     }
 
     /**
@@ -193,6 +197,13 @@ public class SujetResource {
         log.debug("REST request to get Sujet : {}", id);
         Optional<Sujet> sujet = sujetRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(sujet);
+    }
+
+    @GetMapping("/sujets/login/{login}")
+    public Encadrent getSujetthis(@PathVariable String login) {
+        log.debug("REST request to get Sujet : {}");
+        Sujet sujet = sujetRepository.getById(doctorantRepository.getByUser(userRepository.getByLogin(login)).getSujet().getId());
+        return new Encadrent(sujet.getEncadrent().getInternalUser().getFirstName(),sujet.getEncadrent().getInternalUser().getLastName(),sujet.getTitre());
     }
 
     /**
