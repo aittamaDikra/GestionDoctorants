@@ -2,7 +2,7 @@
   <h2 id="page-heading" data-cy="DoctorantHeading">
     <span jhiTranslate="doctorantApp.doctorant.home.title">Doctorants</span>
 
-    <div class="d-flex justify-content-end me-2">
+    <div class="d-flex justify-content-end me-2" *jhiHasAnyAuthority="['ROLE_RESPONSABLE']">
       <button class="btn btn-success me-2" type="submit"
               (click)="reinscriptionbtn()">Ré-inscription
       </button>

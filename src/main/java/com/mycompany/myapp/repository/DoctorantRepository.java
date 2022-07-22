@@ -63,7 +63,7 @@ public interface DoctorantRepository extends JpaRepository<Doctorant, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Doctorant doc set doc.etatDossier = 0 where doc.id>0 and doc.etatDossier=3")
+    @Query("update Doctorant doc set doc.etatDossier = 0 where doc.id>0 and doc.etatDossier!=3")
     void reinscription();
 
 }
