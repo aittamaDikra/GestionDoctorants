@@ -399,13 +399,13 @@
     <div   *ngIf="formationsuivie && formationsuivie.length > 0" >
       <div class="row" style="padding-left: 100px;">
         <div class="headerWrap">
-          <div class="header"><h4>Formation Doctorale ({{duree}} Heure)</h4></div>
+          <div class="header"><h4>Formations doctorales ({{duree}} Heures)</h4></div>
         </div>
       </div>
       <div class="row" *ngFor="let fd of formationsuivie" style="padding-left: 100px;">
         <div class="card h-100" >
           <div class="card-body">
-            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i><a (click)="toggleShow2(fd.formationDoctoranle?.thematique)" type="checkbox" >{{fd.formationDoctoranle?.thematique}}<span *ngIf="fd.formationDoctoranle?.thematique==='Autre'">"{{fd?.titre}}"</span><div style="text-align: left;">({{fd.duree}} Heure)</div></a></h6>
+            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i><a (click)="toggleShow2(fd.formationDoctoranle?.thematique)" type="checkbox" >{{fd.formationDoctoranle?.thematique}}<span *ngIf="fd.formationDoctoranle?.thematique==='Autre'">"{{fd?.titre}}"</span><div style="text-align: left;">({{fd.duree}} Heures)</div></a></h6>
             <div  *ngIf="map.get(fd.formationDoctoranle?.thematique)">
               <div class="row">
                 <div class="col-sm-3">

@@ -425,22 +425,33 @@ export class InformationComponent implements OnInit {
     doc.text(String(this.doctorant.dateNaissance?.format('YYYY-MM-DD')),   110, 160);
     doc.text("Lieu de naissance", 50, 170);
     doc.text(String(this.doctorant.lieuNaissance),   110, 170);
-    doc.text("Tel", 50, 180);
+    doc.text("Téléphone", 50, 180);
     doc.text(String(this.doctorant.numeroTelephone),   110, 180);
     doc.text("Sexe", 50, 190);
     doc.text(String(this.doctorant.genre),   110, 190);
-    doc.text("Sexe", 50, 190);
-    doc.text(String(this.doctorant.genre),   110, 190);
+    if(this.bourse.id){
+      doc.text("Bourse", 50, 200);
+      doc.text(String(this.bourse.type),   110, 200);
+    }else{
+      doc.text("Bourse", 50, 200);
+      doc.text("Non boursier",   110, 200);
+    }
+    doc.text("Sujet", 50, 210);
+    doc.text(String(this.sujetEncadrent.sujet),   110, 210);
+    doc.text("Encadrent", 50, 220);
+    doc.text(String(this.sujetEncadrent.nom).concat(" ",this.sujetEncadrent.prenom),   110, 220);
+    doc.text("Formation doctorale", 50, 230);
+    doc.text("Sciences de l'ingénieur",   110, 230);
     doc.setFontSize(20);
     doc.setTextColor("#3399ff")
     if(this.contentEditable){
       doc.setFontSize(20);
       doc.setTextColor("#3399ff")
-      doc.text("Notes",30,200);
+      doc.text("Notes",30,240);
       autoTable(doc, {
         html: '#pdf',
         theme : 'plain',
-        startY: 210,
+        startY: 250,
         headStyles : { lineWidth:0.5,lineColor:[0,0,0]},
         bodyStyles : { lineWidth:0.5,lineColor:[0,0,0]}
 

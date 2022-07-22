@@ -4,9 +4,8 @@
       <h2
         id="jhi-notification-heading"
         data-cy="NotificationCreateUpdateHeading"
-        jhiTranslate="doctorantApp.notification.home.createOrEditLabel"
       >
-        Demandes
+        Effectuer une demande
       </h2>
 
       <div>
@@ -86,6 +85,69 @@
         </button>
       </div>
     </form>
+    <br>
+    <h4>Historique des demandes</h4>
+    <div class="table-responsive" id="entities" *ngIf="notifications && notifications.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+        <tr>
+          <th scope="col" *ngIf="false"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.notification.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.notification.message">Message</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.notification.date">Date</span></th>
+          <th scope="col"><span>Etat</span></th>
+          <th *ngIf="false" scope="col"><span jhiTranslate="doctorantApp.notification.user">User</span></th>
+          <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let notification of notifications; trackBy: trackId" data-cy="entityTable">
+          <td *ngIf="false">
+            <a [routerLink]="['/notification', notification.id, 'view']">{{ notification.id }}</a>
+          </td>
+          <td>{{ notification.description }}</td>
+          <td>{{ notification.message }}</td>
+          <td>{{ notification.date | formatMediumDatetime }}</td>
+
+          <td *ngIf="notification.vu==true"><fa-icon icon="circle-check" style="color: green;"></fa-icon></td>
+          <td *ngIf="notification.vu==false"><fa-icon icon="clock" style="color: orange;"></fa-icon></td>
+
+          <td *ngIf="false">
+            {{ notification.user?.login }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group" *ngIf="notification.vu==false">
+              <button
+                *ngif="false"
+                type="submit"
+                [routerLink]="['/notification', notification.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view" >View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/notification', notification.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(notification)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -94,63 +156,6 @@
   <span jhiTranslate="doctorantApp.notification.home.notFound">No notifications found</span>
 </div>
 
-<div class="table-responsive" id="entities" *ngIf="notifications && notifications.length > 0">
-  <table class="table table-striped" aria-describedby="page-heading">
-    <thead>
-    <tr>
-      <th scope="col" *ngIf="false"><span jhiTranslate="global.field.id">ID</span></th>
-      <th scope="col"><span jhiTranslate="doctorantApp.notification.description">Description</span></th>
-      <th scope="col"><span jhiTranslate="doctorantApp.notification.message">Message</span></th>
-      <th scope="col"><span jhiTranslate="doctorantApp.notification.date">Date</span></th>
-      <th scope="col"><span jhiTranslate="doctorantApp.notification.vu">Vu</span></th>
-      <th *ngIf="false" scope="col"><span jhiTranslate="doctorantApp.notification.user">User</span></th>
-      <th scope="col">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let notification of notifications; trackBy: trackId" data-cy="entityTable">
-      <td *ngIf="false">
-        <a [routerLink]="['/notification', notification.id, 'view']">{{ notification.id }}</a>
-      </td>
-      <td>{{ notification.description }}</td>
-      <td>{{ notification.message }}</td>
-      <td>{{ notification.date | formatMediumDatetime }}</td>
-      <td><fa-icon icon="cable-car" style="color: green;"></fa-icon>{{ notification.vu }}</td>
-      <td *ngIf="false">
-        {{ notification.user?.login }}
-      </td>
-      <td class="text-end">
-        <div class="btn-group" *ngIf="notification.vu==false">
-          <button
-            *ngif="false"
-            type="submit"
-            [routerLink]="['/notification', notification.id, 'view']"
-            class="btn btn-info btn-sm"
-            data-cy="entityDetailsButton"
-          >
-            <fa-icon icon="eye"></fa-icon>
-            <span class="d-none d-md-inline" jhiTranslate="entity.action.view" >View</span>
-          </button>
 
-          <button
-            type="submit"
-            [routerLink]="['/notification', notification.id, 'edit']"
-            class="btn btn-primary btn-sm"
-            data-cy="entityEditButton"
-          >
-            <fa-icon icon="pencil-alt"></fa-icon>
-            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-          </button>
-
-          <button type="submit" (click)="delete(notification)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-            <fa-icon icon="times"></fa-icon>
-            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-          </button>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
 
 

@@ -14,6 +14,7 @@ import { DataUtils } from 'app/core/util/data-util.service';
 export class ReinscriptionComponent implements OnInit {
   reinscriptions?: IReinscription[];
   isLoading = false;
+  dtOptions: DataTables.Settings = {};
 
   constructor(protected reinscriptionService: ReinscriptionService, protected dataUtils: DataUtils, protected modalService: NgbModal) {}
 
@@ -33,6 +34,12 @@ export class ReinscriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      processing: true,
+      searching: true
+    };
   }
 
   trackId(_index: number, item: IReinscription): number {

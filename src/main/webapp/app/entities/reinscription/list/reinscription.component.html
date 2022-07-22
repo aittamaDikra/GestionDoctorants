@@ -29,7 +29,7 @@
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="reinscriptions && reinscriptions.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
+    <table class="table table-striped" datatable [dtOptions]="dtOptions" aria-describedby="page-heading">
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>

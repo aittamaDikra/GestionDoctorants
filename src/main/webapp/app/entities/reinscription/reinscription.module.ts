@@ -6,9 +6,10 @@ import { ReinscriptionUpdateComponent } from './update/reinscription-update.comp
 import { ReinscriptionDeleteDialogComponent } from './delete/reinscription-delete-dialog.component';
 import { ReinscriptionRoutingModule } from './route/reinscription-routing.module';
 import {ReinscriptionAddDialogComponent} from "./add/reinscription-add-dialog.component";
+import {DataTablesModule} from "angular-datatables";
 
 @NgModule({
-  imports: [SharedModule, ReinscriptionRoutingModule],
+    imports: [SharedModule, ReinscriptionRoutingModule, DataTablesModule],
   declarations: [ReinscriptionComponent,ReinscriptionAddDialogComponent, ReinscriptionDetailComponent, ReinscriptionUpdateComponent, ReinscriptionDeleteDialogComponent],
   entryComponents: [ReinscriptionDeleteDialogComponent,ReinscriptionAddDialogComponent],
 })
