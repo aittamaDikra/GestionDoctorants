@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-end me-2">
       <button class="btn btn-success me-2" type="submit"
-              (click)="reinscriptionbtn()">Reinscription
+              (click)="reinscriptionbtn()">Ré-inscription
       </button>
 
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -64,8 +64,8 @@
         <td>{{ doctorant.cin }}</td>
         <td>{{ doctorant.anneeInscription }}</td>
         <td>{{ doctorant.genre }}</td>
-        <td *ngIf="doctorant.id"><p *ngIf=" bourses.includes(doctorant!.id)" style="color: green"> boursier</p>
-          <p *ngIf=" bourses.includes(doctorant!.id)==false" style="color: red"> non boursier</p>
+        <td *ngIf="doctorant.id"><p *ngIf=" bourses.includes(doctorant!.id)" style="color: green"> Boursier</p>
+          <p *ngIf=" bourses.includes(doctorant!.id)==false" style="color: red"> Non boursier</p>
           <span *ngIf="doctorant!.id">
             <button
               *ngIf=" bourses.includes(doctorant!.id) == false"
@@ -105,7 +105,7 @@
           >
             Approuvé
           </button>
-          <p style="color: #ff2e2e;" *ngIf="doctorant.etatDossier==3">ce dossier est retire</p>
+          <p style="color: #ff2e2e;" *ngIf="doctorant.etatDossier==3">Ce dossier est retiré</p>
         </td>
         <td class="text-end">
           <div class="btn-group">

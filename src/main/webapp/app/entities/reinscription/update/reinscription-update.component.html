@@ -4,9 +4,8 @@
       <h2
         id="jhi-reinscription-heading"
         data-cy="ReinscriptionCreateUpdateHeading"
-        jhiTranslate="doctorantApp.reinscription.home.createOrEditLabel"
       >
-        Create or edit a Reinscription
+        Veuillez fournir les documents pour la ré-inscription
       </h2>
 
       <div>
@@ -18,8 +17,8 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="doctorantApp.reinscription.formulaireReinscription" for="field_formulaireReinscription"
-            >Formulaire Reinscription</label
+          <label class="form-label" for="field_formulaireReinscription"
+            >Formulaire de ré-inscription</label
           >
           <div>
             <div *ngIf="editForm.get('formulaireReinscription')!.value" class="form-text text-danger clearfix">

@@ -15,7 +15,7 @@
         [routerLink]="['/bourse/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="doctorantApp.bourse.home.createLabel"> Create a new Bourse </span>
+        <span>Créer une bourse  </span>
       </button>
     </div>
   </h2>
@@ -29,18 +29,23 @@
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="bourses && bourses.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
+    <table class="table table-striped" datatable [dtOptions]="dtOptions" aria-describedby="page-heading">
       <thead>
       <tr>
+        <th scope="col"><span >CIN</span></th>
         <th scope="col"><span >CNE PILE</span></th>
         <th scope="col"><span >CNE FACE</span></th>
-        <th scope="col"><span >CIN</span></th>
         <th scope="col"><span >TYPE DE BOURSE</span></th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let bourse of bourses; trackBy: trackId" data-cy="entityTable">
+        <td>
+          <div *ngIf="bourse.doctorant">
+            <a [routerLink]="['/doctorant', bourse.doctorant?.id, 'view']">{{ bourse.doctorant?.cne }}</a>
+          </div>
+        </td>
         <td *ngIf="bourse.doctorant">
           <img *ngIf="bourse.doctorant.photoCNEPile" [src]="decode(bourse.doctorant.photoCNEPile)" height="100" width="=100">
         </td>
@@ -48,11 +53,7 @@
           <img *ngIf="bourse.doctorant.photoCNEFace" [src]="decode(bourse.doctorant.photoCNEFace)" height="100" width="=100">
         </td>
 
-        <td>
-          <div *ngIf="bourse.doctorant">
-            <a [routerLink]="['/doctorant', bourse.doctorant?.id, 'view']">{{ bourse.doctorant?.cne }}</a>
-          </div>
-        </td>
+
 
         <td>{{ bourse.type }}</td>
         <td class="text-end">

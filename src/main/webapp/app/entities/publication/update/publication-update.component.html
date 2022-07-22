@@ -4,9 +4,8 @@
       <h2
         id="jhi-publication-heading"
         data-cy="PublicationCreateUpdateHeading"
-        jhiTranslate="doctorantApp.publication.home.createOrEditLabel"
       >
-        Create or edit a Publication
+        Créer ou modifier une publication
       </h2>
 
       <div>
@@ -108,7 +107,7 @@
         </div>
 
         <div class="row mb-3" >
-          <label jhiTranslate="doctorantApp.publication.chercheur" for="field_chercheurs">Chercheur</label>
+          <label for="field_chercheurs">Co-auteur</label>
           <select class="form-control" id="field_chercheurs" data-cy="chercheur" multiple name="chercheurs" formControlName="chercheurs">
             <option
               [ngValue]="getSelectedUser(userOption, editForm.get('chercheurs')!.value)"
@@ -120,7 +119,7 @@
         </div>
         <div >
         <button type="button" class="btn btn-primary me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Ajouter un chercheur externe
+          Ajouter un co-auteur externe
         </button>
         </div>
         <!-- Modal -->
@@ -128,7 +127,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-danger" id="exampleModalLabel">        Ajouter un chercheur externe
+                <h5 class="modal-title text-danger" id="exampleModalLabel">        Ajouter un co-auteur externe
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -141,7 +140,7 @@
         </div>
 <br>
         <div class="row mb-3" *ngIf="chercheurExternesSharedCollection.length>0">
-          <label jhiTranslate="doctorantApp.publication.chercheurExterne" for="field_chercheurExternes">Chercheur Externe</label>
+          <label for="field_chercheurExternes">Co-auteur externe</label>
           <select
             class="form-control"
             id="field_chercheurExternes"

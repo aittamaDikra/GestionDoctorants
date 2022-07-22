@@ -25,9 +25,8 @@
             </span>
           </a>
         </li>
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <li class="nav-item" *jhiHasAnyAuthority="['ROLE_ADMIN']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a
-            *jhiHasAnyAuthority="['ROLE_ADMIN']"
             class="nav-link"
             routerLink="profile"
             routerLinkActive="active"
@@ -37,48 +36,6 @@
             <span *jhiHasAnyAuthority="'ROLE_USER'">
               <fa-icon icon="user"></fa-icon>
               <span>Profile</span>
-            </span>
-          </a>
-        </li>
-        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a
-            class="nav-link"
-            routerLink="formation-suivie"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <span >
-              <fa-icon icon="hourglass"></fa-icon>
-              <span>Formations</span>
-            </span>
-          </a>
-        </li>
-        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a
-            class="nav-link"
-            routerLink="notification/new"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <span >
-              <fa-icon icon="file-circle-plus"></fa-icon>
-              <span>Demandes</span>
-            </span>
-          </a>
-        </li>
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a
-            class="nav-link"
-            routerLink="diplomes"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <span *jhiHasAnyAuthority="'ROLE_USER'">
-              <fa-icon icon="certificate"></fa-icon>
-              <span>Diplomes</span>
             </span>
           </a>
         </li>
@@ -96,8 +53,21 @@
             </span>
           </a>
         </li>
-
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="diplomes"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span >
+              <fa-icon icon="certificate"></fa-icon>
+              <span>Diplomes</span>
+            </span>
+          </a>
+        </li>
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a
             class="nav-link"
             routerLink="publication"
@@ -105,9 +75,9 @@
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="collapseNavbar()"
           >
-            <span *jhiHasAnyAuthority="'ROLE_USER'">
+            <span >
               <fa-icon icon="newspaper"></fa-icon>
-              <span>Publication</span>
+              <span>Publications</span>
             </span>
           </a>
         </li>
@@ -130,7 +100,7 @@
           >
             <span>
               <fa-icon icon="th-list"></fa-icon>
-              <span >Suivie</span>
+              <span >Navigation</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -144,7 +114,7 @@
                 *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.doctorant">Doctorant (réinscription)</span>
+                <span jhiTranslate="global.menu.entities.doctorant">Doctorant</span>
               </a>
             </li>
             <li>
@@ -154,10 +124,10 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
-                *jhiHasAnyAuthority="['ROLE_RESPONSABLE','ROLE_PROFESSEUR']"
+                *jhiHasAnyAuthority="['ROLE_RESPONSABLE']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span >Reinscription</span>
+                <span >Ré-inscriptions</span>
               </a>
             </li>
             <li>
@@ -170,7 +140,7 @@
                 *jhiHasAnyAuthority="['ROLE_ADMIN']"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.formation">Formation</span>
+                <span jhiTranslate="global.menu.entities.formation">Formations</span>
               </a>
             </li>
             <li>
@@ -183,7 +153,7 @@
                 *ngIf="false"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.formationDoctorant">Formation Doctorant</span>
+                <span jhiTranslate="global.menu.entities.formationDoctorant">Formation des doctorants</span>
               </a>
             </li>
             <li>
@@ -325,7 +295,7 @@
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.chefEquipe">Chef Equipe</span>
+                <span>Chef d'équipe</span>
               </a>
             </li>
             <li>
@@ -338,7 +308,7 @@
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.chefLab">Chef Lab</span>
+                <span>Chef de laboratoire</span>
               </a>
             </li>
             <li>
@@ -364,7 +334,7 @@
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span jhiTranslate="global.menu.entities.formationDoctoranle">Formation Doctorale</span>
+                <span>Formation Doctorale</span>
               </a>
             </li>
             <li>
@@ -480,6 +450,34 @@
             <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
           </ul>
         </li>
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="formation-suivie"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span >
+              <fa-icon icon="list-check"></fa-icon>
+              <span>Formations</span>
+            </span>
+          </a>
+        </li>
+        <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link"
+            routerLink="notification/new"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <span >
+              <fa-icon icon="paper-plane"></fa-icon>
+              <span>Demandes</span>
+            </span>
+          </a>
+        </li>
         <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
             <span>
@@ -568,7 +566,7 @@
                 data-cy="settings"
               >
                 <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
-                <span>profil</span>
+                <span>Profile</span>
               </a>
             </li>
             <li *ngSwitchCase="true">

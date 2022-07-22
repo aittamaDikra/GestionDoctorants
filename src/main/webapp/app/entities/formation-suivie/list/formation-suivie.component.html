@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="FormationSuivieHeading">
-    <span jhiTranslate="doctorantApp.formationSuivie.home.title">Formation Suivies</span>
+    <span>Formations suivies</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -15,7 +15,7 @@
         [routerLink]="['/formation-suivie/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="doctorantApp.formationSuivie.home.createLabel"> Create a new Formation Suivie </span>
+        <span> Ajouter une nouvelle formation </span>
       </button>
     </div>
   </h2>
@@ -33,10 +33,10 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.duree">Duree</span></th>
+          <th scope="col"><span>Durée</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.attestation">Attestation</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.date">Date</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.formationDoctoranle">Formation Doctoranle</span></th>
+          <th scope="col"><span>Formation doctorale</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.formationSuivie.doctorant" *ngIf="false">Doctorant</span></th>
           <th scope="col"></th>
         </tr>

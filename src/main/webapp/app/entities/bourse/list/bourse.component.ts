@@ -14,6 +14,7 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 export class BourseComponent implements OnInit {
   bourses?: IBourse[];
   isLoading = false;
+  dtOptions: DataTables.Settings = {};
 
   constructor(protected bourseService: BourseService,public _sanitizer: DomSanitizer, protected modalService: NgbModal) {}
 
@@ -33,6 +34,12 @@ export class BourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      processing: true,
+      searching: true
+    };
   }
 
   trackId(_index: number, item: IBourse): number {

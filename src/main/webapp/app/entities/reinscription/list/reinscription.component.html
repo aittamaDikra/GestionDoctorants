@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="ReinscriptionHeading">
-    <span jhiTranslate="doctorantApp.reinscription.home.title">Reinscriptions</span>
+    <span>Ré-inscriptions</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -15,7 +15,7 @@
         [routerLink]="['/reinscription/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="doctorantApp.reinscription.home.createLabel"> Create a new Reinscription </span>
+        <span>Créer une nouvelle ré-inscription </span>
       </button>
     </div>
   </h2>
@@ -33,9 +33,9 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.reinscription.formulaireReinscription">Formulaire Reinscription</span></th>
+          <th scope="col"><span>Formulaire de ré-inscription</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.demande">Demande</span></th>
-          <th scope="col"><span jhiTranslate="doctorantApp.reinscription.annee">Annee</span></th>
+          <th scope="col"><span>Année</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.etablissement">Etablissement</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.reinscription.doctorant">Doctorant</span></th>
           <th scope="col"></th>
