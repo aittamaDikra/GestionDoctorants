@@ -9,6 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { NotificationService } from '../service/notification.service';
 import { INotification, Notification } from '../notification.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { NotificationUpdateComponent } from './notification-update.component';
 
 describe('Notification Management Update Component', () => {
@@ -16,6 +19,7 @@ describe('Notification Management Update Component', () => {
   let fixture: ComponentFixture<NotificationUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let notificationService: NotificationService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,18 +41,41 @@ describe('Notification Management Update Component', () => {
     fixture = TestBed.createComponent(NotificationUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     notificationService = TestBed.inject(NotificationService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call User query and add missing value', () => {
+      const notification: INotification = { id: 456 };
+      const user: IUser = { id: 12355 };
+      notification.user = user;
+
+      const userCollection: IUser[] = [{ id: 50160 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [user];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ notification });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const notification: INotification = { id: 456 };
+      const user: IUser = { id: 93055 };
+      notification.user = user;
 
       activatedRoute.data = of({ notification });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(notification));
+      expect(comp.usersSharedCollection).toContain(user);
     });
   });
 
@@ -113,6 +140,16 @@ describe('Notification Management Update Component', () => {
       expect(notificationService.update).toHaveBeenCalledWith(notification);
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Tracking relationships identifiers', () => {
+    describe('trackUserById', () => {
+      it('Should return tracked User primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackUserById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
     });
   });
 });

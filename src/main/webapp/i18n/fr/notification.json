@@ -21,7 +21,8 @@
       "description": "Description",
       "date": "Date",
       "vu": "Vu",
-      "message": "Message"
+      "message": "Message",
+      "user": "User"
     }
   }
 }

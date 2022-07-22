@@ -37,6 +37,7 @@
           <th scope="col"><span jhiTranslate="doctorantApp.notification.date">Date</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.notification.vu">Vu</span></th>
           <th scope="col"><span jhiTranslate="doctorantApp.notification.message">Message</span></th>
+          <th scope="col"><span jhiTranslate="doctorantApp.notification.user">User</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -49,6 +50,9 @@
           <td>{{ notification.date | formatMediumDatetime }}</td>
           <td>{{ notification.vu }}</td>
           <td>{{ notification.message }}</td>
+          <td>
+            {{ notification.user?.login }}
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

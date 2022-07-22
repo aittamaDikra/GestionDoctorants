@@ -30,6 +30,10 @@
         <dd>
           <span>{{ notification.message }}</span>
         </dd>
+        <dt><span jhiTranslate="doctorantApp.notification.user">User</span></dt>
+        <dd>
+          <span>{{ notification.user?.login }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

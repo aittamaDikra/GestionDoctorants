@@ -1,4 +1,5 @@
 import dayjs from 'dayjs/esm';
+import { IUser } from 'app/entities/user/user.model';
 
 export interface INotification {
   id?: number;
@@ -6,6 +7,7 @@ export interface INotification {
   date?: dayjs.Dayjs | null;
   vu?: boolean | null;
   message?: string | null;
+  user?: IUser | null;
 }
 
 export class Notification implements INotification {
@@ -14,7 +16,8 @@ export class Notification implements INotification {
     public description?: string | null,
     public date?: dayjs.Dayjs | null,
     public vu?: boolean | null,
-    public message?: string | null
+    public message?: string | null,
+    public user?: IUser | null
   ) {
     this.vu = this.vu ?? false;
   }

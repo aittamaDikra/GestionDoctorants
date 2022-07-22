@@ -9,9 +9,6 @@ import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -64,6 +61,7 @@ public class NotificationResource {
         Instant lt= Instant.now();
         notification.setDate(lt);
         notification.setVu(false);
+        notification.setUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()));
         notification.setDescription(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getFirstName()+" "+userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get()).getLastName()+" ("+doctorantRepository.getByUser(userRepository.getByLogin(SecurityUtils.getCurrentUserLogin().get())).getCne()+") :"+notification.getDescription());
         Notification result = notificationRepository.save(notification);
         return ResponseEntity
@@ -163,25 +161,18 @@ public class NotificationResource {
     /**
      * {@code GET  /notifications} : get all the notifications.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of notifications in body.
      */
     @GetMapping("/notifications")
-    public List<Notification> getAllNotifications() {
+    public List<Notification> getAllNotifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Notifications");
-        return notificationRepository.findAll();
+        return notificationRepository.findAllWithEagerRelationships();
     }
-
-    /**
-     * {@code GET  /notifications/:id} : get the "id" notification.
-     *
-     * @param id the id of the notification to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the notification, or with status {@code 404 (Not Found)}.
-     */
-    @GetMapping("/notifications/{id}")
-    public ResponseEntity<Notification> getNotification(@PathVariable Long id) {
-        log.debug("REST request to get Notification : {}", id);
-        Optional<Notification> notification = notificationRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(notification);
+    @GetMapping("/notifications/this")
+    public List<Notification> getAllNotificationsUserIsCurrentUser(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all Notifications");
+        return notificationRepository.findByUserIsCurrentUser();
     }
     @GetMapping("/notifications/nonVu")
     public List<Notification> findNotificationNonVu() {
@@ -196,6 +187,20 @@ public class NotificationResource {
         Long notification = notificationRepository.countNotification();
         return notification;
     }
+
+    /**
+     * {@code GET  /notifications/:id} : get the "id" notification.
+     *
+     * @param id the id of the notification to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the notification, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/notifications/{id}")
+    public ResponseEntity<Notification> getNotification(@PathVariable Long id) {
+        log.debug("REST request to get Notification : {}", id);
+        Optional<Notification> notification = notificationRepository.findOneWithEagerRelationships(id);
+        return ResponseUtil.wrapOrNotFound(notification);
+    }
+
     /**
      * {@code DELETE  /notifications/:id} : delete the "id" notification.
      *

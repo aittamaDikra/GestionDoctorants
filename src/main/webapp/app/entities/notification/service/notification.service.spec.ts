@@ -28,6 +28,7 @@ describe('Notification Service', () => {
       description: 'AAAAAAA',
       date: currentDate,
       vu: false,
+      message: 'AAAAAAA',
     };
   });
 
@@ -77,6 +78,7 @@ describe('Notification Service', () => {
           description: 'BBBBBB',
           date: currentDate.format(DATE_TIME_FORMAT),
           vu: true,
+          message: 'BBBBBB',
         },
         elemDefault
       );
@@ -99,6 +101,7 @@ describe('Notification Service', () => {
       const patchObject = Object.assign(
         {
           description: 'BBBBBB',
+          message: 'BBBBBB',
         },
         new Notification()
       );
@@ -126,6 +129,7 @@ describe('Notification Service', () => {
           description: 'BBBBBB',
           date: currentDate.format(DATE_TIME_FORMAT),
           vu: true,
+          message: 'BBBBBB',
         },
         elemDefault
       );
@@ -182,7 +186,7 @@ describe('Notification Service', () => {
       });
 
       it('should add only unique Notification to an array', () => {
-        const notificationArray: INotification[] = [{ id: 123 }, { id: 456 }, { id: 79942 }];
+        const notificationArray: INotification[] = [{ id: 123 }, { id: 456 }, { id: 98044 }];
         const notificationCollection: INotification[] = [{ id: 123 }];
         expectedResult = service.addNotificationToCollectionIfMissing(notificationCollection, ...notificationArray);
         expect(expectedResult).toHaveLength(3);

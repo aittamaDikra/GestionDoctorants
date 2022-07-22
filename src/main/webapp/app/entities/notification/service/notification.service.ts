@@ -51,7 +51,12 @@ export class NotificationService {
       .get<INotification[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
-
+  queryUserIsCurrentUser(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<INotification[]>(`${this.resourceUrl}/this`, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
   findNonLu(): Observable<EntityArrayResponseType> {
     return this.http
       .get<INotification[]>(`${this.resourceUrl}/nonVu`, {  observe: 'response' })
