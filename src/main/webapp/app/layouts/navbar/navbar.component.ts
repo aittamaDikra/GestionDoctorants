@@ -57,14 +57,6 @@ export class NavbarComponent implements OnInit {
   }
 
   loadAll(): void {
-    this.profileService.getProfileInfo().subscribe(profileInfo => {
-      this.inProduction = profileInfo.inProduction;
-      this.openAPIEnabled = profileInfo.openAPIEnabled;
-    });
-
-    this.accountService.getAuthenticationState().subscribe(account => {
-      this.account = account;
-    });
     this.notificationService.findNonLu().subscribe({
       next:(res: HttpResponse<Notification[]>) => {
         this.notification = res.body ?? [];
@@ -78,6 +70,15 @@ export class NavbarComponent implements OnInit {
         }
       },
     })
+    this.profileService.getProfileInfo().subscribe(profileInfo => {
+      this.inProduction = profileInfo.inProduction;
+      this.openAPIEnabled = profileInfo.openAPIEnabled;
+    });
+
+    this.accountService.getAuthenticationState().subscribe(account => {
+      this.account = account;
+    });
+
   }
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;

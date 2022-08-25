@@ -202,7 +202,7 @@ public class PublicationResource {
     @GetMapping("/publications/user/{id}")
     public List<Publication> getPublicationbyUser(@PathVariable Long id) {
         log.debug("REST request to get Publication : {}", id);
-        List<Publication> publication = publicationRepository.findPublicationByUserOrderByDate(userRepository.getById(id));
+        List<Publication> publication = publicationRepository.findAllWithEagerRelationships4(userRepository.getById(id));
         return publication;
     }
     @GetMapping("/publications/this")

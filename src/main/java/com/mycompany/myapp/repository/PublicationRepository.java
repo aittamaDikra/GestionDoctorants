@@ -82,6 +82,9 @@ public interface PublicationRepository extends PublicationRepositoryWithBagRelat
     default List<Publication> findAllWithEagerRelationships3() {
         return this.fetchBagRelationships(this.findByUserIsCurrentUser());
     }
+    default List<Publication> findAllWithEagerRelationships4(User user) {
+        return this.fetchBagRelationships(this.findPublicationByUserOrderByDate( user));
+    }
 
 
 

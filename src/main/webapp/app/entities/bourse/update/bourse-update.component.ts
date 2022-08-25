@@ -66,7 +66,7 @@ export class BourseUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    window. location. reload()
   }
 
   protected onSaveError(): void {

@@ -36,6 +36,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
     doctorant: [],
   });
 
+
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
@@ -114,7 +115,7 @@ export class ReinscriptionUpdateComponent implements OnInit {
   }
 
   protected onSaveFinalize(): void {
-    this.isSaving = false;
+    window.location.reload()
   }
 
   protected updateForm(reinscription: IReinscription): void {
@@ -174,4 +175,5 @@ export class ReinscriptionUpdateComponent implements OnInit {
       doctorant: this.editForm.get(['doctorant'])!.value,
     };
   }
+
 }
